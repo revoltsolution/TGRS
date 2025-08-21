@@ -1,10 +1,10 @@
-# API 6º Semestre ADS
+# API 2º Semestre - Banco de dados (Noturno).
 
-# DomRock AI - Auxia
+# Revolt Solutions
 
 <p align="center">
-      <img src="docs/Img/logo-BuzzTech.png" alt="logo da Buzz Tech" width="200">
-      <h2 align="center"> Buzz Tech</h2>
+      <img src="docs/Img/logo-BuzzTech.png" alt="logo da Revolt Solutions" width="200">
+      <h2 align="center"> Revolt Solutions</h2>
 </p>
 
 <p align="center">
@@ -29,12 +29,11 @@
 
 ## 🏅 Desafio <a id="desafio"></a>
 
-O desafio consiste em criar uma aplicação web de avaliação de respostas de LLM. A aplicação deve permitir enviar um prompt para 2 (dois) LLMs via API simultaneamente. A seguir, a aplicação deve apresentar as 2 (duas) respostas obtidas. Para cada resposta, a aplicação apresenta os itens de avaliação das respostas e, ao final, a aplicação apresenta uma escala de comparação das duas respostas para que o usuário possa definir qual das duas respostas foi a melhor e justificar. Todas essas informações devem ser gravadas em um banco de dados que servirá para futuros retreinamentos dos LLMs.
+A preenher
 
 ## 🏅 Solução <a id="solucao"></a>
 
-O AUXIA - Auxiliary AI Training, permitirá que os usuários enviem prompts para múltiplos modelos de IA, comparem suas respostas, avaliem cada uma segundo critérios objetivos, escolham a melhor resposta e justifiquem suas decisões. Esse processo garantirá um aprendizado por reforço eficiente, possibilitando o aprimoramento contínuo dos modelos utilizados através dos dados persistidos de cada avaliação.
-
+A preencher
 ---
 
 ## 📋 Backlog do Produto <a id="backlog"></a>
