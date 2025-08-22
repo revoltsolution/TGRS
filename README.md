@@ -35,7 +35,7 @@
       <th>Linkedin</th>
     </tr>
     <tr>
-      <td>Luis Eduardo Mendes/td>
+      <td>Luis Eduardo Mendes</td>
       <td>Scrum Master</td>      
     </tr>
     <tr>
