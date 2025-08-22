@@ -3,7 +3,7 @@
 # Revolt Solutions
 
 <p align="center">
-      <img src="docs/Img/logo-BuzzTech.png" alt="logo da Revolt Solutions" width="200">
+      <img src="Configurações/logo.png" alt="logo da Revolt Solutions" width="200">
       <h2 align="center"> Revolt Solutions</h2>
 </p>
 
