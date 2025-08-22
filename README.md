@@ -3,7 +3,7 @@
 # Revolt Solutions
 
 <p align="center">
-      <img src="Configuracoes/logo.PNG" alt="logo da Revolt Solutions" width="200">
+      <img src="settings/logo.PNG" alt="logo da Revolt Solutions" width="200">
       <h2 align="center"> Revolt Solutions</h2>
 </p>
 
