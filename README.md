@@ -11,7 +11,7 @@
     <tr>
       <td>Luis Eduardo Mendes</td>
       <td>Scrum Master</td> 
-      <td><a href="https://github.com/Lu1s3F">Perfil</a></td>     
+      <td><a href="https://github.com/Lu1s3Fatec">Perfil</a></td>     
       <td></td>
     </tr>
     <tr>
