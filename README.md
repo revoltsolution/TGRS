@@ -48,31 +48,25 @@
     </tr>
     <tr>
       <td>Samir Kassen</td>
-      <td>Desenvolvedor</td>
+      <td>Developer</td>
       <td></td>
       <td></td>
     </tr>
     <tr>
       <td>Luan Santos</td>
-      <td>Desenvolvedor</td>
+      <td>Developer</td>
       <td></td>
       <td></td>
     </tr>
     <tr>
       <td>João Gabriel</td>
-      <td>Desenvolvedor</td>
+      <td>Developer</td>
       <td></td>
       <td></td>
     </tr>
     <tr>
       <td>Fernando Santos</td>
-      <td>Desenvolvedor</td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>Davi Gomes</td>
-      <td>Desenvolvedor</td>
+      <td>Developer</td>
       <td></td>
       <td></td>
     </tr>
