@@ -38,37 +38,43 @@
       <td>Luis Eduardo Mendes</td>
       <td>Scrum Master</td> 
       <td><a href="https://github.com/Lu1s3F">Perfil</a></td>     
-      <td></td>
+      <td><a href="#">Perfil</a></td>
     </tr>
     <tr>
       <td>Matheus Santos</td>
       <td>Product Owner</td>
-      <td></td>
-      <td></td>
+      <td><a href="#">Perfil</a></td>
+      <td><a href="#">Perfil</a></td>
     </tr>
     <tr>
       <td>Samir Kassen</td>
-      <td>Developer</td>
-      <td></td>
-      <td></td>
+      <td>Desenvolvedor</td>
+      <td><a href="#">Perfil</a></td>
+      <td><a href="#">Perfil</a></td>
     </tr>
     <tr>
       <td>Luan Santos</td>
-      <td>Developer</td>
-      <td></td>
-      <td></td>
+      <td>Desenvolvedor</td>
+      <td><a href="#">Perfil</a></td>
+      <td><a href="#">Perfil</a></td>
     </tr>
     <tr>
       <td>João Gabriel</td>
-      <td>Developer</td>
-      <td></td>
-      <td></td>
+      <td>Desenvolvedor</td>
+      <td><a href="#">Perfil</a></td>
+      <td><a href="#">Perfil</a></td>
     </tr>
     <tr>
       <td>Fernando Santos</td>
-      <td>Developer</td>
-      <td></td>
-      <td></td>
+      <td>Desenvolvedor</td>
+      <td><a href="https://github.com/fernandosantos09">Perfil</a></td>
+      <td><a href="https://www.linkedin.com/in/santosfernando09">Perfil</a></td>
+    </tr>
+    <tr>
+      <td>Davi Gomes</td>
+      <td>Desenvolvedor</td>
+      <td><a href="#">Perfil</a></td>
+      <td><a href="#">Perfil</a></td>
     </tr>
   </table>
 </div>
