@@ -57,47 +57,53 @@
       <th>Github</th>
       <th>Linkedin</th>
     </tr>
-    <tr>
-      <td>Luis Eduardo Mendes</td>
+    <tr> 
+      <td><p align="center">
+      <img src="settings/Luis Eduardo.jpeg" width="200">
+      <h2 align="center"> Luis Eduardo</h2></p></td>    
       <td>Scrum Master</td> 
       <td><a href="https://github.com/Lu1s3F">Perfil</a></td>       
       <td><a href="#">Perfil</a></td>
     </tr>
     <tr>
-      <td>Matheus Santos</td>
+      <td><p align="center">
+      <img src="settings/Matheus Souza.jpeg" width="200">
+      <h2 align="center"> Matheus de Souza</h2></p></td>
       <td>Product Owner</td>
-      <td><a href="#">Perfil</a></td>
-      <td><a href="#">Perfil</a></td>
+      <td><a href="https://github.com/matheus23sjc">Perfil</a></td>
+      <td><a href="https://www.linkedin.com/in/matheussouza23sjc/">Perfil</a></td>
     </tr>
     <tr>
-      <td>Samir Kassen</td>
+      <td><p align="center">
+      <img src="settings/Samir.jpeg" width="180">
+      <h2 align="center"> Samir Kassen</h2></p></td>
       <td>Desenvolvedor</td>
-      <td><a href="#">Perfil</a></td>
-      <td><a href="#">Perfil</a></td>
+      <td><a href="https://github.com/Siqsamir">Perfil</a></td>
+      <td><a href="https://www.linkedin.com/in/samir-siqueira-06012a363?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app">Perfil</a></td>
     </tr>
     <tr>
-      <td>Luan Santos</td>
+      <td><p align="center">
+      <img src="settings/Luan Santos.jpeg" width="250">
+      <h2 align="center"> Luan Santos</h2></p></td>
       <td>Desenvolvedor</td>
-      <td><a href="#">Perfil</a></td>
-      <td><a href="#">Perfil</a></td>
+      <td><a href="https://github.com/SantoszLuan">Perfil</a></td>
+      <td><a href="https://www.linkedin.com/in/luansantoosz">Perfil</a></td>
     </tr>
     <tr>
-      <td>João Gabriel</td>
+      <td><p align="center">
+      <img src="settings/João Gabriel.jpeg" width="250">
+      <h2 align="center"> Joao Gabriel</h2></p></td>
       <td>Desenvolvedor</td>
-      <td><a href="#">Perfil</a></td>
+      <td><a href="https://github.com/jjoaoGabriel">Perfil</a></td>
       <td><a href="#">Perfil</a></td>
     </tr>
     <tr>
-      <td>Fernando Santos</td>
+      <td><p align="center">
+      <img src="settings/Fernando.jpeg" width="200">
+      <h2 align="center"> Fernando Santos</h2></p></td>    
       <td>Desenvolvedor</td>
       <td><a href="https://github.com/fernandosantos09">Perfil</a></td>
       <td><a href="https://www.linkedin.com/in/santosfernando09">Perfil</a></td>
-    </tr>
-    <tr>
-      <td>Davi Gomes</td>
-      <td>Desenvolvedor</td>
-      <td><a href="#">Perfil</a></td>
-      <td><a href="#">Perfil</a></td>
     </tr>
   </table>
 </div>
