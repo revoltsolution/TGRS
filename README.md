@@ -63,7 +63,7 @@
       <h2 align="center"> Luis Eduardo</h2></p></td>    
       <td>Scrum Master</td> 
       <td><a href="https://github.com/Lu1s3F">Perfil</a></td>       
-      <td><a href="#">Perfil</a></td>
+      <td><a href="https://www.linkedin.com/in/luis-eduardo-mendes-28b51a355?utm_source=share_via&utm_content=profile&utm_medium=member_ios">Perfil</a></td>
     </tr>
     <tr>
       <td><p align="center">
@@ -95,7 +95,7 @@
       <h2 align="center"> Joao Gabriel</h2></p></td>
       <td>Desenvolvedor</td>
       <td><a href="https://github.com/jjoaoGabriel">Perfil</a></td>
-      <td><a href="#">Perfil</a></td>
+      <td><a href="https://www.linkedin.com/in/joao-gabriel-fernandes-de-sousa-silva-292b9a2bb?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app">Perfil</a></td>
     </tr>
     <tr>
       <td><p align="center">
