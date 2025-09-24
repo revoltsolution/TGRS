@@ -3,7 +3,7 @@
 # Revolt Solutions
 
 <p align="center">
-      <img src="settings/logo.PNG" alt="logo da Revolt Solutions" width="500">
+      <img src="settings/logo.PNG" alt="logo da Revolt Solutions" width="400">
       <h2 align="center"> Revolt Solutions</h2>
 </p>
 
@@ -59,7 +59,7 @@
     </tr>
     <tr> 
       <td><p align="center">
-      <img src="settings/Luis_Eduardo.png" width="100">
+      <img src="settings/Luis_Eduardo.png" width="150">
       <h2 align="center"> Luis Eduardo</h2></p></td>    
       <td>Scrum Master</td> 
       <td><a href="https://github.com/Lu1s3F">Perfil</a></td>       
@@ -67,7 +67,7 @@
     </tr>
     <tr>
       <td><p align="center">
-      <img src="settings/Matheus_Souza.png" width="100">
+      <img src="settings/Matheus_Souza.png" width="150">
       <h2 align="center"> Matheus de Souza</h2></p></td>
       <td>Product Owner</td>
       <td><a href="https://github.com/matheus23sjc">Perfil</a></td>
@@ -75,7 +75,7 @@
     </tr>
     <tr>
       <td><p align="center">
-      <img src="settings/Samir_Kassen.png" width="100">
+      <img src="settings/Samir_Kassen.png" width="150">
       <h2 align="center"> Samir Kassen</h2></p></td>
       <td>Desenvolvedor</td>
       <td><a href="https://github.com/Siqsamir">Perfil</a></td>
@@ -83,7 +83,7 @@
     </tr>
     <tr>
       <td><p align="center">
-      <img src="settings/Luan_Santos.png" width="100">
+      <img src="settings/Luan_Santos.png" width="150">
       <h2 align="center"> Luan Santos</h2></p></td>
       <td>Desenvolvedor</td>
       <td><a href="https://github.com/SantoszLuan">Perfil</a></td>
@@ -91,7 +91,7 @@
     </tr>
     <tr>
       <td><p align="center">
-      <img src="settings/Joao_Gabriel.png" width="100">
+      <img src="settings/Joao_Gabriel.png" width="150">
       <h2 align="center"> Joao Gabriel</h2></p></td>
       <td>Desenvolvedor</td>
       <td><a href="https://github.com/jjoaoGabriel">Perfil</a></td>
@@ -99,7 +99,7 @@
     </tr>
     <tr>
       <td><p align="center">
-      <img src="settings/Fernando_Santos.png" width="100">
+      <img src="settings/Fernando_Santos.png" width="150">
       <h2 align="center"> Fernando Santos</h2></p></td>    
       <td>Desenvolvedor</td>
       <td><a href="https://github.com/fernandosantos09">Perfil</a></td>
