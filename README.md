@@ -59,7 +59,7 @@
     </tr>
     <tr> 
       <td><p align="center">
-      <img src="settings/Luis Eduardo.jpeg" width="200">
+      <img src="settings/Luis.jpeg" width="200">
       <h2 align="center"> Luis Eduardo</h2></p></td>    
       <td>Scrum Master</td> 
       <td><a href="https://github.com/Lu1s3F">Perfil</a></td>       
