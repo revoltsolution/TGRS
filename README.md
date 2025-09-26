@@ -83,6 +83,12 @@
   </table>
 </div>
 
+## Tecnologias Utilizadas
+
+![VisualG](https://img.shields.io/badge/VisualG-333333?style=for-the-badge&logo=visualstudio)
+![GitHub](https://img.shields.io/badge/GitHub-333333?style=for-the-badge&logo=github)
+![Trello](https://img.shields.io/badge/Trello-333333?style=for-the-badge&logo=trello)
+
 ## 📋 Backlog do Produto <a id="backlog"></a>
 
 | US | Prioridade | Função | Responsável | Estado | Sprint |
