@@ -7,18 +7,6 @@
       <h2 align="center"> Revolt Solutions</h2>
 </p>
 
-<p align="center">
-  | <a href ="#desafio"> Desafio</a>  |
-  <a href ="#solucao"> Solução</a>  |   
-  <a href ="#backlog"> Backlog do Produto</a>  |
-  <a href ="#dor">DoR</a>  |
-  <a href ="#dod">DoD</a>  |
-  <a href ="#sprint"> Cronograma de Sprints</a>  |
-  <a href ="#tecnologias">Tecnologias</a> |
-  <a href ="#manual">Manual de Instalação</a>  | 
-  <a href ="#equipe"> Equipe</a> |
-</p>
-
 > Status do Projeto: Em andamento ⚙️ 
 >
 
