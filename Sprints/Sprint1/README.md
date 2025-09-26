@@ -12,7 +12,6 @@
 
 | US | Prioridade | Função | Responsável | Estado | Sprint |
 | :--: | :--: | :--: | :--: | :--: | :--: |
-
 | 1 | Média | Tela pagina inicial | Luis Eduardo e Fernando | Não iniciado | 2 |
 | 2 | Média | Tela cadastro | Luis Eduardo e Fernando | Não iniciado | 2 |
 | 3 | Média | Tela login | Luis Eduardo e Fernando | Não iniciado | 2 |
