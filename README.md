@@ -79,14 +79,14 @@
 
 | US | Prioridade | Função | Responsável | Estado | Sprint |
 | :--: | :--: | :--: | :--: | :--: | :--: |
-| 1 | Alta | Modelo MER | Luan | Em andamento | 1 |
+| 1 | Alta | Modelo MER | Luan | Concluído | 1 |
 | 2 | Alta | User Storys | Matheus Sousa | Concluído | 1 |
 | 3 | Alta | Aviso de conflito | Luan e Samir | Não iniciado | 3 |
 | 4 | Alta | Criação do BD | Luan e João Gabriel | Não iniciado | 2 |
 | 5 | Alta | Alimentação BD | Luan e João Gabriel | Não iniciado | 2 |
 | 6 | Alta | Verificação / validação BD | Matheus Sousa e Samir | Não iniciado | 3 |
 | 7 | Alta | Ferramentas de trabalho | Luis Eduardo e Matheus Sousa | Concluído | 1 |
-| 8 | Média | Mapeamento das interfaces / protótipo | Samir e João Gabriel | Em andamento | 1 |
+| 8 | Média | Mapeamento das interfaces / protótipo | Samir e João Gabriel | Concluído | 1 |
 | 9 | Média | Tela pagina inicial | Luis Eduardo e Fernando | Não iniciado | 2 |
 | 10 | Média | Tela cadastro | Luis Eduardo e Fernando | Não iniciado | 2 |
 | 11 | Média | Tela login | Luis Eduardo e Fernando | Não iniciado | 2 |
