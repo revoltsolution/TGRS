@@ -1,7 +1,5 @@
 # API 2º Semestre - Banco de dados (Noturno).
 
-# Revolt Solutions
-
 <p align="center">
       <img src="settings/logo.PNG" alt="logo da Revolt Solutions" width="400">
       <h2 align="center"> Revolt Solutions</h2>
