@@ -5,7 +5,7 @@
       <h2 align="center"> Sprint 2</h2>
 </p>
 
-> Status do Projeto: Em andamento ⚙️ 
+> Status da Sprint: Não Iniciada ❌
 >
 
 ## 📋 Backlog da Sprint <a id="backlog"></a>
