@@ -1,0 +1,25 @@
+# API 2º Semestre - Banco de dados (Noturno).
+
+<p align="center">
+      <img src="settings/logo.PNG" alt="logo da Revolt Solutions" width="400">
+      <h2 align="center"> Revolt Solutions</h2>
+</p>
+
+> Status do Projeto: Em andamento ⚙️ 
+>
+
+## 📋 Backlog da Sprint <a id="backlog"></a>
+
+| US | Prioridade | Função | Responsável | Estado | Sprint |
+| :--: | :--: | :--: | :--: | :--: | :--: |
+| 1 | Média | Tela pagina inicial | Luis Eduardo e Fernando | Não iniciado | 2 |
+| 2 | Média | Tela cadastro | Luis Eduardo e Fernando | Não iniciado | 2 |
+| 3 | Média | Tela login | Luis Eduardo e Fernando | Não iniciado | 2 |
+| 4 | Média | Tela interface aluno | Luis Eduardo e Fernando | Não iniciado | 2 |
+| 5 | Média | Tela alunos mentorados | Luis Eduardo e Fernando | Não iniciado | 2 |
+| 6 | Média | Tela historico | Luis Eduardo e Fernando | Não iniciado | 2 |
+| 7 | Média | Logout | Luis Eduardo e Fernando | Não iniciado | 2 |
+| 8 | Alta | Criação do BD | Luan e João Gabriel | Não iniciado | 2 |
+| 9 | Alta | Alimentação BD | Luan e João Gabriel | Não iniciado | 2 |
+| 10 | Média | Conexão BD | Luan e João Gabriel | Não iniciado | 2 |
+
