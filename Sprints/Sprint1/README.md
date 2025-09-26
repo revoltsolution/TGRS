@@ -12,14 +12,9 @@
 
 | US | Prioridade | Função | Responsável | Estado | Sprint |
 | :--: | :--: | :--: | :--: | :--: | :--: |
-| 1 | Média | Tela pagina inicial | Luis Eduardo e Fernando | Não iniciado | 2 |
-| 2 | Média | Tela cadastro | Luis Eduardo e Fernando | Não iniciado | 2 |
-| 3 | Média | Tela login | Luis Eduardo e Fernando | Não iniciado | 2 |
-| 4 | Média | Tela interface aluno | Luis Eduardo e Fernando | Não iniciado | 2 |
-| 5 | Média | Tela alunos mentorados | Luis Eduardo e Fernando | Não iniciado | 2 |
-| 6 | Média | Tela historico | Luis Eduardo e Fernando | Não iniciado | 2 |
-| 7 | Média | Logout | Luis Eduardo e Fernando | Não iniciado | 2 |
-| 8 | Alta | Criação do BD | Luan e João Gabriel | Não iniciado | 2 |
-| 9 | Alta | Alimentação BD | Luan e João Gabriel | Não iniciado | 2 |
-| 10 | Média | Conexão BD | Luan e João Gabriel | Não iniciado | 2 |
+| 1 | Alta | Modelo MER | Luan | Concluído | 1 |
+| 2 | Média | Mapeamento das interfaces / protótipo | Luis Eduardo e Fernando Santos | Concluído | 1 |
+| 3 | Alta | User Storys | Matheus Sousa | Concluído | 1 |
+| 4 | Alta | Ferramentas de trabalho | Samir e João Gabriel | Concluído | 1 |
+
 
