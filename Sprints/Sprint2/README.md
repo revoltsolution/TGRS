@@ -2,7 +2,7 @@
 
 <p align="center">
       <img src="settings/logo.PNG" alt="logo da Revolt Solutions" width="400">
-      <h2 align="center"> Revolt Solutions</h2>
+      <h2 align="center"> Sprint 2</h2>
 </p>
 
 > Status do Projeto: Em andamento ⚙️ 
