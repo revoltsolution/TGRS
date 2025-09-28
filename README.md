@@ -36,11 +36,34 @@ A plataforma centraliza a comunicação e o acompanhamento dos TGs em uma plataf
 | 18 | Baixa | Testes | Samir, Matheus e João Gabriel | Não iniciado | 3 |
 | 19 | Baixa | Conexão BD | Luan e João Gabriel | Não iniciado | 2 |
 
-## 💻 Tecnologias Utilizadas
+## Cronograma 📅
+  | Evento | Data |
+  | --- | --- |
+  | Kick-off geral | 24/02 a 28/02 |
+  | Sprint-1 | 10/03 a 30/03 |
+  | Sprint Review/Planning | 31/03 a 04/04 |
+  | Sprint-2 | 07/04 a 27/04 |
+  | Sprint Review/Planning | 28/04 a 02/05 |
+  | Sprint-3 | 05/05 a 25/05 |
+  | Sprint Review/Planning | 26/05 a 28/05 |
+  | Feira de Soluções | 17/06 |
 
-![InteliJ](https://img.shields.io/badge/InteliJ-333333?style=for-the-badge&logo=intelij)
-![GitHub](https://img.shields.io/badge/GitHub-333333?style=for-the-badge&logo=github)
-![Trello](https://img.shields.io/badge/Jira-333333?style=for-the-badge&logo=jira)
+## 🛠 Tecnologias Utilizadas
+- **Java**
+- **SceneBuilder**
+- **Ide: Intellij**
+- **MySQL**
+- **Git/Github**
+- **Br Modelo**
+
+# 📌 User Stories do Cliente
+| Título | User Story |
+|--------|------------|
+| Criação de Grade | Como coordenador, quero definir e visualizar uma grade clara e organizada, para facilitar a alocação de disciplinas e professores. |
+| Visualização de grade | Como coordenador, quero acessar facilmente a grade de horários das aulas, para verificar e ajustar as alocações. |
+| Tela restrição | Como professor, quero acessar uma tela para definir meus horários indisponíveis, evitando alocações conflitantes com minha agenda. |
+| Aviso de conflito | Como coordenador, quero receber alertas caso haja conflito de horários entre professores e disciplinas, para corrigir antes da confirmação. |
+| Documentos do projeto | Como coordenador, quero ter documentação completa do sistema, para facilitar o uso e futuras manutenções. |
 
 ## 🎓 Equipe <a id="equipe"></a>
 
