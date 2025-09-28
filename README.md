@@ -36,11 +36,40 @@ A plataforma centraliza a comunicação e o acompanhamento dos TGs em uma plataf
 | 18 | Baixa | Testes | Samir, Matheus e João Gabriel | Não iniciado | 3 |
 | 19 | Baixa | Conexão BD | Luan e João Gabriel | Não iniciado | 2 |
 
-## 💻 Tecnologias Utilizadas
+## 📅 Cronograma
+  | Evento | Data |
+  | --- | --- |
+  | Kick-off geral | 24/02 a 28/02 |
+  | Sprint-1 | 10/03 a 30/03 |
+  | Sprint Review/Planning | 31/03 a 04/04 |
+  | Sprint-2 | 07/04 a 27/04 |
+  | Sprint Review/Planning | 28/04 a 02/05 |
+  | Sprint-3 | 05/05 a 25/05 |
+  | Sprint Review/Planning | 26/05 a 28/05 |
+  | Feira de Soluções | 17/06 |
 
-![InteliJ](https://img.shields.io/badge/InteliJ-333333?style=for-the-badge&logo=intelij)
-![GitHub](https://img.shields.io/badge/GitHub-333333?style=for-the-badge&logo=github)
-![Trello](https://img.shields.io/badge/Jira-333333?style=for-the-badge&logo=jira)
+## 🛠 Tecnologias Utilizadas
+- **Java**
+- **SceneBuilder**
+- **Ide: Intellij**
+- **MySQL**
+- **Git/Github**
+- **Br Modelo**
+
+## 📌 User Stories do Cliente
+| Título | User Story |
+|--------|------------|
+| Gerenciamento de Atividades | Como coordenador/administrador, quero cadastrar alunos no sistema para que seus Trabalhos de Graduação sejam acompanhados corretamente, evitando retrabalho manual e custos desnecessários. |
+| Gerenciamento de Hierarquias | Como administrador, quero cadastrar professores orientadores para que seja possível associá-los aos alunos orientados. |
+| Distribuição de Funções | Como coordenador de TG, quero associar um aluno a um professor orientador para formalizar a orientação do portfólio, reduzindo atrasos e evitando gastos extras. |
+| Envio de Dados | Como aluno, quero enviar uma seção do meu TG para o orientador para que ele possa revisar e dar feedback, economizando tempo e reduzindo custos com correções. |
+| Documentos do projeto | Como orientador, quero corrigir e registrar feedback em cada seção enviada pelo aluno para acompanhar sua evolução. |
+| Visualização das Atribuições | Como orientador quero visualizar o histórico de revisões de cada seção para acompanhar a evolução do trabalho, evitando disperdicio de tempo e garantindo melhor eficácia. |
+| Visualização de Status | Como professor da disciplina de TG, quero visualizar o status de conclusão dos portfólios para identificar quais alunos já finalizaram todas as seções, reduzindo atrasos que podem gerar custos adicionais. |
+| Entrega de Dados | Como aluno, quero gerar automaticamente o TG final em formato Markdown (MD) para entregar de acordo com o padrão exigido pela instituição, economizando tempo e custos com formatação manual. |
+
+## 📊 Modelo Entidade de Relacionamento
+<img src="Documents/DER.png" alt="logo da Revolt Solutions" width="1000">
 
 ## 🎓 Equipe <a id="equipe"></a>
 
