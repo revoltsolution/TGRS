@@ -39,14 +39,14 @@ A plataforma centraliza a comunicação e o acompanhamento dos TGs em uma plataf
 ## 📅 Cronograma
   | Evento | Data |
   | --- | --- |
-  | Kick-off geral | 24/02 a 28/02 |
-  | Sprint-1 | 10/03 a 30/03 |
-  | Sprint Review/Planning | 31/03 a 04/04 |
-  | Sprint-2 | 07/04 a 27/04 |
-  | Sprint Review/Planning | 28/04 a 02/05 |
-  | Sprint-3 | 05/05 a 25/05 |
-  | Sprint Review/Planning | 26/05 a 28/05 |
-  | Feira de Soluções | 17/06 |
+  | Kick-off geral | 25/08 a 29/08 |
+  | Sprint-1 | 08/09 a 28/09 |
+  | Sprint Review/Planning | 29/09 a 03/10 |
+  | Sprint-2 | 06/10 a 26/10 |
+  | Sprint Review/Planning | 27/10 a 31/10 |
+  | Sprint-3 | 03/11 a 23/11 |
+  | Sprint Review/Planning | 24/11 a 28/11 |
+  | Feira de Soluções | 04/12 |
 
 ## 🛠 Tecnologias Utilizadas
 - **Java**
