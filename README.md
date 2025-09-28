@@ -49,6 +49,7 @@ A plataforma centraliza a comunicação e o acompanhamento dos TGs em uma plataf
   | Feira de Soluções | 04/12 |
 
 ## 🛠 Tecnologias Utilizadas
+- **Jira**
 - **Java**
 - **SceneBuilder**
 - **Ide: Intellij**
