@@ -13,28 +13,16 @@ A plataforma centraliza a comunicação e o acompanhamento dos TGs em uma plataf
 > Status do Projeto: Em andamento ⚙️ 
 
 ## 📋 Backlog do Produto <a id="backlog"></a>
-
-| US | Prioridade | Função | Responsável | Estado | Sprint |
-| :--: | :--: | :--: | :--: | :--: | :--: |
-| 1 | Alta | Modelo MER | Luan | Concluído | 1 |
-| 2 | Alta | User Storys | Matheus Sousa | Concluído | 1 |
-| 3 | Alta | Aviso de conflito | Luan e Samir | Não iniciado | 3 |
-| 4 | Alta | Criação do BD | Luan e João Gabriel | Não iniciado | 2 |
-| 5 | Alta | Alimentação BD | Luan e João Gabriel | Não iniciado | 2 |
-| 6 | Alta | Verificação / validação BD | Matheus Sousa e Samir | Não iniciado | 3 |
-| 7 | Alta | Ferramentas de trabalho | Luis Eduardo e Matheus Sousa | Concluído | 1 |
-| 8 | Média | Mapeamento das interfaces / protótipo | Samir e João Gabriel | Concluído | 1 |
-| 9 | Média | Tela pagina inicial | Luis Eduardo e Fernando | Não iniciado | 2 |
-| 10 | Média | Tela cadastro | Luis Eduardo e Fernando | Não iniciado | 2 |
-| 11 | Média | Tela login | Luis Eduardo e Fernando | Não iniciado | 2 |
-| 12 | Média | Tela interface aluno | Luis Eduardo e Fernando | Não iniciado | 2 |
-| 13 | Média | Tela alunos mentorados | Luis Eduardo e Fernando | Não iniciado | 2 |
-| 14 | Média | Tela historico | Luis Eduardo e Fernando | Não iniciado | 2 |
-| 15 | Baixa | Logout | Luis Eduardo e Fernando | Não iniciado | 2 |
-| 16 | Baixa | Documentos do projeto | Luis Eduardo | Não iniciado | 3 |
-| 17 | Baixa | Entrega | Matheus Sousa | Não iniciado | 3 |
-| 18 | Baixa | Testes | Samir, Matheus e João Gabriel | Não iniciado | 3 |
-| 19 | Baixa | Conexão BD | Luan e João Gabriel | Não iniciado | 2 |
+|  US | Prioridade | Função                                                                                                   |             Responsável            |    Estado    | Sprint |
+| :-: | :--------: | :------------------------------------------------------------------------------------------------------- | :--------------------------------: | :----------: | :----: |
+|  1  |    Alta    | Modelagem (MER + User Stories)                                                                           |        Luan e Matheus Sousa        |   Concluído  |    1   |
+|  2  |    Alta    | Infraestrutura / Ferramentas                                                                             |    Luis Eduardo e Matheus Sousa    |   Concluído  |    1   |
+|  3  |    Alta    | Banco de Dados (Criação, Alimentação, Conexão, Validação)                                                | Luan, João Gabriel e Matheus Sousa | Não iniciado |    2   |
+|  4  |    Alta    | Funcionalidade crítica – Aviso de conflito                                                               |            Luan e Samir            | Não iniciado |    3   |
+|  5  |    Média   | Interfaces (Protótipo + Telas: inicial, cadastro, login, interface aluno, mentorados, histórico, logout) |   Luis Eduardo, Fernando e Samir   | Não iniciado |    2   |
+|  6  |    Baixa   | Documentação do projeto                                                                                  |            Luis Eduardo            | Não iniciado |    3   |
+|  7  |    Baixa   | Testes                                                                                                   |    Samir, Matheus e João Gabriel   | Não iniciado |    3   |
+|  8  |    Baixa   | Entrega final                                                                                            |            Matheus Sousa           | Não iniciado |    3   |
 
 ## 📅 Cronograma
   | Evento | Data |
