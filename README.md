@@ -2,7 +2,7 @@
 
 <p align="center">
       <img src="settings/logo.PNG" alt="logo da Revolt Solutions" width="400">
-      <h2 align="center"> Revolt Solutions</h2>
+      <h2 align="center"> Gerenciador de Atividades Academicas</h2>
 </p>
 
 ## 🔎 O que é?
@@ -11,7 +11,36 @@ A API tem como objetivo facilitar o processo de confecção, envio e correção 
 A plataforma centraliza a comunicação e o acompanhamento dos TGs em uma plataforma única, garantindo feedback mais ágil, histórico de interações e organização das versões. Além disso, permite que os professores da disciplina acompanhem o progresso dos alunos e os portfólios já finalizados, eliminando a dependência de e-mails, Teams e documentos manuais.
 
 > Status do Projeto: Em andamento ⚙️ 
->
+
+## 📋 Backlog do Produto <a id="backlog"></a>
+
+| US | Prioridade | Função | Responsável | Estado | Sprint |
+| :--: | :--: | :--: | :--: | :--: | :--: |
+| 1 | Alta | Modelo MER | Luan | Concluído | 1 |
+| 2 | Alta | User Storys | Matheus Sousa | Concluído | 1 |
+| 3 | Alta | Aviso de conflito | Luan e Samir | Não iniciado | 3 |
+| 4 | Alta | Criação do BD | Luan e João Gabriel | Não iniciado | 2 |
+| 5 | Alta | Alimentação BD | Luan e João Gabriel | Não iniciado | 2 |
+| 6 | Alta | Verificação / validação BD | Matheus Sousa e Samir | Não iniciado | 3 |
+| 7 | Alta | Ferramentas de trabalho | Luis Eduardo e Matheus Sousa | Concluído | 1 |
+| 8 | Média | Mapeamento das interfaces / protótipo | Samir e João Gabriel | Concluído | 1 |
+| 9 | Média | Tela pagina inicial | Luis Eduardo e Fernando | Não iniciado | 2 |
+| 10 | Média | Tela cadastro | Luis Eduardo e Fernando | Não iniciado | 2 |
+| 11 | Média | Tela login | Luis Eduardo e Fernando | Não iniciado | 2 |
+| 12 | Média | Tela interface aluno | Luis Eduardo e Fernando | Não iniciado | 2 |
+| 13 | Média | Tela alunos mentorados | Luis Eduardo e Fernando | Não iniciado | 2 |
+| 14 | Média | Tela historico | Luis Eduardo e Fernando | Não iniciado | 2 |
+| 15 | Baixa | Logout | Luis Eduardo e Fernando | Não iniciado | 2 |
+| 16 | Baixa | Documentos do projeto | Luis Eduardo | Não iniciado | 3 |
+| 17 | Baixa | Entrega | Matheus Sousa | Não iniciado | 3 |
+| 18 | Baixa | Testes | Samir, Matheus e João Gabriel | Não iniciado | 3 |
+| 19 | Baixa | Conexão BD | Luan e João Gabriel | Não iniciado | 2 |
+
+## 💻 Tecnologias Utilizadas
+
+![InteliJ](https://img.shields.io/badge/InteliJ-333333?style=for-the-badge&logo=intelij)
+![GitHub](https://img.shields.io/badge/GitHub-333333?style=for-the-badge&logo=github)
+![Trello](https://img.shields.io/badge/Jira-333333?style=for-the-badge&logo=jira)
 
 ## 🎓 Equipe <a id="equipe"></a>
 
@@ -73,33 +102,3 @@ A plataforma centraliza a comunicação e o acompanhamento dos TGs em uma plataf
     </tr>
   </table>
 </div>
-
-## 💻 Tecnologias Utilizadas
-
-![VisualG](https://img.shields.io/badge/VisualG-333333?style=for-the-badge&logo=visualstudio)
-![GitHub](https://img.shields.io/badge/GitHub-333333?style=for-the-badge&logo=github)
-![Trello](https://img.shields.io/badge/Trello-333333?style=for-the-badge&logo=trello)
-
-## 📋 Backlog do Produto <a id="backlog"></a>
-
-| US | Prioridade | Função | Responsável | Estado | Sprint |
-| :--: | :--: | :--: | :--: | :--: | :--: |
-| 1 | Alta | Modelo MER | Luan | Concluído | 1 |
-| 2 | Alta | User Storys | Matheus Sousa | Concluído | 1 |
-| 3 | Alta | Aviso de conflito | Luan e Samir | Não iniciado | 3 |
-| 4 | Alta | Criação do BD | Luan e João Gabriel | Não iniciado | 2 |
-| 5 | Alta | Alimentação BD | Luan e João Gabriel | Não iniciado | 2 |
-| 6 | Alta | Verificação / validação BD | Matheus Sousa e Samir | Não iniciado | 3 |
-| 7 | Alta | Ferramentas de trabalho | Luis Eduardo e Matheus Sousa | Concluído | 1 |
-| 8 | Média | Mapeamento das interfaces / protótipo | Samir e João Gabriel | Concluído | 1 |
-| 9 | Média | Tela pagina inicial | Luis Eduardo e Fernando | Não iniciado | 2 |
-| 10 | Média | Tela cadastro | Luis Eduardo e Fernando | Não iniciado | 2 |
-| 11 | Média | Tela login | Luis Eduardo e Fernando | Não iniciado | 2 |
-| 12 | Média | Tela interface aluno | Luis Eduardo e Fernando | Não iniciado | 2 |
-| 13 | Média | Tela alunos mentorados | Luis Eduardo e Fernando | Não iniciado | 2 |
-| 14 | Média | Tela historico | Luis Eduardo e Fernando | Não iniciado | 2 |
-| 15 | Baixa | Logout | Luis Eduardo e Fernando | Não iniciado | 2 |
-| 16 | Baixa | Documentos do projeto | Luis Eduardo | Não iniciado | 3 |
-| 17 | Baixa | Entrega | Matheus Sousa | Não iniciado | 3 |
-| 18 | Baixa | Testes | Samir, Matheus e João Gabriel | Não iniciado | 3 |
-| 19 | Baixa | Conexão BD | Luan e João Gabriel | Não iniciado | 2 |
