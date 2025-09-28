@@ -52,9 +52,7 @@ A plataforma centraliza a comunicação e o acompanhamento dos TGs em uma plataf
 - **Java**
 - **SceneBuilder**
 - **Ide: Intellij**
-- **MySQL**
-- **Git/Github**
-- **Br Modelo**
+- **Github**
 
 ## 📌 User Stories do Cliente
 | Título | User Story |
