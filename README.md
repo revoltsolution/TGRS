@@ -68,6 +68,10 @@ A plataforma centraliza a comunicação e o acompanhamento dos TGs em uma plataf
 | Visualização de Status | Como professor da disciplina de TG, quero visualizar o status de conclusão dos portfólios para identificar quais alunos já finalizaram todas as seções, reduzindo atrasos que podem gerar custos adicionais. |
 | Entrega de Dados | Como aluno, quero gerar automaticamente o TG final em formato Markdown (MD) para entregar de acordo com o padrão exigido pela instituição, economizando tempo e custos com formatação manual. |
 
+## 📊 Modelo entidade-relacionamento 
+
+<img src="Documentos/DER.png" alt="logo da Revolt Solutions" width="1000">
+
 ## 🎓 Equipe <a id="equipe"></a>
 
 <div align="center">
