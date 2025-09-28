@@ -37,11 +37,24 @@ A plataforma centraliza a comunicação e o acompanhamento dos TGs em uma plataf
   | Feira de Soluções | 04/12 |
 
 ## 🛠 Tecnologias Utilizadas
-- **Jira**
-- **Java**
-- **SceneBuilder**
-- **Ide: Intellij**
-- **Github**
+<h4 align="center">
+ <a href="https://www.atlassian.com/software/jira">
+   <img src="https://img.shields.io/badge/Jira-0052CC?style=for-the-badge&logo=jira&logoColor=white"/>
+ </a>
+ <a href="https://www.java.com/">
+   <img src="https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white"/>
+ </a>
+ <a href="https://www.jetbrains.com/idea/">
+   <img src="https://img.shields.io/badge/IntelliJ%20IDEA-000000?style=for-the-badge&logo=intellijidea&logoColor=white"/>
+ </a>
+ <a href="https://gluonhq.com/products/scene-builder/">
+   <img src="https://img.shields.io/badge/Scene%20Builder-2C2255?style=for-the-badge&logo=java&logoColor=white"/>
+ </a>
+ <a href="https://github.com/">
+   <img src="https://img.shields.io/badge/GitHub-121011?style=for-the-badge&logo=github&logoColor=white"/>
+ </a>
+</h4>
+
 
 ## 📌 User Stories do Cliente
 | Título | User Story |
