@@ -36,7 +36,7 @@ A plataforma centraliza a comunicação e o acompanhamento dos TGs em uma plataf
 | 18 | Baixa | Testes | Samir, Matheus e João Gabriel | Não iniciado | 3 |
 | 19 | Baixa | Conexão BD | Luan e João Gabriel | Não iniciado | 2 |
 
-## Cronograma 📅
+## 📅 Cronograma
   | Evento | Data |
   | --- | --- |
   | Kick-off geral | 24/02 a 28/02 |
@@ -56,7 +56,7 @@ A plataforma centraliza a comunicação e o acompanhamento dos TGs em uma plataf
 - **Git/Github**
 - **Br Modelo**
 
-# 📌 User Stories do Cliente
+## 📌 User Stories do Cliente
 | Título | User Story |
 |--------|------------|
 | Gerenciamento de Atividades | Como coordenador/administrador, quero cadastrar alunos no sistema para que seus Trabalhos de Graduação sejam acompanhados corretamente, evitando retrabalho manual e custos desnecessários. |
@@ -68,8 +68,7 @@ A plataforma centraliza a comunicação e o acompanhamento dos TGs em uma plataf
 | Visualização de Status | Como professor da disciplina de TG, quero visualizar o status de conclusão dos portfólios para identificar quais alunos já finalizaram todas as seções, reduzindo atrasos que podem gerar custos adicionais. |
 | Entrega de Dados | Como aluno, quero gerar automaticamente o TG final em formato Markdown (MD) para entregar de acordo com o padrão exigido pela instituição, economizando tempo e custos com formatação manual. |
 
-## 📊 Modelo entidade-relacionamento 
-
+## 📊 Modelo Entidade de Relacionamento
 <img src="Documentos/DER.png" alt="logo da Revolt Solutions" width="1000">
 
 ## 🎓 Equipe <a id="equipe"></a>
