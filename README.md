@@ -59,13 +59,13 @@ A plataforma centraliza a comunicação e o acompanhamento dos TGs em uma plataf
 ## 📌 User Stories do Cliente
 | Título | User Story |
 |--------|------------|
-| Gerenciamento de Atividades | Como coordenador/administrador, quero cadastrar alunos no sistema para que seus Trabalhos de Graduação sejam acompanhados corretamente, evitando retrabalho manual e custos desnecessários. |
+| Gerenciamento de Atividades | Como professor-orientador, quero cadastrar alunos no sistema para que seus Trabalhos de Graduação sejam acompanhados corretamente, evitando retrabalho manual e custos desnecessários. |
 | Gerenciamento de Hierarquias | Como administrador, quero cadastrar professores orientadores para que seja possível associá-los aos alunos orientados. |
-| Distribuição de Funções | Como coordenador de TG, quero associar um aluno a um professor orientador para formalizar a orientação do portfólio, reduzindo atrasos e evitando gastos extras. |
+| Distribuição de Funções | Como professor-orientador do TG, quero associar um aluno a um professor orientador para formalizar a orientação do portfólio, reduzindo atrasos e evitando gastos extras. |
 | Envio de Dados | Como aluno, quero enviar uma seção do meu TG para o orientador para que ele possa revisar e dar feedback, economizando tempo e reduzindo custos com correções. |
 | Documentos do projeto | Como orientador, quero corrigir e registrar feedback em cada seção enviada pelo aluno para acompanhar sua evolução. |
-| Visualização das Atribuições | Como orientador quero visualizar o histórico de revisões de cada seção para acompanhar a evolução do trabalho, evitando disperdicio de tempo e garantindo melhor eficácia. |
-| Visualização de Status | Como professor da disciplina de TG, quero visualizar o status de conclusão dos portfólios para identificar quais alunos já finalizaram todas as seções, reduzindo atrasos que podem gerar custos adicionais. |
+| Visualização das Atribuições | Como professor-orientador quero visualizar o histórico de revisões de cada seção para acompanhar a evolução do trabalho, evitando disperdicio de tempo e garantindo melhor eficácia. |
+| Visualização de Status | Como professor de disciplina, quero visualizar o status de conclusão dos portfólios para identificar quais alunos já finalizaram todas as seções, reduzindo atrasos que podem gerar custos adicionais. |
 | Entrega de Dados | Como aluno, quero gerar automaticamente o TG final em formato Markdown (MD) para entregar de acordo com o padrão exigido pela instituição, economizando tempo e custos com formatação manual. |
 
 ## 📊 Modelo Entidade de Relacionamento
