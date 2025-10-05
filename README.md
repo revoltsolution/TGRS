@@ -57,7 +57,7 @@ A plataforma centraliza a comunicação e o acompanhamento dos TGs em uma plataf
 </h4>
 
 ## 📊 Modelo Entidade de Relacionamento
-<img src="Documents/DER.png" alt="logo da Revolt Solutions" width="1000">
+<img src="Documentos/DER.png" alt="logo da Revolt Solutions" width="1000">
 
 ## 🎓 Equipe <a id="equipe"></a>
 
