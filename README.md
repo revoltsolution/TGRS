@@ -27,6 +27,20 @@ A plataforma centraliza a comunicação e o acompanhamento dos TGs em uma plataf
 | **US07** | Baixa | Como professor de disciplina, quero visualizar o status de conclusão dos portfólios para identificar quais alunos já finalizaram todas as seções, reduzindo atrasos que podem gerar custos adicionais. | A definir | Não iniciado | 3 |
 | **US08** | Baixa | Como aluno, quero gerar automaticamente o TG final em formato Markdown (MD) para entregar de acordo com o padrão exigido pela instituição, economizando tempo e custos com formatação manual. | A definir | Não iniciado | 3 |                                                                                      |            Matheus Sousa           | Não iniciado |    3   |
 
+## 🏃‍ DoR - Definition of Ready <a id="dor"></a>
+
+* User Stories com **Critérios de Aceitação**
+* Subtarefas divididas **a partir das US**
+* Design no **Canva e Scene Builder**
+* Modelagem do **Banco de Dados**
+* Banco de Dados **Vetorizado** do Cliente
+
+## 🏆 DoD - Definition of Done <a id="dod"></a>
+
+* Manual de Usuário
+* Documentação da API
+* Código completo
+
 ## 📅 Cronograma
   | Evento | Data |
   | --- | --- |
