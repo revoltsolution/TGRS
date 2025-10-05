@@ -2,7 +2,7 @@
 
 <p align="center">
       <img src="settings/logo.PNG" alt="logo da Revolt Solutions" width="400">
-      <h2 align="center"> Gerenciador de Atividades Academicas</h2>
+      <h2 align="center"> TGRS - Gerenciador de Atividades Academicas</h2>
 </p>
 
 ## 🔎 O que é?
