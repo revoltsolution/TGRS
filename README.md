@@ -31,9 +31,9 @@ A plataforma centraliza a comunicação e o acompanhamento dos TGs em uma plataf
   | Kick-off geral | 25/08 a 29/08 |
   | [Sprint-1](Sprints/Sprint1) | 08/09 a 28/09 |
   | Sprint Review/Planning | 29/09 a 03/10 |
-  | Sprint-2 | 06/10 a 26/10 |
+  |  [Sprint-2](Sprints/Sprint2) | 06/10 a 26/10 |
   | Sprint Review/Planning | 27/10 a 31/10 |
-  | Sprint-3 | 03/11 a 23/11 |
+  |  [Sprint-3](Sprints/Sprint3) | 03/11 a 23/11 |
   | Sprint Review/Planning | 24/11 a 28/11 |
   | Feira de Soluções | 04/12 |
 
