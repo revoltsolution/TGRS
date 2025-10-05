@@ -12,7 +12,7 @@ A plataforma centraliza a comunicação e o acompanhamento dos TGs em uma plataf
 
 > Status do Projeto: Concluído  ✅ 
 >
-> Pasta de Documentação: [Documentos](documentos) 📄
+> Pasta de Documentação: [Documentos](Documentos) 📄
 
 ## 📋 Backlog do Produto \<a id="backlog"\>\</a\>
 
