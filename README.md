@@ -1,7 +1,8 @@
 # API 2º Semestre - Banco de dados (Noturno).
 
 <p align="center">
-      <img src="settings/logo.PNG" alt="logo da Revolt Solutions" width="400">
+      <img src="settings/logo.PNG" alt="logo da Revolt Solutions" width="300">
+      <img src="settings/TGRS.PNG" alt="logo da Revolt Solutions" width="300">
       <h2 align="center"> TGRS - Gerenciador de Atividades Academicas</h2>
 </p>
 
