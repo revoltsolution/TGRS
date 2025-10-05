@@ -29,7 +29,7 @@ A plataforma centraliza a comunicação e o acompanhamento dos TGs em uma plataf
   | Evento | Data |
   | --- | --- |
   | Kick-off geral | 25/08 a 29/08 |
-  | [Sprint-1](RevoltSolution/Sprint1/readme.md) | 08/09 a 28/09 |
+  | [Sprint-1](Sprints/Sprint1) | 08/09 a 28/09 |
   | Sprint Review/Planning | 29/09 a 03/10 |
   | Sprint-2 | 06/10 a 26/10 |
   | Sprint Review/Planning | 27/10 a 31/10 |
