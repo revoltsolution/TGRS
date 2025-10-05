@@ -12,35 +12,52 @@ A plataforma centraliza a comunicação e o acompanhamento dos TGs em uma plataf
 
 > Status do Projeto: Em andamento ⚙️ 
 
-## 📋 Backlog do Produto <a id="backlog"></a>
+## 📋 Backlog do Produto \<a id="backlog"\>\</a\>
 
 | US | Prioridade | Função | Responsável | Estado | Sprint |
-| :--: | :--: | :--: | :--: | :--: | :--: |
-| 1 | Alta | Modelo MER | Luan | Concluído | 1 |
-| 2 | Alta | User Storys | Matheus Sousa | Concluído | 1 |
-| 3 | Alta | Aviso de conflito | Luan e Samir | Não iniciado | 3 |
-| 4 | Alta | Criação do BD | Luan e João Gabriel | Não iniciado | 2 |
-| 5 | Alta | Alimentação BD | Luan e João Gabriel | Não iniciado | 2 |
-| 6 | Alta | Verificação / validação BD | Matheus Sousa e Samir | Não iniciado | 3 |
-| 7 | Alta | Ferramentas de trabalho | Luis Eduardo e Matheus Sousa | Concluído | 1 |
-| 8 | Média | Mapeamento das interfaces / protótipo | Samir e João Gabriel | Concluído | 1 |
-| 9 | Média | Tela pagina inicial | Luis Eduardo e Fernando | Não iniciado | 2 |
-| 10 | Média | Tela cadastro | Luis Eduardo e Fernando | Não iniciado | 2 |
-| 11 | Média | Tela login | Luis Eduardo e Fernando | Não iniciado | 2 |
-| 12 | Média | Tela interface aluno | Luis Eduardo e Fernando | Não iniciado | 2 |
-| 13 | Média | Tela alunos mentorados | Luis Eduardo e Fernando | Não iniciado | 2 |
-| 14 | Média | Tela historico | Luis Eduardo e Fernando | Não iniciado | 2 |
-| 15 | Baixa | Logout | Luis Eduardo e Fernando | Não iniciado | 2 |
-| 16 | Baixa | Documentos do projeto | Luis Eduardo | Não iniciado | 3 |
-| 17 | Baixa | Entrega | Matheus Sousa | Não iniciado | 3 |
-| 18 | Baixa | Testes | Samir, Matheus e João Gabriel | Não iniciado | 3 |
-| 19 | Baixa | Conexão BD | Luan e João Gabriel | Não iniciado | 2 |
+| :---: | :--------: | :--------------------------------------------- | :-----------: | :----------: | :----: |
+| **US01** | Alta | Como administrador, quero importar um arquivo CSV com as relações entre alunos e professores orientadores para agilizar o cadastro e evitar retrabalho manual. | A definir | Não iniciado | 1 |
+| **US03** | Alta | Como professor-orientador do TG, quero associar um aluno a um professor orientador para formalizar a orientação do portfólio, reduzindo atrasos e evitando gastos extras. | A definir | Não iniciado | 1 |
+| **US04** | Alta | Como aluno, quero enviar uma seção do meu TG para o orientador para que ele possa revisar e dar feedback, economizando tempo e reduzindo custos com correções. | A definir | Não iniciado | 1 |
+| **US05** | Alta | Como orientador, quero corrigir e registrar feedback em cada seção enviada pelo aluno para acompanhar sua evolução. | A definir | Não iniciado | 1 |
+| **US02** | Média | Como administrador, quero atualizar automaticamente as relações entre alunos e professores ao importar um novo CSV, garantindo que o sistema reflita sempre a situação mais recente da turma. | A definir | Não iniciado | 2 |
+| **US06** | Média | Como professor-orientador, quero visualizar o histórico de revisões de cada seção para acompanhar a evolução do trabalho, evitando desperdício de tempo e garantindo melhor eficácia. | A definir | Não iniciado | 2 |
+| **US07** | Baixa | Como professor de disciplina, quero visualizar o status de conclusão dos portfólios para identificar quais alunos já finalizaram todas as seções, reduzindo atrasos que podem gerar custos adicionais. | A definir | Não iniciado | 3 |
+| **US08** | Baixa | Como aluno, quero gerar automaticamente o TG final em formato Markdown (MD) para entregar de acordo com o padrão exigido pela instituição, economizando tempo e custos com formatação manual. | A definir | Não iniciado | 3 |                                                                                      |            Matheus Sousa           | Não iniciado |    3   |
 
-## 💻 Tecnologias Utilizadas
+## 📅 Cronograma
+  | Evento | Data |
+  | --- | --- |
+  | Kick-off geral | 25/08 a 29/08 |
+  | [Sprint-1](RevoltSolution/Sprint1/readme.md) | 08/09 a 28/09 |
+  | Sprint Review/Planning | 29/09 a 03/10 |
+  | Sprint-2 | 06/10 a 26/10 |
+  | Sprint Review/Planning | 27/10 a 31/10 |
+  | Sprint-3 | 03/11 a 23/11 |
+  | Sprint Review/Planning | 24/11 a 28/11 |
+  | Feira de Soluções | 04/12 |
 
-![InteliJ](https://img.shields.io/badge/InteliJ-333333?style=for-the-badge&logo=intelij)
-![GitHub](https://img.shields.io/badge/GitHub-333333?style=for-the-badge&logo=github)
-![Trello](https://img.shields.io/badge/Jira-333333?style=for-the-badge&logo=jira)
+## 🛠 Tecnologias Utilizadas
+<h4 align="center">
+ <a href="https://www.atlassian.com/software/jira">
+   <img src="https://img.shields.io/badge/Jira-0052CC?style=for-the-badge&logo=jira&logoColor=white"/>
+ </a>
+ <a href="https://www.java.com/">
+   <img src="https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white"/>
+ </a>
+ <a href="https://www.jetbrains.com/idea/">
+   <img src="https://img.shields.io/badge/IntelliJ%20IDEA-000000?style=for-the-badge&logo=intellijidea&logoColor=white"/>
+ </a>
+ <a href="https://gluonhq.com/products/scene-builder/">
+   <img src="https://img.shields.io/badge/Scene%20Builder-2C2255?style=for-the-badge&logo=java&logoColor=white"/>
+ </a>
+ <a href="https://github.com/">
+   <img src="https://img.shields.io/badge/GitHub-121011?style=for-the-badge&logo=github&logoColor=white"/>
+ </a>
+</h4>
+
+## 📊 Modelo Entidade de Relacionamento
+<img src="Documents/DER.png" alt="logo da Revolt Solutions" width="1000">
 
 ## 🎓 Equipe <a id="equipe"></a>
 
