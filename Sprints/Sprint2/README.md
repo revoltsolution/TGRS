@@ -5,10 +5,10 @@
       <h2 align="center"> Sprint 2</h2>
 </p>
 
-> Status da Sprint: Não Iniciada ❌
+> Status da Sprint: Iniciada ✅
 >
 
-## 📋 Backlog da Sprint <a id="backlog"></a>
+## 📋 Backlog da Sprint 2 <a id="backlog"></a>
 
 | US | Prioridade | User Stories | Story Points | Sprint | Requisito do Cliente | Status |
 | :---: | :--------: | :--------------------------------------------- | :-----------: | :----------: | :----: | :----: | 
