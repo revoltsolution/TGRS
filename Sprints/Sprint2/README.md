@@ -10,18 +10,11 @@
 
 ## 📋 Backlog da Sprint <a id="backlog"></a>
 
-| US | Prioridade | Função | Responsável | Estado | Sprint |
-| :--: | :--: | :--: | :--: | :--: | :--: |
-| 1 | Alta | Criação do BD | Luan e João Gabriel | Não iniciado | 2 |
-| 2 | Alta | Alimentação BD | Luan e João Gabriel | Não iniciado | 2 |
-| 3 | Média | Tela pagina inicial | Luis Eduardo e Fernando | Não iniciado | 2 |
-| 4 | Média | Tela cadastro | Luis Eduardo e Fernando | Não iniciado | 2 |
-| 5 | Média | Tela login | Luis Eduardo e Fernando | Não iniciado | 2 |
-| 6 | Média | Tela interface aluno | Luis Eduardo e Fernando | Não iniciado | 2 |
-| 7 | Média | Tela alunos mentorados | Luis Eduardo e Fernando | Não iniciado | 2 |
-| 8 | Baixa | Tela historico | Luis Eduardo e Fernando | Não iniciado | 2 |
-| 9 | Baixa | Logout | Luis Eduardo e Fernando | Não iniciado | 2 |
-| 10 | Baixa | Conexão BD | Luan e João Gabriel | Não iniciado | 2 |
+| US | Prioridade | User Stories | Story Points | Sprint | Requisito do Cliente | Status |
+| :---: | :--------: | :--------------------------------------------- | :-----------: | :----------: | :----: | :----: | 
+| **US01** | Alta | Como administrador, quero importar um arquivo CSV com as relações entre alunos e professores orientadores para agilizar o cadastro e evitar retrabalho manual. | 34 | 2 | RF01 RF02 RF03 | Em Andamento |
+| **US03** | Alta | Como professor-orientador do TG, quero associar um aluno a um professor orientador para formalizar a orientação do portfólio, reduzindo atrasos e evitando gastos extras. | 21 | 2 | RF03 RF06 | Em andamento |
+| **US04** | Alta | Como aluno, quero enviar uma seção do meu TG para o orientador para que ele possa revisar e dar feedback, economizando tempo e reduzindo custos com correções. | 34 | 2 | RF04 RF06 | Não iniciado |
 
 
 ## 🏅 DoR - Definition of Ready <a id="dor"></a>
