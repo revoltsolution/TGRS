@@ -19,16 +19,16 @@ A plataforma centraliza a comunicação e o acompanhamento dos TGs em uma plataf
 
 ## 📋 Backlog do Produto
 
-| US | Prioridade | Função | Responsável | Estado | Sprint |
+| US | Prioridade | Função | Story Points | Sprint | Requisito do Cliente | Status |
 | :---: | :--------: | :--------------------------------------------- | :-----------: | :----------: | :----: |
-| **US01** | Alta | Como administrador, quero importar um arquivo CSV com as relações entre alunos e professores orientadores para agilizar o cadastro e evitar retrabalho manual. | A definir | Não iniciado | 1 |
-| **US03** | Alta | Como professor-orientador do TG, quero associar um aluno a um professor orientador para formalizar a orientação do portfólio, reduzindo atrasos e evitando gastos extras. | A definir | Não iniciado | 1 |
-| **US04** | Alta | Como aluno, quero enviar uma seção do meu TG para o orientador para que ele possa revisar e dar feedback, economizando tempo e reduzindo custos com correções. | A definir | Não iniciado | 1 |
-| **US05** | Alta | Como orientador, quero corrigir e registrar feedback em cada seção enviada pelo aluno para acompanhar sua evolução. | A definir | Não iniciado | 1 |
-| **US02** | Média | Como administrador, quero atualizar automaticamente as relações entre alunos e professores ao importar um novo CSV, garantindo que o sistema reflita sempre a situação mais recente da turma. | A definir | Não iniciado | 2 |
-| **US06** | Média | Como professor-orientador, quero visualizar o histórico de revisões de cada seção para acompanhar a evolução do trabalho, evitando desperdício de tempo e garantindo melhor eficácia. | A definir | Não iniciado | 2 |
-| **US07** | Baixa | Como professor de disciplina, quero visualizar o status de conclusão dos portfólios para identificar quais alunos já finalizaram todas as seções, reduzindo atrasos que podem gerar custos adicionais. | A definir | Não iniciado | 3 |
-| **US08** | Baixa | Como aluno, quero gerar automaticamente o TG final em formato Markdown (MD) para entregar de acordo com o padrão exigido pela instituição, economizando tempo e custos com formatação manual. | A definir | Não iniciado | 3 |                                                                                      |            Matheus Sousa           | Não iniciado |    3   |
+| **US01** | Alta | Como administrador, quero importar um arquivo CSV com as relações entre alunos e professores orientadores para agilizar o cadastro e evitar retrabalho manual. | 34 | 2 | RF01 RF02 RF03 | Em Andamento |
+| **US03** | Alta | Como professor-orientador do TG, quero associar um aluno a um professor orientador para formalizar a orientação do portfólio, reduzindo atrasos e evitando gastos extras. | 21 | 2 | RF03 RF06 | Em andamento |
+| **US04** | Alta | Como aluno, quero enviar uma seção do meu TG para o orientador para que ele possa revisar e dar feedback, economizando tempo e reduzindo custos com correções. | 34 | 2 | RF04 RF06 | 3 | Não Iniciado |
+| **US05** | Alta | Como orientador, quero corrigir e registrar feedback em cada seção enviada pelo aluno para acompanhar sua evolução. | 21 | 3 | RF05 RF06 | 2 | Em execução |
+| **US02** | Média | Como administrador, quero atualizar automaticamente as relações entre alunos e professores ao importar um novo CSV, garantindo que o sistema reflita sempre a situação mais recente da turma. | 13 | 3 | RF03 RF06 | Não Iniciado |
+| **US06** | Média | Como professor-orientador, quero visualizar o histórico de revisões de cada seção para acompanhar a evolução do trabalho, evitando desperdício de tempo e garantindo melhor eficácia. | 5 | 1 | RF07 RF08| Concluido |
+| **US07** | Baixa | Como professor de disciplina, quero visualizar o status de conclusão dos portfólios para identificar quais alunos já finalizaram todas as seções, reduzindo atrasos que podem gerar custos adicionais. | 13 | 3 | RF09 RF10 | Não Iniciado |
+| **US08** | Baixa | Como aluno, quero gerar automaticamente o TG final em formato Markdown (MD) para entregar de acordo com o padrão exigido pela instituição, economizando tempo e custos com formatação manual. | 21 | 3 | RF11 RF12 | Não Iniciado |
 
 ## ⚙️ DoR - Definition of Ready <a id="dor"></a>
 
