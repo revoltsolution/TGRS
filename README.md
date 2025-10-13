@@ -15,6 +15,7 @@ A plataforma centraliza a comunicação e o acompanhamento dos TGs em uma plataf
 
 > Status do Projeto: Concluído  ✅ 
 > Manual de Usuário: [Manual TGRS](Documentos/Manual de Usuario.pdf). 📄
+> 
 > Pasta de Documentação: [Documentos](Documentos). 📚
 
 ## 📋 Backlog do Produto
