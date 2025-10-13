@@ -11,7 +11,7 @@
 ## 📋 Apresentação do primeiro protótipo <a id="backlog"></a>
 
 <p align="center">
-      <img src="Documentos/Demonstração.png" alt="Demonstração do Software" width="1000">
+      <img src="settings/demo.png" alt="Demonstração do Software" width="1000">
       <h2 align="center"> Primeira Versão do Software TGRS, usando a Interface REGLASS</h2>
 
 Nesta primeira Sprint, foi apresentado o primeiro protótipo do Design do Software, com 3 telas de demontração (apresentação, autenticação e inicio), para atender ao requisito do cliente de ter a ciencia de que a equipe é capaz de propor o que ele estava solicitando. Além disto, foi desenvolvido toda a documentação Inicial do projeto, como backlog, User Storys dentre outras necessidades técnicas propostas pela instituição.
