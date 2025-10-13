@@ -14,8 +14,8 @@ A API tem como objetivo facilitar o processo de confecção, envio e correção 
 A plataforma centraliza a comunicação e o acompanhamento dos TGs em uma plataforma única, garantindo feedback mais ágil, histórico de interações e organização das versões. Além disso, permite que os professores da disciplina acompanhem o progresso dos alunos e os portfólios já finalizados, eliminando a dependência de e-mails, Teams e documentos manuais.
 
 > Status do Projeto: Concluído  ✅ 
->
-> Pasta de Documentação: [Documentos](Documentos) 📄
+> Manual de Usuário: [Manual TGRS](Documentos/Manual de Usuario.pdf). 📄
+> Pasta de Documentação: [Documentos](Documentos). 📚
 
 ## 📋 Backlog do Produto
 
