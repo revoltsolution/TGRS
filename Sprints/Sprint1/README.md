@@ -8,14 +8,14 @@
 > Status do Projeto: Em andamento ⚙️ 
 >
 
-## 📋 Backlog da Sprint <a id="backlog"></a>
+## 📋 Apresentação do primeiro protótipo <a id="backlog"></a>
 
-| US | Prioridade | Função | Responsável | Estado | Sprint |
-| :--: | :--: | :--: | :--: | :--: | :--: |
-| 1 | Alta | Modelo MER | Luan | Concluído | 1 |
-| 2 | Alta | User Storys | Matheus Sousa | Concluído | 1 |
-| 3 | Alta | Ferramentas de trabalho | Samir e João Gabriel | Concluído | 1 |
-| 4 | Média | Mapeamento das interfaces / protótipo | Luis Eduardo e Fernando Santos | Concluído | 1 |
+<p align="center">
+      <img src="Documentos/Demonstração.png" alt="Demonstração do Software" width="1000">
+      <h2 align="center"> Sprint 1</h2>
+
+Nesta primeira Sprint, foi apresentado o primeiro protótipo do Design do Software, com 3 telas de demontração (apresentação, autenticação e inicio), para atender ao requisito do cliente de ter a ciencia de que a equipe é capaz de propor o que ele estava solicitando. Além disto, foi desenvolvido toda a documentação Inicial do projeto, como backlog, User Storys dentre outras necessidades técnicas propostas pela instituição.
+</p>
 
 ## 🏅 DoR - Definition of Ready <a id="dor"></a>
 
