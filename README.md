@@ -80,63 +80,12 @@ A plataforma centraliza a comunicação e o acompanhamento dos TGs em uma plataf
 ## 📊 Modelo Entidade de Relacionamento
 <img src="Documentos/DER.png" alt="logo da Revolt Solutions" width="1000">
 
-## 🎓 Equipe <a id="equipe"></a>
-
-<div align="center">
-  <table>
-    <tr>
-      <th>Membro</th>
-      <th>Função</th>
-      <th>Github</th>
-      <th>Linkedin</th>
-    </tr>
-    <tr> 
-      <td><p align="center">
-      <img src="settings/Luis_Eduardo.png" width="150">
-      <h2 align="center"> Luis Eduardo</h2></p></td>    
-      <td>Scrum Master</td> 
-      <td><a href="https://github.com/Lu1s3F">Perfil</a></td>       
-      <td><a href="https://www.linkedin.com/in/luis-eduardo-mendes-28b51a355?utm_source=share_via&utm_content=profile&utm_medium=member_ios">Perfil</a></td>
-    </tr>
-    <tr>
-      <td><p align="center">
-      <img src="settings/Matheus_Souza.png" width="150">
-      <h2 align="center"> Matheus de Souza</h2></p></td>
-      <td>Product Owner</td>
-      <td><a href="https://github.com/matheus23sjc">Perfil</a></td>
-      <td><a href="https://www.linkedin.com/in/matheussouza23sjc/">Perfil</a></td>
-    </tr>
-    <tr>
-      <td><p align="center">
-      <img src="settings/Samir_Kassen.png" width="150">
-      <h2 align="center"> Samir Kassen</h2></p></td>
-      <td>Desenvolvedor</td>
-      <td><a href="https://github.com/Siqsamir">Perfil</a></td>
-      <td><a href="https://www.linkedin.com/in/samir-siqueira-06012a363?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app">Perfil</a></td>
-    </tr>
-    <tr>
-      <td><p align="center">
-      <img src="settings/Luan_Santos.png" width="150">
-      <h2 align="center"> Luan Santos</h2></p></td>
-      <td>Desenvolvedor</td>
-      <td><a href="https://github.com/SantoszLuan">Perfil</a></td>
-      <td><a href="https://www.linkedin.com/in/luansantoosz">Perfil</a></td>
-    </tr>
-    <tr>
-      <td><p align="center">
-      <img src="settings/Joao_Gabriel.png" width="150">
-      <h2 align="center"> Joao Gabriel</h2></p></td>
-      <td>Desenvolvedor</td>
-      <td><a href="https://github.com/jjoaoGabriel">Perfil</a></td>
-      <td><a href="https://www.linkedin.com/in/joao-gabriel-fernandes-de-sousa-silva-292b9a2bb?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app">Perfil</a></td>
-    </tr>
-    <tr>
-      <td><p align="center">
-      <img src="settings/Fernando_Santos.png" width="150">
-      <h2 align="center"> Fernando Santos</h2></p></td>    
-      <td>Desenvolvedor</td>
-      <td><a href="https://github.com/fernandosantos09">Perfil</a></td>
-      <td><a href="https://www.linkedin.com/in/santosfernando09">Perfil</a></td>
-    </tr>
-  </table>
-</div>
+## 👥 Equipe
+| Foto | Nome  | Função | GitHub/LinkedIn |
+| :--- | :--- | :--- | :--- |
+| <img src="https://media.licdn.com/dms/image/v2/D5603AQFB3SF5kKWbpA/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1680381556339?e=1761868800&v=beta&t=dCTpHztLS2BHzzqoWRczFyV47yPz03WtsRAlL1g2MD0" alt="Pedro Quirino" width="100" style="border-radius:50%; box-shadow: 0 0 5px rgba(0,0,0,0.3);"/> | Pedro Quirino | Scrum Master (SM) | [![GitHub](https://img.icons8.com/ios-glyphs/30/ffffff/github.png)](https://github.com/pedroquirino) &nbsp;&nbsp;&nbsp;&nbsp; [![LinkedIn](https://img.icons8.com/ios-filled/30/0077b5/linkedin.png)](https://www.linkedin.com/in/pedro-henrique-quirino-909aa8270/) |
+| <img src="https://media.licdn.com/dms/image/v2/D4E03AQEX1hDj93-h1w/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1664646825152?e=1761868800&v=beta&t=wVKe1eDL1lmt7yvhVQfD2AI0suBEmhYFqNwUyixzZb4" alt="Fernando Santos" width="100" style="border-radius:50%; box-shadow: 0 0 5px rgba(0,0,0,0.3);"/> | Fernando Santos | Product Owner (PO) | [![GitHub](https://img.icons8.com/ios-glyphs/30/ffffff/github.png)](https://github.com/fernandosantos09) &nbsp;&nbsp;&nbsp;&nbsp; [![LinkedIn](https://img.icons8.com/ios-filled/30/0077b5/linkedin.png)](https://www.linkedin.com/in/santosfernando09/) |
+| <img src="https://media.licdn.com/dms/image/v2/D4E03AQETqTeWU1u0kQ/profile-displayphoto-shrink_400_400/B4EZcZJ13MHkAg-/0/1748473702240?e=1761868800&v=beta&t=JzKRX1STN03zrwpxW0U8Sc2v6cvh6PZ5ZXv_s6gYYBo" alt="Érick Faria" width="100" style="border-radius:50%; box-shadow: 0 0 5px rgba(0,0,0,0.3);"/> | Érick Faria | Dev Team | [![GitHub](https://img.icons8.com/ios-glyphs/30/ffffff/github.png)](https://github.com/ErickvFaria) &nbsp;&nbsp;&nbsp;&nbsp; [![LinkedIn](https://img.icons8.com/ios-filled/30/0077b5/linkedin.png)](https://www.linkedin.com/in/%C3%A9rick-vin%C3%ADcius-79193b253/) |
+| <img src="https://media.licdn.com/dms/image/v2/D4E03AQEKp2iO7T0yxA/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1729003320390?e=1761868800&v=beta&t=WqzMSIN6vEq07w0KCRW3uPe5AQtTK-UV-0efEWeT1uI" alt="João Gabriel" width="100" style="border-radius:50%; box-shadow: 0 0 5px rgba(0,0,0,0.3);"/> | João Gabriel | Dev Team | [![GitHub](https://img.icons8.com/ios-glyphs/30/ffffff/github.png)](https://github.com/jjoaoGabriel) &nbsp;&nbsp;&nbsp;&nbsp; [![LinkedIn](https://img.icons8.com/ios-filled/30/0077b5/linkedin.png)](https://www.linkedin.com/in/joao-gabriel-fernandes-de-sousa-silva-292b9a2bb/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app) |
+| <img src="https://media.licdn.com/dms/image/v2/D4E03AQE1w2O_fPn_yA/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1664646825152?e=1761868800&v=beta&t=wVKe1eDL1lmt7yvhVQfD2AI0suBEmhYFqNwUyixzZb4" alt="Luan Santos" width="100" style="border-radius:50%; box-shadow: 0 0 5px rgba(0,0,0,0.3);"/> | Luan Santos | Dev Team | [![GitHub](https://img.icons8.com/ios-glyphs/30/ffffff/github.png)](https://github.com/SantoszLuan) &nbsp;&nbsp;&nbsp;&nbsp; [![LinkedIn](https://img.icons8.com/ios-filled/30/0077b5/linkedin.png)](https://www.linkedin.com/in/luansantoosz/) |
+| <img src="https://media.licdn.com/dms/image/v2/D5603AQE4RTl9bU9g1Q/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1730486820216?e=1761868800&v=beta&t=bN7q3mETbc34vPiV34uP0weeb0JmM1Ckn94O9Vtqg1Q" alt="Samir Kassen" width="100" style="border-radius:50%; box-shadow: 0 0 5px rgba(0,0,0,0.3);"/> | Samir Kassen | Dev Team | [![GitHub](https://img.icons8.com/ios-glyphs/30/ffffff/github.png)](https://github.com/Siqsamir) &nbsp;&nbsp;&nbsp;&nbsp; [![LinkedIn](https://img.icons8.com/ios-filled/30/0077b5/linkedin.png)](https://www.linkedin.com/in/samir-siqueira-06012a363/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app) |
