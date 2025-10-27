@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.api.trabalhodegraduacao.controller.usuario.professor.AlunosController"
+            prefHeight="485.0" prefWidth="1000.0" >
+    <children>
+        <TableView editable="true" prefHeight="485.0" prefWidth="1000.0">
+            <columns>
+                <TableColumn prefWidth="200.0" text="NOME ALUNO" />
+                <TableColumn prefWidth="100.0" text="TURMA" />
+                <TableColumn prefWidth="100.0" text="SEMESTRE" />
+                <TableColumn prefWidth="200.0" text="NOME TG" />
+                <TableColumn prefWidth="200.0" text="ORIENTADOR" />
+                <TableColumn prefWidth="200.0" text="STATUS" />
+            </columns>
+        </TableView>
+    </children>
+</AnchorPane>
