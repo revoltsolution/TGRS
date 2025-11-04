@@ -18,7 +18,9 @@
 | **US04** | Alta | Como aluno, quero enviar uma seção do meu TG para o orientador para que ele possa revisar e dar feedback, economizando tempo e reduzindo custos com correções. | 34 | 3 | RF04 RF06 | Não iniciada |
 | **US07** | Baixa | Como professor de disciplina, quero visualizar o status de conclusão dos portfólios para identificar quais alunos já finalizaram todas as seções, reduzindo atrasos que podem gerar custos adicionais. | 13 | 3 | RF09 RF10 | Não iniciada |
 
-## Meta da Sprint: US01 e US04.
+
+### Meta da Sprint: US05 e US04.
+
 
 
 ## 🏅 DoR - Definition of Ready <a id="dor"></a>
