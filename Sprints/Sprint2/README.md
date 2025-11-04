@@ -5,18 +5,15 @@
       <h2 align="center"> Sprint 2</h2>
 </p>
 
-> Status da Sprint: Iniciada ✅
+> Status da Sprint: Concluída ✅
 >
 
 ## 📋 Backlog da Sprint 2 <a id="backlog"></a>
 
 | US | Prioridade | User Stories | Story Points | Sprint | Requisito do Cliente | Status |
 | :---: | :--------: | :--------------------------------------------- | :-----------: | :----------: | :----: | :----: | 
-| **US01** | Alta | Como administrador, quero importar um arquivo CSV com as relações entre alunos e professores orientadores para agilizar o cadastro e evitar retrabalho manual. | 34 | 2 | RF01 RF02 RF03 | Em Andamento |
-| **US03** | Alta | Como professor-orientador do TG, quero associar um aluno a um professor orientador para formalizar a orientação do portfólio, reduzindo atrasos e evitando gastos extras. | 21 | 2 | RF03 RF06 | Em andamento |
-| **US04** | Alta | Como aluno, quero enviar uma seção do meu TG para o orientador para que ele possa revisar e dar feedback, economizando tempo e reduzindo custos com correções. | 34 | 2 | RF04 RF06 | Em andamento |
-| **US05** | Alta | Como orientador, quero corrigir e registrar feedback em cada seção enviada pelo aluno para acompanhar sua evolução. | 21 | 2 | RF05 RF06 | Em andamento |
-| **US07** | Baixa | Como professor de disciplina, quero visualizar o status de conclusão dos portfólios para identificar quais alunos já finalizaram todas as seções, reduzindo atrasos que podem gerar custos adicionais. | 13 | 2 | RF09 RF10 | Em andamento |
+| **US01** | Alta | Como administrador, quero importar um arquivo CSV com as relações entre alunos e professores orientadores para agilizar o cadastro e evitar retrabalho manual. | 34 | 2 | RF01 RF02 RF03 | Concluído |
+| **US03** | Alta | Como professor-orientador do TG, quero associar um aluno a um professor orientador para formalizar a orientação do portfólio, reduzindo atrasos e evitando gastos extras. | 21 | 2 | RF03 RF06 | Concluído |
 
 ## 🏅 DoR - Definition of Ready <a id="dor"></a>
 
