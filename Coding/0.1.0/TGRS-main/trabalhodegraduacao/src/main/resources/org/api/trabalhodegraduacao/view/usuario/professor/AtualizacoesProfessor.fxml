@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/21.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.api.trabalhodegraduacao.controller.usuario.professor.AtualizacaoProfessorController">
+    <children>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#3a6081" height="768.0" layoutX="-2.0" smooth="false" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="312.0" />
+        <Circle fill="WHITE" layoutX="159.0" layoutY="203.0" radius="125.0" stroke="BLACK" strokeType="INSIDE" />
+        <ImageView fitHeight="235.0" fitWidth="275.0" layoutX="41.0" layoutY="85.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../../../images/imgFotoPerfil.png" />
+            </image>
+        </ImageView>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#50799c" height="777.0" layoutX="301.0" layoutY="-3.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="1067.0" />
+        <Label layoutX="374.0" layoutY="175.0" prefHeight="40.0" prefWidth="266.0" text="NOTIFICAÇÕES:" textFill="WHITE">
+            <font>
+                <Font name="Century Gothic Bold" size="35.0" />
+            </font>
+        </Label>
+        <Label layoutX="354.0" layoutY="233.0" prefHeight="40.0" prefWidth="969.0" text="AQUI VAI NOTIFICAÇOES DE URGENCIA POR EXEMPLO" textFill="WHITE">
+            <font>
+                <Font name="Century Gothic Bold" size="35.0" />
+            </font>
+        </Label>
+        <Label ellipsisString="0" layoutX="582.0" layoutY="44.0" prefHeight="40.0" prefWidth="969.0" text="INFORMAÇÕES DO USUARIO" textFill="WHITE">
+            <font>
+                <Font name="Cambria Math" size="35.0" />
+            </font>
+        </Label>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="7.0" layoutX="301.0" layoutY="99.0" stroke="WHITE" strokeType="INSIDE" width="1067.0" />
+        <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="334.0" layoutY="177.0">
+            <image>
+                <Image url="@../../../images/sino-de-notificacao.png" />
+            </image>
+        </ImageView>
+        <ImageView fitHeight="40.0" fitWidth="65.0" layoutX="3.0" layoutY="10.0">
+            <image>
+                <Image url="@../../../images/imgLogoRevolt.png" />
+            </image>
+        </ImageView>
+        <Label layoutX="61.0" layoutY="12.0" prefHeight="40.0" prefWidth="266.0" text="REVOLT SOLUTIONS - TGRS" textFill="WHITE">
+            <font>
+                <Font name="Century Gothic Bold" size="18.0" />
+            </font>
+        </Label>
+        <Button fx:id="bt_tela_inicial" layoutX="33.0" layoutY="704.0" mnemonicParsing="false" onAction="#telaInicial" prefHeight="44.0" prefWidth="235.0" text="TELA INICIAL">
+            <font>
+                <Font name="Cambria" size="27.0" />
+            </font>
+            <effect>
+                <ColorAdjust contrast="1.0" />
+            </effect>
+        </Button>
+        <Button fx:id="bt_perfil_geral" layoutX="8.0" layoutY="350.0" mnemonicParsing="false" onAction="#perfilProfessor" prefHeight="68.0" prefWidth="282.0" text="PERFIL">
+            <font>
+                <Font name="Cambria" size="36.0" />
+            </font>
+            <effect>
+                <ColorAdjust brightness="0.03" contrast="1.0" />
+            </effect>
+        </Button>
+        <Button fx:id="bt_alunos_geral" layoutX="8.0" layoutY="427.0" mnemonicParsing="false" onAction="#alunos" prefHeight="68.0" prefWidth="282.0" text="ALUNOS">
+            <font>
+                <Font name="Cambria" size="36.0" />
+            </font>
+            <effect>
+                <ColorAdjust contrast="1.0" />
+            </effect>
+        </Button>
+        <Button fx:id="bt_devolutivas_geral" alignment="BOTTOM_LEFT" contentDisplay="RIGHT" layoutX="8.0" layoutY="503.0" mnemonicParsing="false" onAction="#devolutivas" prefHeight="68.0" prefWidth="282.0" text="DEVOLUTIVAS" textAlignment="CENTER" wrapText="true">
+            <font>
+                <Font name="Cambria" size="36.0" />
+            </font>
+            <effect>
+                <ColorAdjust contrast="1.0" />
+            </effect>
+        </Button>
+        <Button fx:id="bt_Sair" layoutX="42.0" layoutY="632.0" mnemonicParsing="false" onAction="#sair" prefHeight="62.0" prefWidth="235.0" text="SAIR" >
+            <font>
+                <Font name="Cambria" size="27.0" />
+            </font>
+            <effect>
+                <ColorAdjust contrast="1.0" />
+            </effect>
+        </Button>
+    </children>
+</AnchorPane>
