@@ -1,146 +1,127 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
-<?import javafx.scene.shape.Rectangle?>
-<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/21.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.api.trabalhodegraduacao.controller.usuario.professor.PerfilProfessorController">
-    <children>
-        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#3a6081" height="768.0" layoutX="-1.0" smooth="false" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="312.0" />
-        <Circle fill="WHITE" layoutX="159.0" layoutY="179.0" radius="125.0" stroke="BLACK" strokeType="INSIDE" />
-        <ImageView fitHeight="235.0" fitWidth="275.0" layoutX="41.0" layoutY="61.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-                <Image url="@../../../images/imgFotoPerfil.png" />
-            </image>
-        </ImageView>
-        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#50799c" height="768.0" layoutX="311.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="1067.0" />
-        <Label ellipsisString="0" layoutX="727.0" layoutY="-1.0" prefHeight="40.0" prefWidth="969.0" text="PERFIL" textFill="WHITE">
-            <font>
-                <Font name="Century Gothic Bold" size="60.0" />
-            </font>
-        </Label>
-        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="7.0" layoutX="310.0" layoutY="68.0" stroke="WHITE" strokeType="INSIDE" width="1067.0" />
-        <ImageView fitHeight="40.0" fitWidth="65.0" layoutX="-4.0" layoutY="2.0">
-            <image>
-                <Image url="@../../../images/imgLogoRevolt.png" />
-            </image>
-        </ImageView>
-        <Label ellipsisString="0" layoutX="53.0" layoutY="8.0" prefHeight="28.0" prefWidth="235.0" text="REVOLT SOLUTIONS - TGRS" textFill="WHITE">
-            <font>
-                <Font name="Century Gothic Bold" size="19.0" />
-            </font>
-        </Label>
-        <GridPane alignment="CENTER" layoutX="386.0" layoutY="95.0" prefHeight="629.0" prefWidth="747.0">
-            <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="507.9999755859375" minWidth="10.0" prefWidth="209.80002441406248" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="794.9999755859376" minWidth="10.0" prefWidth="536.9999755859375" />
-            </columnConstraints>
-            <rowConstraints>
-                <RowConstraints maxHeight="243.0" minHeight="10.0" prefHeight="191.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="122.0" minHeight="1.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="55.0" minHeight="0.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="35.19997558593752" minHeight="10.0" prefHeight="35.19997558593752" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="58.00000000000006" minHeight="10.0" prefHeight="26.799999999999955" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="26.600012207031284" minHeight="0.0" prefHeight="26.0" vgrow="SOMETIMES" />
-            </rowConstraints>
+<BorderPane prefHeight="768.0" prefWidth="1366.0"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.api.trabalhodegraduacao.controller.usuario.professor.PerfilProfessorController"
+            stylesheets="@../style.css">
+
+    <left>
+        <VBox alignment="TOP_CENTER" spacing="20.0" styleClass="sidebar">
+            <padding>
+                <Insets top="10.0" right="15.0" bottom="20.0" left="15.0" />
+            </padding>
             <children>
-                <Label text="FOTO DE PERFIL:" textFill="WHITE" />
-                <Label text="NOME:" textFill="WHITE" GridPane.rowIndex="1">
-                    <font>
-                        <Font name="Century Gothic" size="12.0" />
-                    </font>
-                </Label>
-                <Label text="E-MAIL:" textFill="WHITE" GridPane.rowIndex="2">
-                    <font>
-                        <Font name="Century Gothic" size="12.0" />
-                    </font>
-                </Label>
-                <Label text="LINKEDIN:" textFill="WHITE" GridPane.rowIndex="4">
-                    <font>
-                        <Font name="Century Gothic" size="12.0" />
-                    </font>
-                </Label>
-                <Label text="GITHUB:" textFill="WHITE" GridPane.rowIndex="5">
-                    <font>
-                        <Font name="Century Gothic" size="12.0" />
-                    </font>
-                </Label>
-                <Label text="ALTERAR SENHA:" textFill="WHITE" GridPane.rowIndex="6">
-                    <font>
-                        <Font name="Century Gothic" size="12.0" />
-                    </font>
-                </Label>
-                <Label fx:id="lblEmailCadastrado" prefHeight="18.0" prefWidth="173.0" text="(PUXAR EMAIL DO BANCO)" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                    <font>
-                        <Font name="Century Gothic" size="12.0" />
-                    </font>
-                </Label>
-                <TextField fx:id="txtLinkedin" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                <TextField fx:id="txtGitHub" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                <TextField fx:id="txtSenha" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                <Button fx:id="bt_EditarPerfil" mnemonicParsing="false" text="Editar Perfil" GridPane.rowIndex="7" />
-                <Button fx:id="bt_SalvarPerfil" mnemonicParsing="false" onAction="#atualizar" text="Salvar" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                <Label text="HISTÓRICO PROFISSIONAL:" textFill="WHITE" wrapText="true" GridPane.rowIndex="3">
-                    <font>
-                        <Font name="Century Gothic" size="12.0" />
-                    </font>
-                </Label>
-                <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Label text="(PUXAR NOME DO BANCO)" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Button fx:id="bt_Trocar_Foto_Perfil" mnemonicParsing="false" onAction="#trocarFotoPerfil" text="TROCAR FOTO DE PERFIL" GridPane.columnIndex="1" />
+                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                    <children>
+                        <ImageView fitHeight="40.0" fitWidth="40.0" preserveRatio="true">
+                            <image>
+                                <Image url="@../../../images/imgLogoRevolt.png" />
+                            </image>
+                        </ImageView>
+                        <Label text="REVOLT SOLUTIONS" styleClass="sidebar-title" />
+                    </children>
+                </HBox>
+
+                <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" styleClass="profile-image">
+                    <image>
+                        <Image url="@../../../images/imgFotoPerfil.png" />
+                    </image>
+                    <clip>
+                        <Circle radius="75.0" centerX="75.0" centerY="75.0" />
+                    </clip>
+                    <VBox.margin>
+                        <Insets top="20.0" bottom="20.0" />
+                    </VBox.margin>
+                </ImageView>
+
+                <Button fx:id="bt_perfil_geral" onAction="#perfilProfessor" text="PERFIL" styleClass="sidebar-button" maxWidth="Infinity"/>
+                <Button fx:id="bt_alunos_geral" onAction="#alunos" text="ALUNOS" styleClass="sidebar-button" maxWidth="Infinity"/>
+                <Button fx:id="bt_devolutivas_geral" onAction="#devolutivas" text="DEVOLUTIVAS" styleClass="sidebar-button" maxWidth="Infinity"/>
+
+                <Region VBox.vgrow="ALWAYS" />
+
+                <Button fx:id="bt_tela_inicial" onAction="#telaInicial" text="TELA INICIAL" styleClass="sidebar-button-secondary" maxWidth="Infinity"/>
+                <Button fx:id="bt_Sair" onAction="#sair" text="SAIR" styleClass="sidebar-button-secondary" maxWidth="Infinity"/>
             </children>
-        </GridPane>
-        <Button fx:id="bt_tela_inicial" layoutX="41.0" layoutY="705.0" mnemonicParsing="false" onAction="#telaInicial" prefHeight="44.0" prefWidth="235.0" text="TELA INICIAL">
-            <font>
-                <Font name="Cambria" size="27.0" />
-            </font>
-            <effect>
-                <ColorAdjust contrast="1.0" />
-            </effect>
-        </Button>
-        <Button fx:id="bt_perfil_geral" layoutX="16.0" layoutY="351.0" mnemonicParsing="false" onAction="#perfilProfessor" prefHeight="68.0" prefWidth="282.0" text="PERFIL">
-            <font>
-                <Font name="Cambria" size="36.0" />
-            </font>
-            <effect>
-                <ColorAdjust brightness="0.03" contrast="1.0" />
-            </effect>
-        </Button>
-        <Button fx:id="bt_alunos_geral" layoutX="16.0" layoutY="428.0" mnemonicParsing="false" onAction="#alunos" prefHeight="68.0" prefWidth="282.0" text="ALUNOS">
-            <font>
-                <Font name="Cambria" size="36.0" />
-            </font>
-            <effect>
-                <ColorAdjust contrast="1.0" />
-            </effect>
-        </Button>
-        <Button fx:id="bt_devolutivas_geral" alignment="BOTTOM_LEFT" contentDisplay="RIGHT" layoutX="16.0" layoutY="504.0" mnemonicParsing="false" onAction="#devolutivas" prefHeight="68.0" prefWidth="282.0" text="DEVOLUTIVAS" textAlignment="CENTER" wrapText="true">
-            <font>
-                <Font name="Cambria" size="36.0" />
-            </font>
-            <effect>
-                <ColorAdjust contrast="1.0" />
-            </effect>
-        </Button>
-        <Button fx:id="bt_Sair" layoutX="42.0" layoutY="632.0" mnemonicParsing="false" onAction="#sair" prefHeight="62.0" prefWidth="235.0" text="SAIR">
-            <font>
-                <Font name="Cambria" size="27.0" />
-            </font>
-            <effect>
-                <ColorAdjust contrast="1.0" />
-            </effect>
-        </Button>
-    </children>
-</AnchorPane>
+        </VBox>
+    </left>
+
+    <center>
+        <VBox styleClass="main-content-pane">
+            <padding>
+                <Insets top="20.0" right="40.0" bottom="40.0" left="40.0" />
+            </padding>
+            <children>
+                <Label text="PERFIL" styleClass="main-header-label" />
+
+                <Region styleClass="header-separator">
+                    <VBox.margin>
+                        <Insets top="10.0" bottom="30.0" />
+                    </VBox.margin>
+                </Region>
+
+                <GridPane styleClass="profile-grid-pane" hgap="15.0" vgap="20.0" maxWidth="900.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="200.0" />
+                        <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="500.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <children>
+                        <Label text="FOTO DE PERFIL:" styleClass="profile-grid-label" GridPane.rowIndex="0" />
+                        <Label text="NOME:" styleClass="profile-grid-label" GridPane.rowIndex="1" />
+                        <Label text="E-MAIL:" styleClass="profile-grid-label" GridPane.rowIndex="2" />
+                        <Label text="HISTÓRICO PROFISSIONAL:" styleClass="profile-grid-label" GridPane.rowIndex="3" />
+                        <Label text="LINKEDIN:" styleClass="profile-grid-label" GridPane.rowIndex="4" />
+                        <Label text="GITHUB:" styleClass="profile-grid-label" GridPane.rowIndex="5" />
+                        <Label text="ALTERAR SENHA:" styleClass="profile-grid-label" GridPane.rowIndex="6" />
+
+                        <Button fx:id="bt_Trocar_Foto_Perfil" onAction="#trocarFotoPerfil" text="TROCAR FOTO DE PERFIL" styleClass="profile-button-secondary" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                        <Label fx:id="lblNomeUsuario" text="(PUXAR NOME DO BANCO)" styleClass="profile-data-label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                        <Label fx:id="lblEmailCadastrado" text="(PUXAR EMAIL DO BANCO)" styleClass="profile-data-label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+                        <TextField fx:id="txtHistorico" styleClass="profile-text-input" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <TextField fx:id="txtLinkedin" styleClass="profile-text-input" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <TextField fx:id="txtGitHub" styleClass="profile-text-input" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+
+                        <PasswordField fx:id="txtSenha" styleClass="profile-text-input" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+
+                        <HBox spacing="10.0" alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="7">
+                            <children>
+                                <Button fx:id="bt_EditarPerfil" mnemonicParsing="false" text="Editar Perfil" styleClass="profile-button-secondary" />
+                                <Button fx:id="bt_SalvarPerfil" mnemonicParsing="false" onAction="#atualizar" text="Salvar" styleClass="profile-button-primary" />
+                            </children>
+                        </HBox>
+                    </children>
+                </GridPane>
+            </children>
+        </VBox>
+    </center>
+</BorderPane>
