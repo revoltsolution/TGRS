@@ -19,6 +19,17 @@ public class SecaoAlunoController {
     private Button bt_Sair;
 
     @FXML
+    void devolutivasGeral(ActionEvent event) {
+        // 1. O caminho para o FXML
+        String fxmlPath = "/org/api/trabalhodegraduacao/view/usuario/aluno/DevolutivasAluno.fxml";
+
+        // 2. Um título para a janela
+        String title = "TGRS - Devolutivas";
+
+        // 3. Chame sua função com os TRÊS argumentos
+        Application.carregarNovaCena(fxmlPath, title, event);
+    }
+    @FXML
     private Button bt_perfil_geral;
 
     @FXML

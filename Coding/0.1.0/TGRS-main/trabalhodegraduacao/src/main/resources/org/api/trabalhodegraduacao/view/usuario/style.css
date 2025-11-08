@@ -1,59 +1,5 @@
-/* Define o fundo azul para toda a tela */
-.root-pane {
-    -fx-background-color: #50799c;
-}
-
-/* Estiliza o "cartão" de login branco */
-.login-card {
-    -fx-background-color: white;
-    -fx-background-radius: 15px; /* Cantos arredondados */
-
-    /* Sombra sutil para dar profundidade */
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 20, 0, 0, 5);
-}
-
-/* Estiliza o título "Bem-Vindo!" */
-.header-label {
-    -fx-font-size: 36px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #333; /* Cor de texto mais escura */
-    -fx-font-family: "System"; /* Usa a fonte padrão moderna do sistema */
-}
-
-/* Estiliza o rótulo "Insira seu email:" */
-.prompt-label {
-    -fx-font-size: 16px;
-    -fx-text-fill: #555;
-    -fx-font-family: "System";
-}
-
-/* Estiliza o campo de texto */
-.text-field {
-    -fx-font-size: 14px;
-    -fx-background-radius: 5px;
-    -fx-border-color: #ccc;
-    -fx-border-radius: 5px;
-    -fx-padding: 8px;
-}
-
-/* Estiliza o botão "Entrar" */
-.login-button {
-    -fx-background-color: #50799c; /* Cor de fundo azul (mesma do root) */
-    -fx-text-fill: white; /* Texto branco */
-    -fx-font-size: 16px;
-    -fx-font-weight: bold;
-    -fx-background-radius: 5px;
-    -fx-padding: 10px 30px; /* Mais preenchimento interno */
-}
-
-/* Efeito ao passar o mouse sobre o botão */
-.login-button:hover {
-    -fx-background-color: #40607e; /* Tom de azul mais escuro */
-    -fx-cursor: hand; /* Ícone de "mãozinha" */
-}
-
 /* ================================== */
-/* Estilos Principais (Já existem)   */
+/* Estilos Principais (Login)        */
 /* ================================== */
 
 /* Define o fundo azul para toda a tela */
@@ -108,7 +54,6 @@
     -fx-cursor: hand;
 }
 
-
 /* ================================== */
 /* NOVOS ESTILOS (Adicione)     */
 /* ================================== */
@@ -157,7 +102,7 @@
     -fx-font-family: "Cambria";
     -fx-font-weight: bold;
     -fx-font-size: 20px;
-    -fx-pref-width: 100%; /* Ocupa toda a largura */
+    /* -fx-pref-width: 100%; <-- REMOVIDO (Linha inválida) */
     -fx-alignment: center-left;
     -fx-padding: 12px 20px;
     -fx-background-radius: 8px;
@@ -174,7 +119,7 @@
     -fx-text-fill: white;
     -fx-font-family: "Cambria";
     -fx-font-size: 16px;
-    -fx-pref-width: 100%;
+    /* -fx-pref-width: 100%; <-- REMOVIDO (Linha inválida) */
     -fx-alignment: center;
     -fx-padding: 10px;
     -fx-background-radius: 8px;
@@ -328,21 +273,54 @@
     -fx-padding: 5px 0;
 }
 
-/* --- Campos de texto (TextField, PasswordField) --- */
+/* ===================================================================
+A CORREÇÃO PRINCIPAL ESTÁ AQUI
+===================================================================
+*/
+
+/* --- Campos de texto (TextField, PasswordField, TextArea) --- */
 .profile-text-input {
-    -fx-background-color: #3a6081; /* Cor da sidebar */
-    -fx-text-fill: white;
-    -fx-font-family: "Cambria";
-    -fx-font-size: 14px;
-    -fx-border-color: #5a84a6; /* Borda sutil */
+    -fx-background-color: #5a84a6; /* Um azul mais claro para o fundo do campo */
+    -fx-control-inner-background: #5a84a6; /* Cor interna (MUITO IMPORTANTE) */
+    -fx-text-fill: white; /* Cor do texto digitado */
+    -fx-prompt-text-fill: #cccccc; /* Cor do texto de dica (placeholder) */
+    -fx-border-color: #3a6081; /* Borda da cor da sidebar escura */
+    -fx-border-width: 1px;
     -fx-border-radius: 5px;
     -fx-background-radius: 5px;
-    -fx-padding: 8px;
+    -fx-font-family: "Cambria";
+    -fx-font-size: 16px;
+    -fx-padding: 8px 10px;
 }
 
 .profile-text-input:focused {
-    -fx-border-color: white; /* Borda branca ao focar */
-    -fx-background-color: #40607e;
+    -fx-border-color: #a7d1ed; /* Borda mais clara ao focar */
+    -fx-border-width: 2px;
+}
+
+/* Estilo específico para TextArea */
+.profile-text-input.text-area {
+    -fx-wrap-text: true; /* Garantir que o texto quebre linha */
+    -fx-min-height: 80px; /* Altura mínima para TextArea */
+}
+
+/* Ajustes para a scrollbar do TextArea */
+.profile-text-input .scroll-bar:vertical .thumb {
+    -fx-background-color: #3a6081;
+    -fx-background-radius: 5px;
+}
+
+.profile-text-input .scroll-bar:vertical .track {
+    -fx-background-color: #50799c;
+    -fx-background-radius: 5px;
+}
+
+/* Remove fundo branco do 'viewport' do TextArea */
+.profile-text-input .viewport {
+    -fx-background-color: transparent;
+}
+.profile-text-input .content {
+    -fx-background-color: transparent;
 }
 
 /* --- Botão Primário (Salvar) --- */
@@ -429,5 +407,35 @@
 
 .progress-bar-custom .track {
     -fx-background-color: -fx-control-inner-background;
+    -fx-background-radius: 5px;
+}
+/* ================================== */
+/* NOVOS ESTILOS (ScrollPane)         */
+/* ================================== */
+
+.scroll-pane-custom {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+/* Estiliza o conteúdo dentro do ScrollPane */
+.scroll-pane-custom .viewport {
+    -fx-background-color: transparent;
+}
+
+/* Estiliza a barra de rolagem (opcional, mas recomendado) */
+.scroll-pane-custom .scroll-bar:vertical .increment-button,
+.scroll-pane-custom .scroll-bar:vertical .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.scroll-pane-custom .scroll-bar:vertical .thumb {
+    -fx-background-color: #3a6081; /* Cor da thumb */
+    -fx-background-radius: 5px;
+}
+
+.scroll-pane-custom .scroll-bar:vertical .track {
+    -fx-background-color: #50799c; /* Cor da trilha */
     -fx-background-radius: 5px;
 }

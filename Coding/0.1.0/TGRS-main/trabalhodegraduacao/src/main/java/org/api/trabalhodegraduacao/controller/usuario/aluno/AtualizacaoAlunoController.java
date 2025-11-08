@@ -55,5 +55,13 @@ public class AtualizacaoAlunoController {
     }
     public void telaInicial(ActionEvent event) {
         Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/aluno/AtualizacoesAluno.fxml", "Tela Inicial", event);
+
+    }
+    @FXML
+    void devolutivasGeral(ActionEvent event) {
+        String fxmlPath = "/org/api/trabalhodegraduacao/view/usuario/aluno/DevolutivasAluno.fxml";
+        String title = "TGRS - Devolutivas";
+        Application.carregarNovaCena(fxmlPath, title, event);
     }
 }
+
