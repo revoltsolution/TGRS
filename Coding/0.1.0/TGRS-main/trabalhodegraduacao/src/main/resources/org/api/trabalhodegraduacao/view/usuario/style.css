@@ -1,0 +1,433 @@
+/* Define o fundo azul para toda a tela */
+.root-pane {
+    -fx-background-color: #50799c;
+}
+
+/* Estiliza o "cartão" de login branco */
+.login-card {
+    -fx-background-color: white;
+    -fx-background-radius: 15px; /* Cantos arredondados */
+
+    /* Sombra sutil para dar profundidade */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 20, 0, 0, 5);
+}
+
+/* Estiliza o título "Bem-Vindo!" */
+.header-label {
+    -fx-font-size: 36px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333; /* Cor de texto mais escura */
+    -fx-font-family: "System"; /* Usa a fonte padrão moderna do sistema */
+}
+
+/* Estiliza o rótulo "Insira seu email:" */
+.prompt-label {
+    -fx-font-size: 16px;
+    -fx-text-fill: #555;
+    -fx-font-family: "System";
+}
+
+/* Estiliza o campo de texto */
+.text-field {
+    -fx-font-size: 14px;
+    -fx-background-radius: 5px;
+    -fx-border-color: #ccc;
+    -fx-border-radius: 5px;
+    -fx-padding: 8px;
+}
+
+/* Estiliza o botão "Entrar" */
+.login-button {
+    -fx-background-color: #50799c; /* Cor de fundo azul (mesma do root) */
+    -fx-text-fill: white; /* Texto branco */
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5px;
+    -fx-padding: 10px 30px; /* Mais preenchimento interno */
+}
+
+/* Efeito ao passar o mouse sobre o botão */
+.login-button:hover {
+    -fx-background-color: #40607e; /* Tom de azul mais escuro */
+    -fx-cursor: hand; /* Ícone de "mãozinha" */
+}
+
+/* ================================== */
+/* Estilos Principais (Já existem)   */
+/* ================================== */
+
+/* Define o fundo azul para toda a tela */
+.root-pane {
+    -fx-background-color: #50799c;
+}
+
+/* Estiliza o "cartão" de login branco */
+.login-card {
+    -fx-background-color: white;
+    -fx-background-radius: 15px; /* Cantos arredondados */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 20, 0, 0, 5);
+}
+
+/* Estiliza o título "Bem-Vindo!" */
+.header-label {
+    -fx-font-size: 36px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333;
+    -fx-font-family: "System";
+}
+
+/* Estiliza o rótulo "Insira seu email:" / "Insira sua senha:" */
+.prompt-label {
+    -fx-font-size: 16px;
+    -fx-text-fill: #555;
+    -fx-font-family: "System";
+}
+
+/* Estiliza o campo de texto (funciona para TextField e PasswordField) */
+.text-field {
+    -fx-font-size: 14px;
+    -fx-background-radius: 5px;
+    -fx-border-color: #ccc;
+    -fx-border-radius: 5px;
+    -fx-padding: 8px;
+}
+
+/* Estiliza o botão "Entrar" */
+.login-button {
+    -fx-background-color: #50799c;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5px;
+    -fx-padding: 10px 30px;
+}
+
+/* Efeito ao passar o mouse sobre o botão principal */
+.login-button:hover {
+    -fx-background-color: #40607e;
+    -fx-cursor: hand;
+}
+
+
+/* ================================== */
+/* NOVOS ESTILOS (Adicione)     */
+/* ================================== */
+
+/* Sombra sutil para a imagem de perfil */
+.profile-image {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 10, 0, 0, 2);
+}
+
+/* Estiliza o botão "Voltar" para parecer um link */
+.link-button {
+    -fx-background-color: transparent; /* Sem fundo */
+    -fx-text-fill: #50799c;           /* Texto na cor azul principal */
+    -fx-font-size: 14px;
+    -fx-underline: true;              /* Sublinhado */
+}
+
+/* Efeito ao passar o mouse sobre o botão "Voltar" */
+.link-button:hover {
+    -fx-text-fill: #40607e; /* Azul mais escuro */
+    -fx-cursor: hand;
+}
+
+/* ================================== */
+/* NOVOS ESTILOS (Dashboard Professor)  */
+/* ================================== */
+
+/* --- Barra Lateral --- */
+.sidebar {
+    -fx-background-color: #3a6081;
+    -fx-pref-width: 300px; /* Largura fixa da barra */
+    -fx-alignment: top-center;
+}
+
+.sidebar-title {
+    -fx-font-size: 16px;
+    -fx-font-family: "Century Gothic";
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+/* --- Botões da Barra Lateral (Principais) --- */
+.sidebar-button {
+    -fx-background-color: transparent; /* Sem fundo */
+    -fx-text-fill: white;
+    -fx-font-family: "Cambria";
+    -fx-font-weight: bold;
+    -fx-font-size: 20px;
+    -fx-pref-width: 100%; /* Ocupa toda a largura */
+    -fx-alignment: center-left;
+    -fx-padding: 12px 20px;
+    -fx-background-radius: 8px;
+}
+
+.sidebar-button:hover {
+    -fx-background-color: #50799c; /* Azul mais claro ao passar o mouse */
+    -fx-cursor: hand;
+}
+
+/* --- Botões da Barra Lateral (Sair / Tela Inicial) --- */
+.sidebar-button-secondary {
+    -fx-background-color: #2c4861; /* Tom mais escuro */
+    -fx-text-fill: white;
+    -fx-font-family: "Cambria";
+    -fx-font-size: 16px;
+    -fx-pref-width: 100%;
+    -fx-alignment: center;
+    -fx-padding: 10px;
+    -fx-background-radius: 8px;
+}
+
+.sidebar-button-secondary:hover {
+    -fx-background-color: #50799c;
+    -fx-cursor: hand;
+}
+
+
+/* --- Área de Conteúdo Principal --- */
+.main-content-pane {
+    -fx-background-color: #50799c;
+}
+
+.main-header-label {
+    -fx-font-family: "Cambria";
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.header-separator {
+    -fx-background-color: white;
+    -fx-min-height: 2px;
+    -fx-max-height: 2px;
+}
+
+.notification-title {
+    -fx-font-family: "Century Gothic";
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.notification-content {
+    -fx-font-family: "Century Gothic";
+    -fx-font-size: 18px;
+    -fx-text-fill: white;
+}
+
+/* ================================== */
+/* NOVOS ESTILOS (Tabela)             */
+/* ================================== */
+
+/* --- Estilo Base da Tabela --- */
+.table-view {
+    /* Fundo ligeiramente mais escuro que o painel principal */
+    -fx-background-color: #40607e;
+    -fx-background-radius: 8px;
+}
+
+/* --- Cabeçalho da Tabela --- */
+.table-view .column-header-background {
+    -fx-background-color: #3a6081; /* Cor da sidebar */
+    -fx-background-radius: 8px 8px 0 0; /* Arredonda só cantos superiores */
+}
+
+.table-view .column-header {
+    -fx-background-color: transparent;
+    -fx-padding: 12px;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: white;
+    -fx-font-family: "Century Gothic";
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+}
+
+/* --- Células e Linhas da Tabela --- */
+.table-view .table-row-cell {
+    -fx-background-color: transparent; /* Linhas transparentes */
+    -fx-border-color: transparent;
+}
+
+.table-view .cell {
+    -fx-text-fill: white;
+    -fx-font-family: "Cambria";
+    -fx-font-size: 14px;
+    -fx-padding: 10px;
+    -fx-border-color: transparent transparent #50799c transparent; /* Linha separadora sutil */
+}
+
+/* Efeito ao passar o mouse sobre uma linha */
+.table-view .table-row-cell:hover {
+    -fx-background-color: #5a84a6; /* Azul mais claro */
+    -fx-cursor: hand;
+}
+
+/* Remove o fundo branco quando uma célula é selecionada */
+.table-view .table-row-cell:selected {
+    -fx-background-color: #5a84a6;
+}
+
+/* --- Barras de Rolagem --- */
+.table-view .scroll-bar:vertical,
+.table-view .scroll-bar:horizontal {
+    -fx-background-color: #40607e;
+}
+
+.table-view .scroll-bar .thumb {
+    -fx-background-color: #3a6081; /* Cor da sidebar */
+    -fx-background-radius: 5px;
+}
+
+/* Remove botões de seta da barra de rolagem */
+.table-view .scroll-bar .increment-button,
+.table-view .scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+/* ================================== */
+/* NOVOS ESTILOS (Subtítulo)          */
+/* ================================== */
+
+.content-subtitle-label {
+    -fx-font-family: "Century Gothic";
+    -fx-font-size: 20px; /* Um pouco menor que o título de notificação */
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-opacity: 0.9; /* Levemente sutil */
+}
+/* ================================== */
+/* NOVOS ESTILOS (Formulário Perfil)    */
+/* ================================== */
+
+/* --- Contêiner do Formulário --- */
+.profile-grid-pane {
+    -fx-padding: 20px;
+    -fx-background-color: #40607e; /* Mesmo fundo da tabela */
+    -fx-background-radius: 8px;
+}
+
+/* --- Rótulos do formulário (NOME:, EMAIL:, etc) --- */
+.profile-grid-label {
+    -fx-font-family: "Century Gothic";
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-text-fill: white;
+    -fx-alignment: center-right; /* Alinha à direita */
+    -fx-padding: 0 10px 0 0;
+}
+
+/* --- Rótulos de dados (vindos do banco) --- */
+.profile-data-label {
+    -fx-font-family: "Cambria";
+    -fx-font-size: 16px;
+    -fx-text-fill: #e0e0e0; /* Branco um pouco mais sutil */
+    -fx-padding: 5px 0;
+}
+
+/* --- Campos de texto (TextField, PasswordField) --- */
+.profile-text-input {
+    -fx-background-color: #3a6081; /* Cor da sidebar */
+    -fx-text-fill: white;
+    -fx-font-family: "Cambria";
+    -fx-font-size: 14px;
+    -fx-border-color: #5a84a6; /* Borda sutil */
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-padding: 8px;
+}
+
+.profile-text-input:focused {
+    -fx-border-color: white; /* Borda branca ao focar */
+    -fx-background-color: #40607e;
+}
+
+/* --- Botão Primário (Salvar) --- */
+.profile-button-primary {
+    -fx-background-color: #50799c;
+    -fx-text-fill: white;
+    -fx-font-family: "Cambria";
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-padding: 8px 20px;
+    -fx-background-radius: 5px;
+}
+
+.profile-button-primary:hover {
+    -fx-background-color: #6089ab;
+    -fx-cursor: hand;
+}
+
+/* --- Botão Secundário (Editar, Trocar Foto) --- */
+.profile-button-secondary {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-family: "Cambria";
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-border-color: white;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-padding: 7px 20px; /* 1px a menos no padding por causa da borda */
+}
+
+.profile-button-secondary:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.1); /* Destaque sutil */
+    -fx-cursor: hand;
+}
+/* ================================== */
+/* NOVOS ESTILOS (Painel Ação Aluno)  */
+/* ================================== */
+
+.action-panel-button {
+    -fx-background-color: #3a6081; /* Cor da sidebar */
+    -fx-text-fill: white;
+    -fx-font-family: "Cambria";
+    -fx-font-weight: bold;
+    -fx-font-size: 28px; /* Tamanho grande */
+    -fx-padding: 30px;
+    -fx-background-radius: 10px;
+    -fx-alignment: center;
+}
+
+.action-panel-button:hover {
+    -fx-background-color: #40607e; /* Cor do painel de tabela */
+    -fx-cursor: hand;
+}
+/* ================================== */
+/* NOVOS ESTILOS (Tela TG Aluno)      */
+/* ================================== */
+
+/* --- Cabeçalho da Tabela/Grid --- */
+.grid-header-label {
+    -fx-font-family: "Century Gothic";
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
+    -fx-text-fill: white;
+    -fx-padding: 0 0 10px 0; /* Espaço abaixo */
+    -fx-opacity: 0.8;
+}
+
+/* --- Barra de Progresso Customizada --- */
+.progress-bar-custom {
+    -fx-accent: #FFFFFF; /* Cor da barra de progresso (branca) */
+    -fx-control-inner-background: #40607e; /* Cor do fundo (trilho) */
+    -fx-border-color: #5a84a6;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-padding: 2px;
+}
+
+.progress-bar-custom .bar {
+    -fx-background-color: -fx-accent;
+    -fx-background-radius: 5px;
+}
+
+.progress-bar-custom .track {
+    -fx-background-color: -fx-control-inner-background;
+    -fx-background-radius: 5px;
+}
