@@ -1,123 +1,180 @@
 package org.api.trabalhodegraduacao.controller.usuario.aluno;
 
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.control.PasswordField; // Importação corrigida/adicionada
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import org.api.trabalhodegraduacao.Application;
+// import org.api.trabalhodegraduacao.model.Aluno;
+// import org.api.trabalhodegraduacao.service.SessaoService;
 
 public class PerfilAlunoController {
 
-    @FXML
-    private ResourceBundle resources;
+    // --- Variável de Estado ---
+    private boolean isEditMode = false;
+    private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+
+    // --- Componentes FXML ---
+    @FXML private Button bt_EditarSalvar;
+    @FXML private Button bt_Sair;
+    @FXML private Button bt_TrocarFotoPerfil;
+    @FXML private Button bt_devolutivas_geral;
+    @FXML private Button bt_perfil_geral;
+    @FXML private Button bt_secao_geral;
+    @FXML private Button bt_tela_inicial;
+    @FXML private Button bt_tg_geral;
+    @FXML private ImageView imgVwFotoPerfil;
+
+    // Campos de Dados (Não Editáveis)
+    @FXML private Label lbl_NomeUsuario;
+    @FXML private Label lblEmailCadastrado;
+    @FXML private Label lblOrientador;
+
+    // Campos de Dados (Editáveis - Labels de Visualização)
+    @FXML private Label lblCurso;
+    @FXML private Label lblDataNascimento; // NOVO
+    @FXML private Label lblLinkedin;
+    @FXML private Label lblGitHub;
+    @FXML private Label lblSenha;
+
+    // Campos de Dados (Editáveis - Campos de Edição)
+    @FXML private TextField txtCurso;
+    @FXML private DatePicker dpDataNascimento; // NOVO
+    @FXML private TextField txtLinkedin;
+    @FXML private TextField txtGitHub;
+    @FXML private PasswordField txtSenha;
+
 
     @FXML
-    private URL location;
+    void initialize() {
+        loadData();
+        setViewMode(true); // true = View Mode
+    }
+
+    private void loadData() {
+        // (Aqui você puxa os dados do banco e preenche os LABELS)
+        // Aluno aluno = SessaoService.getAlunoLogado();
+        // ...
+        // lblCurso.setText(aluno.getCurso());
+        // lblLinkedin.setText(aluno.getLinkedin());
+        // ...
+        // if (aluno.getDataNascimento() != null) {
+        //    lblDataNascimento.setText(aluno.getDataNascimento().format(dateFormatter));
+        // } else {
+        //    lblDataNascimento.setText("(Não informado)");
+        // }
+
+
+    }
+
+    private void setViewMode(boolean viewMode) {
+        // Alterna os Labels
+        lblCurso.setVisible(viewMode);
+        lblDataNascimento.setVisible(viewMode);
+        lblLinkedin.setVisible(viewMode);
+        lblGitHub.setVisible(viewMode);
+        lblSenha.setVisible(viewMode);
+
+        lblCurso.setManaged(viewMode);
+        lblDataNascimento.setManaged(viewMode);
+        lblLinkedin.setManaged(viewMode);
+        lblGitHub.setManaged(viewMode);
+        lblSenha.setManaged(viewMode);
+
+        // Alterna os Campos de Edição
+        txtCurso.setVisible(!viewMode);
+        dpDataNascimento.setVisible(!viewMode);
+        txtLinkedin.setVisible(!viewMode);
+        txtGitHub.setVisible(!viewMode);
+        txtSenha.setVisible(!viewMode);
+
+        txtCurso.setManaged(!viewMode);
+        dpDataNascimento.setManaged(!viewMode);
+        txtLinkedin.setManaged(!viewMode);
+        txtGitHub.setManaged(!viewMode);
+        txtSenha.setManaged(!viewMode);
+
+        // Alterna o botão de trocar foto
+        bt_TrocarFotoPerfil.setVisible(!viewMode);
+        bt_TrocarFotoPerfil.setManaged(!viewMode);
+    }
 
     @FXML
-    private Button bt_EditarPerfil;
+    void onToggleEditSave(ActionEvent event) {
+        if (isEditMode) {
+            // --- MODO SALVAR ---
+            // 1. Salvar os dados (lógica do onSalvar)
+            // (Aqui você pega os dados dos TextFields e salva no banco)
+            // Ex: aluno.setCurso(txtCurso.getText());
+            //     aluno.setDataNascimento(dpDataNascimento.getValue());
+
+            // 2. Atualizar os Labels com os novos dados
+            lblCurso.setText(txtCurso.getText());
+            lblLinkedin.setText(txtLinkedin.getText());
+            lblGitHub.setText(txtGitHub.getText());
+
+            LocalDate dataSelecionada = dpDataNascimento.getValue();
+            if (dataSelecionada != null) {
+                lblDataNascimento.setText(dataSelecionada.format(dateFormatter));
+            } else {
+                lblDataNascimento.setText("(Não informado)");
+            }
+
+            // 3. Trocar para o modo de visualização
+            setViewMode(true);
+
+            // 4. Atualizar o botão
+            bt_EditarSalvar.setText("Editar Perfil");
+            bt_EditarSalvar.getStyleClass().setAll("profile-button-secondary");
+
+            // 5. Atualizar estado
+            isEditMode = false;
+
+        } else {
+            // --- MODO EDITAR ---
+            // 1. Copiar dados dos Labels para os TextFields (lógica do onEditar)
+            txtCurso.setText(lblCurso.getText());
+            txtLinkedin.setText(lblLinkedin.getText());
+            txtGitHub.setText(lblGitHub.getText());
+            txtSenha.clear();
+
+            try {
+                LocalDate dataNascimento = LocalDate.parse(lblDataNascimento.getText(), dateFormatter);
+                dpDataNascimento.setValue(dataNascimento);
+            } catch (Exception e) {
+                dpDataNascimento.setValue(null); // Limpa se o texto não for uma data válida
+            }
+
+            // 2. Trocar para o modo de edição
+            setViewMode(false);
+
+            // 3. Atualizar o botão
+            bt_EditarSalvar.setText("Salvar");
+            bt_EditarSalvar.getStyleClass().setAll("profile-button-primary");
+
+            // 4. Atualizar estado
+            isEditMode = true;
+        }
+    }
 
     @FXML
-    private Button bt_Sair;
-
-    @FXML
-    private Button bt_SalvarPerfil;
-
-    @FXML
-    private Button bt_TrocarFotoPerfil;
-
-    @FXML
-    private Button bt_perfil_geral;
-
-    @FXML
-    private Button bt_secao_geral;
-
-    @FXML
-    private Button bt_tela_inicial;
-
-    @FXML
-    private Button bt_tg_geral;
-
-    // --- VARIÁVEIS ADICIONADAS ---
-    @FXML
-    private Button bt_devolutivas_geral; // Botão que faltava
-
-    @FXML
-    private TextField txtCurso; // Campo que faltava
-
-    @FXML
-    private TextField txtHistorico; // Campo que faltava
-
-    @FXML
-    private TextField txtMotivacao; // Campo que faltava
-    // --- FIM DAS VARIÁVEIS ADICIONADAS ---
-
-    @FXML
-    private Label lblOrientador; // Variável correta (Label)
-
-    @FXML
-    private ImageView imgVwFotoPerfil;
-
-    @FXML
-    private Label lblEmailCadastrado;
-
-    @FXML
-    private Label lbl_NomeUsuario;
-
-    @FXML
-    private TextField txtGitHub;
-
-    @FXML
-    private TextField txtLinkedin;
-
-    @FXML
-    private PasswordField txtSenha; // Tipo corrigido de TextField para PasswordField
-
-    @FXML
-    void atualizar(ActionEvent event) {
-        // Lógica para salvar o perfil
+    void trocarFoto(ActionEvent event) {
+        System.out.println("Botão Trocar Foto clicado.");
     }
 
     @FXML
     void nomeUsuario(MouseEvent event) {
         // Lógica do onDragDetected
-    }
-
-    @FXML
-    void trocarFoto(ActionEvent event) {
-        // Lógica para trocar foto
-    }
-
-    // --- MÉTODO INITIALIZE CORRIGIDO ---
-    @FXML
-    void initialize() {
-        assert bt_EditarPerfil != null : "fx:id=\"bt_EditarPerfil\" was not injected: check your FXML file 'PerfilAluno.fxml'.";
-        assert bt_Sair != null : "fx:id=\"bt_Sair\" was not injected: check your FXML file 'PerfilAluno.fxml'.";
-        assert bt_SalvarPerfil != null : "fx:id=\"bt_SalvarPerfil\" was not injected: check your FXML file 'PerfilAluno.fxml'.";
-        assert bt_TrocarFotoPerfil != null : "fx:id=\"bt_TrocarFotoPerfil\" was not injected: check your FXML file 'PerfilAluno.fxml'.";
-        assert bt_perfil_geral != null : "fx:id=\"bt_perfil_geral\" was not injected: check your FXML file 'PerfilAluno.fxml'.";
-        assert bt_secao_geral != null : "fx:id=\"bt_secao_geral\" was not injected: check your FXML file 'PerfilAluno.fxml'.";
-        assert bt_tela_inicial != null : "fx:id=\"bt_tela_inicial\" was not injected: check your FXML file 'PerfilAluno.fxml'.";
-        assert bt_tg_geral != null : "fx:id=\"bt_tg_geral\" was not injected: check your FXML file 'PerfilAluno.fxml'.";
-        assert imgVwFotoPerfil != null : "fx:id=\"imgVwFotoPerfil\" was not injected: check your FXML file 'PerfilAluno.fxml'.";
-        assert lblEmailCadastrado != null : "fx:id=\"lblEmailCadastrado\" was not injected: check your FXML file 'PerfilAluno.fxml'.";
-        assert lbl_NomeUsuario != null : "fx:id=\"lbl_NomeUsuario\" was not injected: check your FXML file 'PerfilAluno.fxml'.";
-        assert txtGitHub != null : "fx:id=\"txtGitHub\" was not injected: check your FXML file 'PerfilAluno.fxml'.";
-        assert txtLinkedin != null : "fx:id=\"txtLinkedin\" was not injected: check your FXML file 'PerfilAluno.fxml'.";
-        assert txtSenha != null : "fx:id=\"txtSenha\" was not injected: check your FXML file 'PerfilAluno.fxml'.";
-
-        // Asserts corrigidos e adicionados
-        assert lblOrientador != null : "fx:id=\"lblOrientador\" was not injected: check your FXML file 'PerfilAluno.fxml'."; // Corrigido
-        assert bt_devolutivas_geral != null : "fx:id=\"bt_devolutivas_geral\" was not injected: check your FXML file 'PerfilAluno.fxml'."; // Adicionado
-        assert txtCurso != null : "fx:id=\"txtCurso\" was not injected: check your FXML file 'PerfilAluno.fxml'."; // Adicionado
-        assert txtHistorico != null : "fx:id=\"txtHistorico\" was not injected: check your FXML file 'PerfilAluno.fxml'."; // Adicionado
-        assert txtMotivacao != null : "fx:id=\"txtMotivacao\" was not injected: check your FXML file 'PerfilAluno.fxml'."; // Adicionado
     }
 
     // --- MÉTODOS DE NAVEGAÇÃO ---
@@ -129,7 +186,6 @@ public class PerfilAlunoController {
 
     @FXML
     public void perfilAluno (ActionEvent event) {
-        // Já está nesta tela
         System.out.println("Já está na tela de Perfil.");
     }
 

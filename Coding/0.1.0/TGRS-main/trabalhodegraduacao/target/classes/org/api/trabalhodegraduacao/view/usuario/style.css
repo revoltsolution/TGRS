@@ -439,3 +439,78 @@ A CORREÇÃO PRINCIPAL ESTÁ AQUI
     -fx-background-color: #50799c; /* Cor da trilha */
     -fx-background-radius: 5px;
 }
+/* ================================== */
+/* NOVOS ESTILOS (DatePicker)         */
+/* ================================== */
+
+/* Aplica o estilo de input ao DatePicker */
+.date-picker.profile-text-input {
+    -fx-padding: 0; /* Remove padding para o text-field interno cuidar disso */
+}
+
+/* Estiliza o campo de texto dentro do DatePicker */
+.date-picker.profile-text-input .text-field {
+    -fx-background-color: #5a84a6;
+    -fx-control-inner-background: #5a84a6;
+    -fx-text-fill: white;
+    -fx-font-family: "Cambria";
+    -fx-font-size: 16px;
+    -fx-border-color: transparent; /* A borda fica no DatePicker principal */
+    -fx-padding: 8px 10px;
+    -fx-background-radius: 5px 0 0 5px; /* Arredonda só os cantos esquerdos */
+}
+
+.date-picker.profile-text-input:focused .text-field {
+    -fx-control-inner-background: #5a84a6;
+}
+
+/* Estiliza o botão do calendário */
+.date-picker.profile-text-input .arrow-button {
+    -fx-background-color: #5a84a6;
+    -fx-background-radius: 0 5px 5px 0; /* Arredonda só os cantos direitos */
+    -fx-border-color: transparent;
+}
+
+.date-picker.profile-text-input .arrow-button .arrow {
+    -fx-background-color: white; /* Cor da seta */
+}
+
+/* Estiliza o Popup do Calendário */
+.date-picker-popup {
+    -fx-background-color: #3a6081; /* Cor da sidebar */
+    -fx-border-color: #5a84a6;
+}
+
+.date-picker-popup .month-year-pane {
+    -fx-background-color: #2c4861; /* Tom mais escuro */
+}
+
+.date-picker-popup .month-year-pane .label {
+    -fx-text-fill: white;
+}
+
+.date-picker-popup .spinner .arrow {
+    -fx-background-color: white;
+}
+
+.date-picker-popup .day-cell {
+    -fx-text-fill: #e0e0e0;
+}
+
+.date-picker-popup .day-cell:hover {
+    -fx-background-color: #50799c;
+}
+
+.date-picker-popup .day-cell.today {
+    -fx-border-color: white;
+    -fx-border-width: 1px;
+}
+
+.date-picker-popup .day-cell:selected {
+    -fx-background-color: #5a84a6;
+    -fx-text-fill: white;
+}
+
+.date-picker-popup .week-number-cell {
+    -fx-text-fill: #cccccc;
+}

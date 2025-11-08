@@ -10,7 +10,6 @@ public class Usuario {
     private String emailCadastrado;
     private String linkedin;
     private String gitHub;
-    private Character sexo;
     private String funcao;
     private String senha;
     private String emailOrientador;
@@ -23,7 +22,6 @@ public class Usuario {
         this.emailCadastrado = emailCadastrado;
         this.linkedin = linkedin;
         this.gitHub = gitHub;
-        this.sexo = sexo;
         this.funcao = tipo;
         this.senha = senha;
         this.emailOrientador = emailOrientador;
@@ -88,14 +86,6 @@ public class Usuario {
         this.gitHub = gitHub;
     }
 
-    public Character getSexo() {
-        return sexo;
-    }
-
-    public void setSexo(Character sexo) {
-        this.sexo = sexo;
-    }
-
     public String getTipo() {
 
 
@@ -132,7 +122,6 @@ public class Usuario {
                 ", emailCadastrado='" + emailCadastrado + '\'' +
                 ", linkedin='" + linkedin + '\'' +
                 ", gitHub='" + gitHub + '\'' +
-                ", sexo=" + sexo +
                 ", funcao='" + funcao + '\'' +
                 ", senha='" + senha + '\'' +
                 ", emailOrientador='" + emailOrientador + '\'' +

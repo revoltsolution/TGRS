@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -13,6 +14,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 
@@ -38,7 +40,6 @@
                         <Label text="REVOLT SOLUTIONS" styleClass="sidebar-title" />
                     </children>
                 </HBox>
-
                 <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" styleClass="profile-image">
                     <image>
                         <Image url="@../../../images/imgFotoPerfil.png" />
@@ -50,13 +51,10 @@
                         <Insets top="20.0" bottom="20.0" />
                     </VBox.margin>
                 </ImageView>
-
                 <Button fx:id="bt_perfil_geral" onAction="#perfilProfessor" text="PERFIL" styleClass="sidebar-button" maxWidth="Infinity"/>
                 <Button fx:id="bt_alunos_geral" onAction="#alunos" text="ALUNOS" styleClass="sidebar-button" maxWidth="Infinity"/>
                 <Button fx:id="bt_devolutivas_geral" onAction="#devolutivas" text="DEVOLUTIVAS" styleClass="sidebar-button" maxWidth="Infinity"/>
-
                 <Region VBox.vgrow="ALWAYS" />
-
                 <Button fx:id="bt_tela_inicial" onAction="#telaInicial" text="TELA INICIAL" styleClass="sidebar-button-secondary" maxWidth="Infinity"/>
                 <Button fx:id="bt_Sair" onAction="#sair" text="SAIR" styleClass="sidebar-button-secondary" maxWidth="Infinity"/>
             </children>
@@ -70,57 +68,80 @@
             </padding>
             <children>
                 <Label text="PERFIL" styleClass="main-header-label" />
-
                 <Region styleClass="header-separator">
                     <VBox.margin>
                         <Insets top="10.0" bottom="30.0" />
                     </VBox.margin>
                 </Region>
-
-                <GridPane styleClass="profile-grid-pane" hgap="15.0" vgap="20.0" maxWidth="900.0">
-                    <columnConstraints>
-                        <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="200.0" />
-                        <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="500.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                    <children>
-                        <Label text="FOTO DE PERFIL:" styleClass="profile-grid-label" GridPane.rowIndex="0" />
-                        <Label text="NOME:" styleClass="profile-grid-label" GridPane.rowIndex="1" />
-                        <Label text="E-MAIL:" styleClass="profile-grid-label" GridPane.rowIndex="2" />
-                        <Label text="HISTÓRICO PROFISSIONAL:" styleClass="profile-grid-label" GridPane.rowIndex="3" />
-                        <Label text="LINKEDIN:" styleClass="profile-grid-label" GridPane.rowIndex="4" />
-                        <Label text="GITHUB:" styleClass="profile-grid-label" GridPane.rowIndex="5" />
-                        <Label text="ALTERAR SENHA:" styleClass="profile-grid-label" GridPane.rowIndex="6" />
-
-                        <Button fx:id="bt_Trocar_Foto_Perfil" onAction="#trocarFotoPerfil" text="TROCAR FOTO DE PERFIL" styleClass="profile-button-secondary" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-
-                        <Label fx:id="lblNomeUsuario" text="(PUXAR NOME DO BANCO)" styleClass="profile-data-label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-
-                        <Label fx:id="lblEmailCadastrado" text="(PUXAR EMAIL DO BANCO)" styleClass="profile-data-label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-
-                        <TextField fx:id="txtHistorico" styleClass="profile-text-input" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                        <TextField fx:id="txtLinkedin" styleClass="profile-text-input" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                        <TextField fx:id="txtGitHub" styleClass="profile-text-input" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-
-                        <PasswordField fx:id="txtSenha" styleClass="profile-text-input" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-
-                        <HBox spacing="10.0" alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="7">
+                <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" styleClass="scroll-pane-custom">
+                    <content>
+                        <GridPane styleClass="profile-grid-pane" hgap="15.0" vgap="15.0" maxWidth="900.0">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="250.0" />
+                                <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="500.0" />
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" /> <RowConstraints minHeight="10.0" vgrow="SOMETIMES" /> <RowConstraints minHeight="10.0" vgrow="SOMETIMES" /> <RowConstraints minHeight="10.0" vgrow="SOMETIMES" /> <RowConstraints minHeight="10.0" vgrow="SOMETIMES" /> <RowConstraints minHeight="10.0" vgrow="SOMETIMES" /> <RowConstraints minHeight="10.0" vgrow="SOMETIMES" /> <RowConstraints minHeight="10.0" vgrow="SOMETIMES" /> </rowConstraints>
                             <children>
-                                <Button fx:id="bt_EditarPerfil" mnemonicParsing="false" text="Editar Perfil" styleClass="profile-button-secondary" />
-                                <Button fx:id="bt_SalvarPerfil" mnemonicParsing="false" onAction="#atualizar" text="Salvar" styleClass="profile-button-primary" />
+                                <Label text="FOTO DE PERFIL:" styleClass="profile-grid-label" GridPane.rowIndex="0" />
+                                <Label text="NOME:" styleClass="profile-grid-label" GridPane.rowIndex="1" />
+                                <Label text="E-MAIL:" styleClass="profile-grid-label" GridPane.rowIndex="2" />
+                                <Label text="HISTÓRICO PROFISSIONAL:" styleClass="profile-grid-label" wrapText="true" GridPane.rowIndex="3" />
+                                <Label text="LINKEDIN:" styleClass="profile-grid-label" GridPane.rowIndex="4" />
+                                <Label text="GITHUB:" styleClass="profile-grid-label" GridPane.rowIndex="5" />
+                                <Label text="ALTERAR SENHA:" styleClass="profile-grid-label" GridPane.rowIndex="6" />
+
+                                <VBox spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                    <children>
+                                        <ImageView fx:id="imgVwFotoPerfil" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                            <image>
+                                                <Image url="@../../../images/imgFotoPerfil.png" />
+                                            </image>
+                                            <clip>
+                                                <Circle radius="50.0" centerX="50.0" centerY="50.0" />
+                                            </clip>
+                                        </ImageView>
+                                        <Button fx:id="bt_TrocarFotoPerfil" onAction="#trocarFotoPerfil" text="Trocar Foto de Perfil" styleClass="profile-button-secondary" visible="false" managed="false" />
+                                    </children>
+                                </VBox>
+
+                                <Label fx:id="lblNome" text="(Nome do Professor...)" styleClass="profile-data-label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                <Label fx:id="lblEmail" text="(Email do Professor...)" styleClass="profile-data-label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+                                <StackPane alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                    <children>
+                                        <Label fx:id="lblHistorico" text="(Histórico...)" styleClass="profile-data-label" />
+                                        <TextField fx:id="txtHistorico" styleClass="profile-text-input" visible="false" managed="false" />
+                                    </children>
+                                </StackPane>
+                                <StackPane alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                                    <children>
+                                        <Label fx:id="lblLinkedin" text="(LinkedIn...)" styleClass="profile-data-label" />
+                                        <TextField fx:id="txtLinkedin" styleClass="profile-text-input" visible="false" managed="false" />
+                                    </children>
+                                </StackPane>
+                                <StackPane alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                                    <children>
+                                        <Label fx:id="lblGitHub" text="(GitHub...)" styleClass="profile-data-label" />
+                                        <TextField fx:id="txtGitHub" styleClass="profile-text-input" visible="false" managed="false" />
+                                    </children>
+                                </StackPane>
+                                <StackPane alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                                    <children>
+                                        <Label fx:id="lblSenha" text="**********" styleClass="profile-data-label" />
+                                        <PasswordField fx:id="txtSenha" styleClass="profile-text-input" visible="false" managed="false" promptText="Deixe em branco para não alterar" />
+                                    </children>
+                                </StackPane>
+
+                                <HBox spacing="10.0" alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="7">
+                                    <children>
+                                        <Button fx:id="bt_EditarSalvar" onAction="#onToggleEditSave" text="Editar Perfil" styleClass="profile-button-secondary" />
+                                    </children>
+                                </HBox>
                             </children>
-                        </HBox>
-                    </children>
-                </GridPane>
+                        </GridPane>
+                    </content>
+                </ScrollPane>
             </children>
         </VBox>
     </center>
