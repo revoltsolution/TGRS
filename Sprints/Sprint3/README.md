@@ -21,4 +21,4 @@
 
 ### Meta da Sprint: US05 e US04.
 
-**[Documentação Completa DoD e DoR(Wiki)](https://github.com/revoltsolution/TGRS/wikii)**
+**[Documentação Completa DoD e DoR(Wiki)](https://github.com/revoltsolution/TGRS/wiki)**
