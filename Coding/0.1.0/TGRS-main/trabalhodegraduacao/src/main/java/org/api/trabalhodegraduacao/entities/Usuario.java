@@ -30,11 +30,13 @@ public class Usuario {
         this.nomeCompleto = nomeDB;
         this.emailCadastrado = emailDB;
         this.curso = cursoDB;
-        this.dataNascimento = dataNascimento;
+        if (dataNascDB != null) {
+            this.dataNascimento = dataNascDB.toLocalDate(); // <-- CORRIGIDO
+        }
         this.linkedin = linkedinDB;
         this.gitHub = gitHubDB;
         this.emailOrientador = emailOrientador;
-        this.senha = senha;
+        this.senha = senhaDB; // <-- CORRIGIDO
     }
 
     public void nomeProfessor(String nome) {
@@ -136,6 +138,7 @@ public class Usuario {
     public void setNomeOrientador(String nomeOrientador) {
         this.nomeOrientador = nomeOrientador;
     }
+
 
     @Override
     public String toString() {

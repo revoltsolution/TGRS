@@ -1,17 +1,22 @@
 package org.api.trabalhodegraduacao.dao;
 
-
-import javafx.scene.input.DataFormat;
 import org.api.trabalhodegraduacao.bancoDeDados.ConexaoDB;
 import org.api.trabalhodegraduacao.entities.Usuario;
 
 import java.sql.*;
+import java.time.LocalDate;
 
 public class UsuarioDAO {
 
+    /**
+     * Busca um usuário e suas credenciais APENAS pelo e-mail.
+     * Usado por BemVindoController.
+     */
     public Usuario buscarCredenciaisPorEmail(String email) throws SQLException {
-        String sql = "SELECT Email, Senha, Funcao, Nome_Completo FROM usuario WHERE Email = ?";
-        Usuario usuario = null;
+        // Query com LEFT JOIN para buscar o nome do orientador
+        String sql = "SELECT u.*, o.Nome_Completo AS Nome_Orientador FROM usuario u " +
+                "LEFT JOIN usuario o ON u.Email_Orientador = o.Email " +
+                "WHERE u.Email = ?";
 
         try (Connection conn = ConexaoDB.getConexao();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -19,66 +24,24 @@ public class UsuarioDAO {
             pstmt.setString(1, email);
 
             try (ResultSet rs = pstmt.executeQuery()) {
-
                 if (rs.next()) {
-                    String emailDB = rs.getString("Email");
-                    String senhaDB = rs.getString("Senha");
-                    String funcaoDB = rs.getString("Funcao");
-                    String nomeDB = rs.getString("Nome_Completo");
-
-                    usuario = new Usuario(funcaoDB, senhaDB, emailDB,nomeDB);
+                    // Chama o método auxiliar para construir o objeto Usuario
+                    return construirUsuario(rs);
                 }
             }
         }
-        return usuario;
+        return null; // Retorna null se não encontrar o e-mail
     }
 
-
+    /**
+     * Busca o perfil completo de um usuário.
+     * Usado por PerfilAlunoController.
+     */
     public Usuario exibirPerfil(String email) throws SQLException {
-
-        // CORREÇÃO 1: Trocamos a coluna 'Email_Aluno' por 'Email'
-        String sql = "SELECT Nome_Completo, Email, Curso, Data_Nasc, Linkedin, GitHub, Email_Orientador, Senha  FROM usuario WHERE Email = ?";
-        Usuario usuario = null;
-
-        try (Connection conn = ConexaoDB.getConexao();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setString(1, email);
-
-            try (ResultSet rs = pstmt.executeQuery()) {
-
-                if (rs.next()) {
-                    String nomeDB = rs.getString("Nome_Completo");
-
-                    // CORREÇÃO 2: Lemos da coluna 'Email'
-                    String emailDB = rs.getString("Email");
-
-                    String cursoDB = rs.getString("Curso");
-                    // java.sql.Date pode retornar NULL, o que é perfeito para nós
-                    Date dataNascDB = rs.getDate("Data_Nasc");
-                    String linkedinDB = rs.getString("Linkedin");
-                    String gitHubDB = rs.getString("GitHub");
-                    String emailOrientadorDB = rs.getString("Email_Orientador");
-                    String senhaDB = rs.getString("Senha");
-
-                    String nomeOrientador = chamarNomeOrientador(emailOrientadorDB);
-
-                    // CORREÇÃO 3 (Lógica): Passamos o 'emailOrientadorDB' para o construtor,
-                    // e não o 'emailDB' duas vezes.
-                    usuario = new Usuario(nomeDB, emailDB, cursoDB, dataNascDB, linkedinDB, gitHubDB, emailOrientadorDB, senhaDB);
-
-                    if (usuario != null) {
-                        usuario.setNomeOrientador(nomeOrientador);
-                    }
-                }
-            }
-        }
-        return usuario;
-    }
-    //REVISAR
-    public String chamarNomeOrientador(String email) throws SQLException {
-        String sql = "SELECT Nome_Completo  FROM usuario WHERE Email = ?";
-        String usuario = null;
+        // Esta query é idêntica à de 'buscarCredenciaisPorEmail'
+        String sql = "SELECT u.*, o.Nome_Completo AS Nome_Orientador FROM usuario u " +
+                "LEFT JOIN usuario o ON u.Email_Orientador = o.Email " +
+                "WHERE u.Email = ?";
 
         try (Connection conn = ConexaoDB.getConexao();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -86,41 +49,73 @@ public class UsuarioDAO {
             pstmt.setString(1, email);
 
             try (ResultSet rs = pstmt.executeQuery()) {
-
                 if (rs.next()) {
-                    usuario = rs.getString("Nome_Completo");
+                    // Reutiliza o mesmo construtor de objeto
+                    return construirUsuario(rs);
                 }
             }
         }
-        return usuario;
+        return null; // Retorna null se não encontrar o usuário
     }
 
+    /**
+     * Atualiza o perfil do aluno no banco de dados.
+     * Usado por PerfilAlunoController.
+     */
     public void atualizar(Usuario usuario) throws SQLException {
+        // Atualiza apenas os campos que o perfil pode editar
+        String sql = "UPDATE usuario SET Curso = ?, Data_Nasc = ?, Senha = ?, Foto = ?, Linkedin = ?, GitHub = ? " +
+                "WHERE Email = ?";
 
-        String sql = "UPDATE Usuario SET Nome_Completo = ?, Senha = ?, Link_Linkedin = ?, Link_Git = ? WHERE Email = ?";
-        Connection connection = null;
-        PreparedStatement stmt = null;
+        try (Connection conn = ConexaoDB.getConexao();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-        try {
-            connection = DB.getConnection();
-            stmt = connection.prepareStatement(sql);
+            pstmt.setString(1, usuario.getCurso());
 
-            // 1. Setar os NOVOS VALORES (SET)
-            stmt.setString(1, usuario.getNomeCompleto());
-            stmt.setString(2, usuario.getSenha());
-            stmt.setString(3, usuario.getLinkedin());
-            stmt.setString(4, usuario.getGitHub()); // Exemplo de um novo campo
+            if (usuario.getDataNascimento() != null) {
+                pstmt.setDate(2, java.sql.Date.valueOf(usuario.getDataNascimento()));
+            } else {
+                pstmt.setNull(2, java.sql.Types.DATE);
+            }
 
-            // 2. Usar o EMAIL para IDENTIFICAR A LINHA (WHERE)
-            stmt.setString(5, usuario.getEmailCadastrado());
+            pstmt.setString(3, usuario.getSenha());
+            pstmt.setString(4, usuario.getFotoPerfil());
 
-            stmt.executeUpdate();
+            // Define LinkedIn e GitHub (eles serão null se vierem do Professor)
+            pstmt.setString(5, usuario.getLinkedin());
+            pstmt.setString(6, usuario.getGitHub());
 
-        } finally {
-            // ... Fechar recursos ...
+            // Cláusula WHERE
+            pstmt.setString(7, usuario.getEmailCadastrado());
+
+            pstmt.executeUpdate();
         }
     }
 
+    /**
+     * Método auxiliar privado para criar um objeto Usuario a partir de um ResultSet.
+     * Evita duplicação de código.
+     */
+    private Usuario construirUsuario(ResultSet rs) throws SQLException {
+        Usuario usuario = new Usuario();
 
+        usuario.setFotoPerfil(rs.getString("Foto")); // Corrigido
+        usuario.setNomeCompleto(rs.getString("Nome_Completo"));
+        usuario.setEmailCadastrado(rs.getString("Email")); // Corrigido
+        usuario.setCurso(rs.getString("Curso"));
+
+        Date dataSql = rs.getDate("Data_Nasc");
+        if (dataSql != null) {
+            usuario.setDataNascimento(dataSql.toLocalDate());
+        }
+
+        usuario.setEmailOrientador(rs.getString("Email_Orientador"));
+        usuario.setLinkedin(rs.getString("Linkedin"));
+        usuario.setGitHub(rs.getString("GitHub"));
+        usuario.setFuncao(rs.getString("Funcao"));
+        usuario.setSenha(rs.getString("Senha"));
+        usuario.setNomeOrientador(rs.getString("Nome_Orientador"));
+
+        return usuario;
+    }
 }
-

@@ -1,21 +1,32 @@
 package org.api.trabalhodegraduacao.controller.usuario.professor;
 
+import java.net.URL;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import org.api.trabalhodegraduacao.Application; // Verifique a importação
-// Importe seu modelo de Professor
-// import org.api.trabalhodegraduacao.model.Professor;
-// import org.api.trabalhodegraduacao.service.SessaoService;
+import org.api.trabalhodegraduacao.Application;
+import org.api.trabalhodegraduacao.dao.UsuarioDAO;
+import org.api.trabalhodegraduacao.entities.Usuario;
+import org.api.trabalhodegraduacao.utils.SessaoUsuario;
 
 public class PerfilProfessorController {
 
     // --- Variável de Estado ---
     private boolean isEditMode = false;
+    private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+    // --- Variáveis de Serviço e Dados ---
+    private Usuario usuarioLogado;
+    private UsuarioDAO usuarioDAO;
 
     // --- Componentes FXML ---
     @FXML private Button bt_EditarSalvar;
@@ -31,122 +42,130 @@ public class PerfilProfessorController {
     @FXML private Label lblNome;
     @FXML private Label lblEmail;
 
-    // Campos de Dados (Editáveis - Labels de Visualização)
-    @FXML private Label lblHistorico;
-    @FXML private Label lblLinkedin;
-    @FXML private Label lblGitHub;
+    // Campos de Dados (Editáveis - Labels)
+    @FXML private Label lblCurso;
+    @FXML private Label lblDataNascimento;
     @FXML private Label lblSenha;
 
-    // Campos de Dados (Editáveis - Campos de Edição)
-    @FXML private TextField txtHistorico;
-    @FXML private TextField txtLinkedin;
-    @FXML private TextField txtGitHub;
+    // Campos de Dados (Editáveis - Campos)
+    @FXML private TextField txtCurso;
+    @FXML private DatePicker dpDataNascimento;
     @FXML private PasswordField txtSenha;
 
 
     @FXML
     void initialize() {
-        loadData();
-        setViewMode(true); // true = View Mode
+        this.usuarioDAO = new UsuarioDAO();
+        SessaoUsuario sessao = SessaoUsuario.getInstance();
+
+        if (sessao.isLogado()) {
+            try {
+                this.usuarioLogado = usuarioDAO.exibirPerfil(sessao.getEmail());
+                if (this.usuarioLogado != null) {
+                    preencherLabelsComDados();
+                } else {
+                    System.err.println("Usuário da sessão (Professor) não encontrado no banco.");
+                }
+            } catch (SQLException e) {
+                System.err.println("Erro ao carregar perfil do professor: " + e.getMessage());
+                e.printStackTrace();
+            }
+        } else {
+            System.err.println("Erro: Nenhum usuário na sessão.");
+        }
+        setViewMode(true);
     }
 
-    /**
-     * Carrega os dados do professor logado e preenche os campos.
-     */
-    private void loadData() {
-        // (Aqui você puxa os dados do banco e preenche os LABELS)
-        // Professor prof = SessaoService.getProfessorLogado();
-        // if (prof == null) return;
+    private void preencherLabelsComDados() {
+        lblNome.setText(usuarioLogado.getNomeCompleto());
+        lblEmail.setText(usuarioLogado.getEmailCadastrado());
 
-        // lblNome.setText(prof.getNome());
-        // lblEmail.setText(prof.getEmail());
-        // lblHistorico.setText(prof.getHistorico());
-        // lblLinkedin.setText(prof.getLinkedin());
-        // lblGitHub.setText(prof.getGithub());
+        lblCurso.setText(getTextoOuPadrao(usuarioLogado.getCurso()));
+        lblSenha.setText("**********");
 
-
+        if (usuarioLogado.getDataNascimento() != null) {
+            LocalDate dataNasc = usuarioLogado.getDataNascimento();
+            lblDataNascimento.setText(dataNasc.format(dateFormatter));
+        } else {
+            lblDataNascimento.setText("(Não informado)");
+        }
     }
 
-    /**
-     * Alterna a interface entre o modo de visualização (Labels) e o modo de edição (TextFields).
-     */
+    private String getTextoOuPadrao(String texto) {
+        return (texto != null && !texto.trim().isEmpty()) ? texto : "(Não informado)";
+    }
+
     private void setViewMode(boolean viewMode) {
-        // Alterna os Labels
-        lblHistorico.setVisible(viewMode);
-        lblLinkedin.setVisible(viewMode);
-        lblGitHub.setVisible(viewMode);
+        // Alterna Labels
+        lblCurso.setVisible(viewMode);
+        lblDataNascimento.setVisible(viewMode);
         lblSenha.setVisible(viewMode);
 
-        lblHistorico.setManaged(viewMode);
-        lblLinkedin.setManaged(viewMode);
-        lblGitHub.setManaged(viewMode);
+        lblCurso.setManaged(viewMode);
+        lblDataNascimento.setManaged(viewMode);
         lblSenha.setManaged(viewMode);
 
-        // Alterna os Campos de Edição
-        txtHistorico.setVisible(!viewMode);
-        txtLinkedin.setVisible(!viewMode);
-        txtGitHub.setVisible(!viewMode);
+        // Alterna Campos de Edição
+        txtCurso.setVisible(!viewMode);
+        dpDataNascimento.setVisible(!viewMode);
         txtSenha.setVisible(!viewMode);
 
-        txtHistorico.setManaged(!viewMode);
-        txtLinkedin.setManaged(!viewMode);
-        txtGitHub.setManaged(!viewMode);
+        txtCurso.setManaged(!viewMode);
+        dpDataNascimento.setManaged(!viewMode);
         txtSenha.setManaged(!viewMode);
 
-        // Alterna o botão de trocar foto
         bt_TrocarFotoPerfil.setVisible(!viewMode);
         bt_TrocarFotoPerfil.setManaged(!viewMode);
     }
 
-    /**
-     * Chamado pelo único botão "Editar Perfil" / "Salvar".
-     */
     @FXML
     void onToggleEditSave(ActionEvent event) {
         if (isEditMode) {
             // --- MODO SALVAR ---
-            // 1. Salvar os dados (lógica do onSalvar)
-            // (Aqui você pega os dados dos TextFields e salva no banco)
-            // Ex: prof.setHistorico(txtHistorico.getText());
+            try {
+                // 1. Atualizar o objeto 'usuarioLogado'
+                usuarioLogado.setCurso(txtCurso.getText());
+                usuarioLogado.setDataNascimento(dpDataNascimento.getValue());
 
-            // 2. Atualizar os Labels com os novos dados
-            lblHistorico.setText(txtHistorico.getText());
-            lblLinkedin.setText(txtLinkedin.getText());
-            lblGitHub.setText(txtGitHub.getText());
+                String novaSenha = txtSenha.getText();
+                if (novaSenha != null && !novaSenha.trim().isEmpty()) {
+                    usuarioLogado.setSenha(novaSenha);
+                }
 
-            // 3. Trocar para o modo de visualização
-            setViewMode(true);
+                // 2. Salvar no banco (O DAO ainda tentará salvar LinkedIn/GitHub, veja abaixo)
+                usuarioDAO.atualizar(this.usuarioLogado);
 
-            // 4. Atualizar o botão
-            bt_EditarSalvar.setText("Editar Perfil");
-            bt_EditarSalvar.getStyleClass().setAll("profile-button-secondary");
+                // 3. Atualizar os Labels
+                preencherLabelsComDados();
 
-            // 5. Atualizar estado
-            isEditMode = false;
+                // 4. Trocar para o modo de visualização
+                setViewMode(true);
+                bt_EditarSalvar.setText("Editar Perfil");
+                bt_EditarSalvar.getStyleClass().setAll("profile-button-secondary");
+                isEditMode = false;
+
+            } catch (SQLException e) {
+                System.err.println("Erro ao salvar perfil: " + e.getMessage());
+                e.printStackTrace();
+            }
 
         } else {
             // --- MODO EDITAR ---
-            // 1. Copiar dados dos Labels para os TextFields (lógica do onEditar)
-            txtHistorico.setText(lblHistorico.getText());
-            txtLinkedin.setText(lblLinkedin.getText());
-            txtGitHub.setText(lblGitHub.getText());
-            txtSenha.clear(); // Limpa a senha por segurança
+            // 1. Copiar dados do objeto para os TextFields
+            txtCurso.setText(usuarioLogado.getCurso());
+            txtSenha.clear();
+            dpDataNascimento.setValue(usuarioLogado.getDataNascimento());
 
             // 2. Trocar para o modo de edição
             setViewMode(false);
-
-            // 3. Atualizar o botão
             bt_EditarSalvar.setText("Salvar");
             bt_EditarSalvar.getStyleClass().setAll("profile-button-primary");
-
-            // 4. Atualizar estado
             isEditMode = true;
         }
     }
 
     @FXML
     void trocarFotoPerfil(ActionEvent event) {
-        // Lógica para trocar foto
         System.out.println("Botão Trocar Foto clicado.");
     }
 

@@ -106,19 +106,19 @@ public class PerfilAlunoController {
      * Isso centraliza a lógica de exibição.
      */
     private void preencherLabelsComDados() {
-        // Campos fixos (não editáveis)
         lbl_NomeUsuario.setText(usuarioLogado.getNomeCompleto());
 
-        // *** CORREÇÃO 1 ***: O método na sua entidade é 'getEmailCadastrado'
+        // *** CORREÇÃO: O método é getEmailCadastrado() ***
         lblEmailCadastrado.setText(usuarioLogado.getEmailCadastrado());
 
-        // TODO: Você precisa implementar a lógica para buscar e setar o nome do orientador
+        // Puxa o nome do orientador (que o DAO já buscou)
         String nomeOrientador = usuarioLogado.getNomeOrientador();
         if (nomeOrientador != null && !nomeOrientador.isEmpty()) {
             lblOrientador.setText(nomeOrientador);
         } else {
             lblOrientador.setText("(Não definido)");
         }
+
         // Campos editáveis (Labels de visualização)
         lblCurso.setText(getTextoOuPadrao(usuarioLogado.getCurso()));
         lblLinkedin.setText(getTextoOuPadrao(usuarioLogado.getLinkedin()));
@@ -126,8 +126,7 @@ public class PerfilAlunoController {
         lblSenha.setText("**********"); // Sempre mostrar asteriscos
 
         if (usuarioLogado.getDataNascimento() != null) {
-            // *** CORREÇÃO 2 ***: 'getDataNascimento()' já retorna um LocalDate.
-            LocalDate dataNasc = usuarioLogado.getDataNascimento(); // <--- CORRIGIDO
+            LocalDate dataNasc = usuarioLogado.getDataNascimento();
             lblDataNascimento.setText(dataNasc.format(dateFormatter));
         } else {
             lblDataNascimento.setText("(Não informado)");
