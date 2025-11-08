@@ -34,10 +34,10 @@ public class GerenciadorDB {
                 "Nome_Completo VARCHAR(100)," +
                 "Email VARCHAR(100) PRIMARY KEY NOT NULL," +
                 "Curso VARCHAR(45) ," +
-                "Data_Nascimento DATE," +
+                "Data_Nasc DATE," +
                 "Email_Orientador VARCHAR(100)," +
-                "Link_Linkedin VARCHAR(255)," +
-                "Link_Git VARCHAR(255)," +
+                "Linkedin VARCHAR(255)," +
+                "GitHub VARCHAR(255)," +
                 "Funcao VARCHAR(50)," +
                 "Senha VARCHAR(50)," +
                 "FOREIGN KEY (Email_Orientador) REFERENCES usuario (Email)" +

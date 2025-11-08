@@ -1,5 +1,6 @@
 package org.api.trabalhodegraduacao.entities;
 
+import java.sql.Date;
 import java.time.LocalDate;
 
 public class Usuario {
@@ -8,24 +9,12 @@ public class Usuario {
     private String fotoPerfil;
     private LocalDate dataNascimento;
     private String emailCadastrado;
+    private String curso;
     private String linkedin;
     private String gitHub;
     private String funcao;
     private String senha;
     private String emailOrientador;
-
-
-    public Usuario(String nomeCompleto, String fotoPerfil, LocalDate dataNascimento, String emailCadastrado, String linkedin, String gitHub, Character sexo, String tipo, String senha, String emailOrientador) {
-        this.nomeCompleto = nomeCompleto;
-        this.fotoPerfil = fotoPerfil;
-        this.dataNascimento = dataNascimento;
-        this.emailCadastrado = emailCadastrado;
-        this.linkedin = linkedin;
-        this.gitHub = gitHub;
-        this.funcao = tipo;
-        this.senha = senha;
-        this.emailOrientador = emailOrientador;
-    }
 
     public Usuario(String tipo, String senha, String emailCadastrado, String nome) {
         this.funcao = tipo;
@@ -35,7 +24,21 @@ public class Usuario {
     }
 
     public Usuario() {
+    }
 
+    public Usuario(String nomeDB, String emailDB, String cursoDB, Date dataNascDB, String linkedinDB, String gitHubDB, String emailOrientador, String senhaDB) {
+        this.nomeCompleto = nomeDB;
+        this.emailCadastrado = emailDB;
+        this.curso = cursoDB;
+        this.dataNascimento = dataNascimento;
+        this.linkedin = linkedinDB;
+        this.gitHub = gitHubDB;
+        this.emailOrientador = emailOrientador;
+        this.senha = senha;
+    }
+
+    public void nomeProfessor(String nome) {
+        this.nomeCompleto = nome;
     }
 
     public String getNomeCompleto() {
@@ -86,11 +89,7 @@ public class Usuario {
         this.gitHub = gitHub;
     }
 
-    public String getTipo() {
-
-
-        return funcao;
-    }
+    public String getTipo() {return funcao;}
 
     public void setTipo(String tipo) {
         this.funcao = tipo;
@@ -112,6 +111,31 @@ public class Usuario {
         this.emailOrientador = emailOrientador;
     }
 
+    public String getFuncao() {
+        return funcao;
+    }
+
+    public void setFuncao(String funcao) {
+        this.funcao = funcao;
+    }
+
+    public String getCurso() {
+        return curso;
+    }
+
+    public void setCurso(String curso) {
+        this.curso = curso;
+    }
+    private String nomeOrientador;
+
+
+    public String getNomeOrientador() {
+        return nomeOrientador;
+    }
+
+    public void setNomeOrientador(String nomeOrientador) {
+        this.nomeOrientador = nomeOrientador;
+    }
 
     @Override
     public String toString() {

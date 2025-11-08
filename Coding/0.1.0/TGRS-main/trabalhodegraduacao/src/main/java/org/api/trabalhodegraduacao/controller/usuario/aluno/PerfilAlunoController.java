@@ -1,6 +1,7 @@
 package org.api.trabalhodegraduacao.controller.usuario.aluno;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
@@ -14,15 +15,21 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import org.api.trabalhodegraduacao.Application;
+import org.api.trabalhodegraduacao.dao.UsuarioDAO;
+import org.api.trabalhodegraduacao.entities.Usuario;
+import org.api.trabalhodegraduacao.utils.SessaoUsuario;
 // import org.api.trabalhodegraduacao.model.Aluno;
 // import org.api.trabalhodegraduacao.service.SessaoService;
 
 public class PerfilAlunoController {
 
-    // --- Variável de Estado ---
+    // --- Variáveis de Estado ---
     private boolean isEditMode = false;
     private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
+    // --- Variáveis de Serviço e Dados ---
+    private Usuario usuarioLogado; // Guarda o usuário carregado do banco
+    private UsuarioDAO usuarioDAO; // Instância do DAO para comunicar com o banco
 
     // --- Componentes FXML ---
     @FXML private Button bt_EditarSalvar;
@@ -57,25 +64,83 @@ public class PerfilAlunoController {
 
     @FXML
     void initialize() {
-        loadData();
+        // 1. Inicializa o DAO (agora como variável da classe)
+        this.usuarioDAO = new UsuarioDAO();
+
+        // 2. Pega o e-mail da sessão
+        SessaoUsuario sessao = SessaoUsuario.getInstance();
+        if (sessao.isLogado()) {
+            String emailDoUsuarioLogado = sessao.getEmail();
+
+            // 3. CARREGA os dados do banco
+            try {
+                // Usamos o método 'exibirPerfil' do SEU DAO
+                this.usuarioLogado = usuarioDAO.exibirPerfil(emailDoUsuarioLogado);
+
+                // 4. Preenche os labels com os dados carregados
+                if (this.usuarioLogado != null) {
+                    preencherLabelsComDados();
+                } else {
+                    // Tratar caso o usuário não seja encontrado no banco
+                    System.err.println("Usuário da sessão não encontrado no banco.");
+                    // (Talvez mostrar um alerta e voltar para o login)
+                }
+
+            } catch (SQLException e) {
+                // Tratar erro de banco de dados (ex: mostrar um alerta)
+                System.err.println("Erro ao carregar perfil: " + e.getMessage());
+                e.printStackTrace();
+            }
+        } else {
+            // Lógica para caso não tenha ninguém logado
+            System.err.println("Erro: Nenhum usuário na sessão.");
+            // (Talvez redirecionar para o login)
+        }
+
+        // 5. Configura o modo de visualização inicial
         setViewMode(true); // true = View Mode
     }
 
-    private void loadData() {
-        // (Aqui você puxa os dados do banco e preenche os LABELS)
-        // Aluno aluno = SessaoService.getAlunoLogado();
-        // ...
-        // lblCurso.setText(aluno.getCurso());
-        // lblLinkedin.setText(aluno.getLinkedin());
-        // ...
-        // if (aluno.getDataNascimento() != null) {
-        //    lblDataNascimento.setText(aluno.getDataNascimento().format(dateFormatter));
-        // } else {
-        //    lblDataNascimento.setText("(Não informado)");
-        // }
+    /**
+     * Método auxiliar para preencher os labels com os dados do objeto 'usuarioLogado'.
+     * Isso centraliza a lógica de exibição.
+     */
+    private void preencherLabelsComDados() {
+        // Campos fixos (não editáveis)
+        lbl_NomeUsuario.setText(usuarioLogado.getNomeCompleto());
 
+        // *** CORREÇÃO 1 ***: O método na sua entidade é 'getEmailCadastrado'
+        lblEmailCadastrado.setText(usuarioLogado.getEmailCadastrado());
 
+        // TODO: Você precisa implementar a lógica para buscar e setar o nome do orientador
+        String nomeOrientador = usuarioLogado.getNomeOrientador();
+        if (nomeOrientador != null && !nomeOrientador.isEmpty()) {
+            lblOrientador.setText(nomeOrientador);
+        } else {
+            lblOrientador.setText("(Não definido)");
+        }
+        // Campos editáveis (Labels de visualização)
+        lblCurso.setText(getTextoOuPadrao(usuarioLogado.getCurso()));
+        lblLinkedin.setText(getTextoOuPadrao(usuarioLogado.getLinkedin()));
+        lblGitHub.setText(getTextoOuPadrao(usuarioLogado.getGitHub()));
+        lblSenha.setText("**********"); // Sempre mostrar asteriscos
+
+        if (usuarioLogado.getDataNascimento() != null) {
+            // *** CORREÇÃO 2 ***: 'getDataNascimento()' já retorna um LocalDate.
+            LocalDate dataNasc = usuarioLogado.getDataNascimento(); // <--- CORRIGIDO
+            lblDataNascimento.setText(dataNasc.format(dateFormatter));
+        } else {
+            lblDataNascimento.setText("(Não informado)");
+        }
     }
+
+    /**
+     * Método utilitário para evitar que "null" ou "" apareça na interface.
+     */
+    private String getTextoOuPadrao(String texto) {
+        return (texto != null && !texto.trim().isEmpty()) ? texto : "(Não informado)";
+    }
+
 
     private void setViewMode(boolean viewMode) {
         // Alterna os Labels
@@ -113,56 +178,65 @@ public class PerfilAlunoController {
     void onToggleEditSave(ActionEvent event) {
         if (isEditMode) {
             // --- MODO SALVAR ---
-            // 1. Salvar os dados (lógica do onSalvar)
-            // (Aqui você pega os dados dos TextFields e salva no banco)
-            // Ex: aluno.setCurso(txtCurso.getText());
-            //     aluno.setDataNascimento(dpDataNascimento.getValue());
+            try {
+                // 1. Atualizar o objeto 'usuarioLogado' com os dados dos campos de texto
+                usuarioLogado.setCurso(txtCurso.getText());
+                usuarioLogado.setLinkedin(txtLinkedin.getText());
+                usuarioLogado.setGitHub(txtGitHub.getText());
 
-            // 2. Atualizar os Labels com os novos dados
-            lblCurso.setText(txtCurso.getText());
-            lblLinkedin.setText(txtLinkedin.getText());
-            lblGitHub.setText(txtGitHub.getText());
+                if (dpDataNascimento.getValue() != null) {
+                    // *** CORREÇÃO 3 ***: O setter 'setDataNascimento' espera um 'LocalDate'
+                    usuarioLogado.setDataNascimento(dpDataNascimento.getValue()); // <--- CORRIGIDO
+                } else {
+                    usuarioLogado.setDataNascimento(null);
+                }
 
-            LocalDate dataSelecionada = dpDataNascimento.getValue();
-            if (dataSelecionada != null) {
-                lblDataNascimento.setText(dataSelecionada.format(dateFormatter));
-            } else {
-                lblDataNascimento.setText("(Não informado)");
+                // Lógica para senha: só atualiza se o campo não estiver vazio
+                String novaSenha = txtSenha.getText();
+                if (novaSenha != null && !novaSenha.trim().isEmpty()) {
+                    // (Idealmente, você deve criptografar a senha aqui antes de salvar)
+                    usuarioLogado.setSenha(novaSenha);
+                }
+                // Se estiver vazio, a senha antiga (já no objeto 'usuarioLogado') é mantida
+
+                // 2. !! PONTO IMPORTANTE: Mandar o DAO salvar no banco !!
+                usuarioDAO.atualizar(this.usuarioLogado); // Usando o método 'atualizar' do SEU DAO
+
+                // 3. Atualizar os Labels (puxando do objeto que acabamos de salvar)
+                preencherLabelsComDados();
+
+                // 4. Trocar para o modo de visualização
+                setViewMode(true);
+                bt_EditarSalvar.setText("Editar Perfil");
+                bt_EditarSalvar.getStyleClass().setAll("profile-button-secondary");
+                isEditMode = false;
+
+            } catch (SQLException e) {
+                // Mostrar um alerta para o usuário sobre o erro de salvamento
+                System.err.println("Erro ao salvar perfil: " + e.getMessage());
+                e.printStackTrace();
+                // (Aqui você deve mostrar um Alert para o usuário)
             }
-
-            // 3. Trocar para o modo de visualização
-            setViewMode(true);
-
-            // 4. Atualizar o botão
-            bt_EditarSalvar.setText("Editar Perfil");
-            bt_EditarSalvar.getStyleClass().setAll("profile-button-secondary");
-
-            // 5. Atualizar estado
-            isEditMode = false;
 
         } else {
             // --- MODO EDITAR ---
-            // 1. Copiar dados dos Labels para os TextFields (lógica do onEditar)
-            txtCurso.setText(lblCurso.getText());
-            txtLinkedin.setText(lblLinkedin.getText());
-            txtGitHub.setText(lblGitHub.getText());
-            txtSenha.clear();
+            // 1. Copiar dados do objeto 'usuarioLogado' para os TextFields
+            txtCurso.setText(usuarioLogado.getCurso());
+            txtLinkedin.setText(usuarioLogado.getLinkedin());
+            txtGitHub.setText(usuarioLogado.getGitHub());
+            txtSenha.clear(); // Sempre limpar a senha
 
-            try {
-                LocalDate dataNascimento = LocalDate.parse(lblDataNascimento.getText(), dateFormatter);
-                dpDataNascimento.setValue(dataNascimento);
-            } catch (Exception e) {
-                dpDataNascimento.setValue(null); // Limpa se o texto não for uma data válida
+            if (usuarioLogado.getDataNascimento() != null) {
+                // *** CORREÇÃO 4 ***: 'getDataNascimento()' já retorna um LocalDate.
+                dpDataNascimento.setValue(usuarioLogado.getDataNascimento()); // <--- CORRIGIDO
+            } else {
+                dpDataNascimento.setValue(null);
             }
 
             // 2. Trocar para o modo de edição
             setViewMode(false);
-
-            // 3. Atualizar o botão
             bt_EditarSalvar.setText("Salvar");
             bt_EditarSalvar.getStyleClass().setAll("profile-button-primary");
-
-            // 4. Atualizar estado
             isEditMode = true;
         }
     }
@@ -170,11 +244,12 @@ public class PerfilAlunoController {
     @FXML
     void trocarFoto(ActionEvent event) {
         System.out.println("Botão Trocar Foto clicado.");
+        // (Aqui virá a lógica para abrir um FileChooser)
     }
 
     @FXML
     void nomeUsuario(MouseEvent event) {
-        // Lógica do onDragDetected
+        // Lógica do onDragDetected (se houver)
     }
 
     // --- MÉTODOS DE NAVEGAÇÃO ---
