@@ -81,11 +81,9 @@ public class UsuarioDAO {
             pstmt.setString(3, usuario.getSenha());
             pstmt.setString(4, usuario.getFotoPerfil());
 
-            // Define LinkedIn e GitHub (eles serão null se vierem do Professor)
             pstmt.setString(5, usuario.getLinkedin());
             pstmt.setString(6, usuario.getGitHub());
 
-            // Cláusula WHERE
             pstmt.setString(7, usuario.getEmailCadastrado());
 
             pstmt.executeUpdate();

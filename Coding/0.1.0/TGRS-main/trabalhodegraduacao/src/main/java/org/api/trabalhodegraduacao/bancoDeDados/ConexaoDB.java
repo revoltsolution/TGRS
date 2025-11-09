@@ -5,9 +5,6 @@ import java.sql.SQLException;
 
 public class ConexaoDB {
 
-    //UTILIZAR ESSA CLASSE
-
-    //ALTERAR A SENHA E ALINHAR O BANCO DE DADOS PARA "TGRSDB"
     private static final String URL = "jdbc:mysql://localhost:3306/TGRSDB";
     private static final String USER = "root";
     private static final String PASS = "1234";

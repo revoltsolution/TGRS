@@ -51,7 +51,6 @@ public class GerenciadorDB {
                 "PRIMARY KEY (ID_TG, Email)" +
                 ")";
 
-        // --- INÍCIO DAS CORREÇÕES ---
 
         String sqlSecoes = "CREATE TABLE IF NOT EXISTS Secoes (" +
                 "ID_Secao INT NOT NULL AUTO_INCREMENT," + // <-- ADICIONADO: Uma PK simples é muito melhor
@@ -91,7 +90,6 @@ public class GerenciadorDB {
                 "FOREIGN KEY (ID_Secao) REFERENCES Secoes(ID_Secao)" + // <-- CORRIGIDO: Referencia a nova PK da tabela Secoes
                 ")";
 
-        // --- FIM DAS CORREÇÕES ---
 
 
         try (Connection conn = ConexaoDB.getConexao();

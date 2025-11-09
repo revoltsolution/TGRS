@@ -16,13 +16,6 @@ public class Usuario {
     private String senha;
     private String emailOrientador;
 
-    public Usuario(String tipo, String senha, String emailCadastrado, String nome) {
-        this.funcao = tipo;
-        this.senha = senha;
-        this.emailCadastrado = emailCadastrado;
-        this.nomeCompleto = nome;
-    }
-
     public Usuario() {
     }
 
