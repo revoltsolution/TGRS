@@ -4,7 +4,8 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?> <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -21,6 +22,7 @@
             xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="org.api.trabalhodegraduacao.controller.usuario.aluno.SecaoAlunoController"
+
             stylesheets="@../style.css">
 
     <left>
@@ -60,7 +62,6 @@
             </children>
         </VBox>
     </left>
-
     <center>
         <VBox styleClass="main-content-pane">
             <padding>
@@ -87,7 +88,8 @@
                                 <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="50.0" />
                             </columnConstraints>
                             <rowConstraints>
-                                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" /> <RowConstraints minHeight="10.0" vgrow="SOMETIMES" /> <RowConstraints minHeight="10.0" vgrow="SOMETIMES" /> <RowConstraints minHeight="10.0" vgrow="SOMETIMES" /> <RowConstraints minHeight="10.0" vgrow="SOMETIMES" /> <RowConstraints minHeight="10.0" vgrow="SOMETIMES" /> <RowConstraints minHeight="10.0" vgrow="SOMETIMES" /> <RowConstraints minHeight="10.0" vgrow="SOMETIMES" /> <RowConstraints minHeight="10.0" vgrow="SOMETIMES" /> </rowConstraints>
+                                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" /> <RowConstraints minHeight="10.0" vgrow="SOMETIMES" /> <RowConstraints minHeight="10.0" vgrow="SOMETIMES" /> <RowConstraints minHeight="10.0" vgrow="SOMETIMES" /> <RowConstraints minHeight="10.0" vgrow="SOMETIMES" /> <RowConstraints minHeight="10.0" vgrow="SOMETIMES" /> <RowConstraints minHeight="10.0" vgrow="SOMETIMES" /> <RowConstraints minHeight="10.0" vgrow="SOMETIMES" /> <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                            </rowConstraints>
                             <children>
                                 <Label text="Identificação do projeto" styleClass="profile-grid-label" GridPane.rowIndex="0" />
                                 <Label text="Empresa parceira" styleClass="profile-grid-label" GridPane.rowIndex="1" />
@@ -99,15 +101,15 @@
                                 <Label text="Hard Skills (em níveis)" styleClass="profile-grid-label" wrapText="true" GridPane.rowIndex="7" />
                                 <Label text="Soft Skills" styleClass="profile-grid-label" wrapText="true" GridPane.rowIndex="8" />
 
-                                <TextField styleClass="profile-text-input" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-                                <TextField styleClass="profile-text-input" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                <TextArea styleClass="profile-text-input" prefHeight="100.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                <TextArea styleClass="profile-text-input" prefHeight="100.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                <TextField styleClass="profile-text-input" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                                <TextArea styleClass="profile-text-input" prefHeight="100.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                                <TextArea styleClass="profile-text-input" prefHeight="100.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                                <TextArea styleClass="profile-text-input" prefHeight="100.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                                <TextArea styleClass="profile-text-input" prefHeight="100.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                                <TextField fx:id="txtIdentificacaoProjeto" styleClass="profile-text-input" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                                <TextField fx:id="txtEmpresaParceira" styleClass="profile-text-input" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                <TextArea fx:id="txtProblema" styleClass="profile-text-input" prefHeight="100.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                <TextArea fx:id="txtSolucao" styleClass="profile-text-input" prefHeight="100.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                <TextField fx:id="txtLinkRepositorio" styleClass="profile-text-input" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                <TextArea fx:id="txtTecnologiasUtilizadas" styleClass="profile-text-input" prefHeight="100.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                <TextArea fx:id="txtContribuicoesPessoais" styleClass="profile-text-input" prefHeight="100.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                <TextArea fx:id="txtDescricaoHard" styleClass="profile-text-input" prefHeight="100.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                                <TextArea fx:id="txtDescricaoSoft" styleClass="profile-text-input" prefHeight="100.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="8" />
 
                                 <CheckBox styleClass="checkbox-custom" GridPane.columnIndex="2" GridPane.rowIndex="0" />
                                 <CheckBox styleClass="checkbox-custom" GridPane.columnIndex="2" GridPane.rowIndex="1" />
@@ -125,7 +127,7 @@
 
                 <HBox alignment="CENTER_RIGHT">
                     <children>
-                        <Button text="ENVIAR" styleClass="profile-button-primary" />
+                        <Button onAction="#enviarSecao" text="ENVIAR" styleClass="profile-button-primary" />
                     </children>
                 </HBox>
             </children>

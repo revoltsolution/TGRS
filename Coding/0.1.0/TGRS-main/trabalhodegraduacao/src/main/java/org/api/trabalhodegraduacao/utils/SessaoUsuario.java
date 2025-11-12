@@ -9,6 +9,8 @@ public class SessaoUsuario {
     private String funcao;
     private String senha;
 
+    private boolean logado = false;
+
     private SessaoUsuario() {
     }
 
@@ -19,11 +21,13 @@ public class SessaoUsuario {
         return instance;
     }
 
-    public void setUsuarioLogado(String email, String nome, String funcao, String senha) {
+
+    public void iniciarSessao(String email, String nome, String funcao, String senha) {
         this.email = email;
         this.nome = nome;
         this.funcao = funcao;
         this.senha = senha;
+        this.logado = true;
     }
 
     public void limparSessao() {
@@ -31,6 +35,7 @@ public class SessaoUsuario {
         this.nome = null;
         this.funcao = null;
         this.senha = null;
+        this.logado = false;
     }
 
     public String getEmail() {
@@ -49,7 +54,6 @@ public class SessaoUsuario {
     }
 
     public boolean isLogado() {
-        return this.email != null;
+        return this.logado;
     }
 }
-
