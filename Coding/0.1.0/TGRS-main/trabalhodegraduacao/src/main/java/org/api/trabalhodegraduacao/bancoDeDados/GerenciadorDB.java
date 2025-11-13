@@ -51,9 +51,8 @@ public class GerenciadorDB {
                 "PRIMARY KEY (ID_TG, Email)" +
                 ")";
 
-
+        // ALTERADO: Removido ID_Secao e definida PK composta (Data, Email_Aluno, Email_Orientador)
         String sqlSecao = "CREATE TABLE IF NOT EXISTS Secao (" +
-                "ID_Secao INT NOT NULL AUTO_INCREMENT," +
                 "Identificacao_Projeto TEXT," +
                 "Empresa_Parceira TEXT," +
                 "Problema TEXT," +
@@ -73,24 +72,23 @@ public class GerenciadorDB {
                 "ID_TG INT NOT NULL," +
                 "Email_Aluno VARCHAR(100) NOT NULL," +
                 "Email_Orientador VARCHAR(100) NOT NULL," +
-                "PRIMARY KEY (ID_Secao)," +
-                "UNIQUE KEY UQ_Secao_Unica (Data, Email_Aluno, Email_Orientador)," +
+                "PRIMARY KEY (Data, Email_Aluno, Email_Orientador)," +
                 "FOREIGN KEY (Email_Aluno) REFERENCES usuario(Email)," +
                 "FOREIGN KEY (Email_Orientador) REFERENCES usuario(Email)" +
                 ")";
 
-
+        // ALTERADO: Tabela correcoes agora referencia a chave composta de Secao
         String sqlCorrecoes = "CREATE TABLE IF NOT EXISTS correcoes (" +
                 "ID_Correcao INT NOT NULL AUTO_INCREMENT," +
                 "data_correcoes DATE," +
                 "status VARCHAR(45)," +
                 "Conteudo TEXT," +
-                "ID_Secao INT NOT NULL," +
+                "Data_Secao DATETIME NOT NULL," +
+                "Email_Aluno VARCHAR(100) NOT NULL," +
+                "Email_Orientador VARCHAR(100) NOT NULL," +
                 "PRIMARY KEY (ID_Correcao)," +
-                "FOREIGN KEY (ID_Secao) REFERENCES Secao(ID_Secao)" +
+                "FOREIGN KEY (Data_Secao, Email_Aluno, Email_Orientador) REFERENCES Secao(Data, Email_Aluno, Email_Orientador)" +
                 ")";
-
-
 
         try (Connection conn = ConexaoDB.getConexao();
              Statement stmt = conn.createStatement()) {
