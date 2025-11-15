@@ -1,7 +1,6 @@
 package org.api.trabalhodegraduacao.controller.usuario.aluno;
 
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,10 +10,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 import org.api.trabalhodegraduacao.Application;
 import org.api.trabalhodegraduacao.dao.UsuarioDAO;
 import org.api.trabalhodegraduacao.entities.Usuario;
 import org.api.trabalhodegraduacao.utils.SessaoUsuario;
+import org.api.trabalhodegraduacao.utils.GerenciadorImagens;
 
 public class PerfilAlunoController {
 
@@ -29,7 +30,6 @@ public class PerfilAlunoController {
     @FXML private Button bt_TrocarFotoPerfil;
     @FXML private ImageView imgVwFotoPerfil;
 
-    // Labels de visualização
     @FXML private Label lbl_NomeUsuario;
     @FXML private Label lblEmailCadastrado;
     @FXML private Label lblOrientador;
@@ -39,7 +39,6 @@ public class PerfilAlunoController {
     @FXML private Label lblGitHub;
     @FXML private Label lblSenha;
 
-    // Campos de edição
     @FXML private TextField txtCurso;
     @FXML private DatePicker dpDataNascimento;
     @FXML private TextField txtLinkedin;
@@ -56,6 +55,7 @@ public class PerfilAlunoController {
                 this.usuarioLogado = usuarioDAO.exibirPerfil(sessao.getEmail());
                 if (this.usuarioLogado != null) {
                     preencherLabelsComDados();
+                    GerenciadorImagens.configurarImagemPerfil(imgVwFotoPerfil, usuarioLogado.getFotoPerfil());
                 }
             } catch (SQLException e) {
                 System.err.println("Erro ao carregar perfil: " + e.getMessage());
@@ -160,8 +160,29 @@ public class PerfilAlunoController {
     }
 
     @FXML
-    void trocarFotoPerfil(ActionEvent event) { // Nome ajustado para bater com FXML
-        System.out.println("Botão Trocar Foto clicado.");
+    void trocarFotoPerfil(ActionEvent event) {
+
+        System.out.println("Botão Foto Aluno.");
+
+        Stage stage = (Stage) bt_TrocarFotoPerfil.getScene().getWindow();
+
+
+        String nomeSeguro = usuarioLogado.getEmailCadastrado().replaceAll("[^a-zA-Z0-9.-]", "_");
+
+        String novoCaminho = GerenciadorImagens.selecionarESalvarNovaFoto(stage, nomeSeguro);
+
+        if (novoCaminho != null) {
+            usuarioLogado.setFotoPerfil(novoCaminho);
+
+            GerenciadorImagens.configurarImagemPerfil(imgVwFotoPerfil, novoCaminho);
+
+            try {
+                usuarioDAO.atualizar(usuarioLogado);
+                System.out.println("Foto atualizada no banco!");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     // --- Navegação ---

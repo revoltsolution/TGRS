@@ -19,7 +19,6 @@ import java.util.ResourceBundle;
 
 public class BemVindoController implements Initializable {
 
-    // --- CORREÇÃO 2: Instanciar o DAO correto ---
     UsuarioDAO usuarioDAO = new UsuarioDAO();
 
     @FXML public Button bt_Entrar;
@@ -35,7 +34,6 @@ public class BemVindoController implements Initializable {
     void btEntrar(ActionEvent event) {
         String login = txt_Login.getText();
 
-        // --- CORREÇÃO 3: Declarar a variável apenas uma vez ---
         Usuario usuarioEncontrado;
 
         if (login.isEmpty()) {
@@ -44,7 +42,6 @@ public class BemVindoController implements Initializable {
         }
 
         try {
-            // --- CORREÇÃO 4: Chamar o DAO correto com o MÉTODO correto ---
             usuarioEncontrado = usuarioDAO.buscarCredenciaisPorEmail(login);
 
         } catch (SQLException e) {
@@ -60,7 +57,6 @@ public class BemVindoController implements Initializable {
 
         System.out.println(usuarioEncontrado.getEmailCadastrado());
 
-        // O seu método 'iniciarSessao' está correto aqui
         SessaoUsuario.getInstance().iniciarSessao(
                 usuarioEncontrado.getEmailCadastrado(),
                 usuarioEncontrado.getNomeCompleto(),
@@ -82,7 +78,7 @@ public class BemVindoController implements Initializable {
     private void exibirAlerta(String msg, Alert.AlertType tipo) {
         Alert alert = new Alert(tipo);
         alert.setHeaderText(null);
-        alert.setTitle("Atenção"); // Adicionado um título ao Alerta
+        alert.setTitle("Atenção");
         alert.setContentText(msg);
         alert.showAndWait();
     }

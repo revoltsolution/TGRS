@@ -18,28 +18,23 @@ import java.time.LocalDateTime;
 
 public class SecaoAlunoController {
 
-    // --- FXML Barra Lateral ---
     @FXML private Button bt_Sair, bt_devolutivas_geral, bt_perfil_geral, bt_secao_geral, bt_tela_inicial, bt_tg_geral;
 
-    // --- FXML do Formulário ---
     @FXML private TextField txtIdentificacaoProjeto, txtEmpresaParceira, txtLinkRepositorio, txtAno;
     @FXML private TextArea txtProblema, txtSolucao, txtTecnologiasUtilizadas, txtContribuicoesPessoais, txtDescricaoHard, txtDescricaoSoft, txtHistoricoProfissional, txtHistoricoAcademico, txtMotivacao;
 
-    // FXML para RadioButtons
     @FXML private ToggleGroup grupoPeriodo, grupoSemestre;
     @FXML private RadioButton rbPeriodo1, rbPeriodo2, rbPeriodo3, rbPeriodo4, rbPeriodo5, rbPeriodo6;
     @FXML private RadioButton rbSemestre1, rbSemestre2;
     @FXML private HBox hbPeriodo, hbSemestre;
 
-    // --- FXML do Feedback ---
     @FXML private TextArea txtFeedbackProfessor;
 
-    // --- DAOs e Dados ---
     private SecaoDAO secaoDAO;
     private UsuarioDAO usuarioDAO;
     private CorrecaoDAO correcaoDAO;
     private Usuario usuarioLogado;
-    private Secao secaoAtual; // Armazena a seção MAIS RECENTE carregada do banco
+    private Secao secaoAtual;
     private Correcao correcaoAtual;
 
     @FXML
@@ -57,7 +52,6 @@ public class SecaoAlunoController {
                     return;
                 }
 
-                // 1. Busca a seção mais recente
                 this.secaoAtual = secaoDAO.buscarSecaoMaisRecente(
                         usuarioLogado.getEmailCadastrado(),
                         usuarioLogado.getEmailOrientador()
@@ -66,27 +60,25 @@ public class SecaoAlunoController {
                 if (this.secaoAtual != null) {
                     preencherCampos(this.secaoAtual);
 
-                    // 3. Busca a correção mais recente PARA ESTA SEÇÃO
                     this.correcaoAtual = correcaoDAO.buscarCorrecaoMaisRecente(
                             secaoAtual.getData(),
                             secaoAtual.getEmailAluno(),
                             secaoAtual.getEmailOrientador()
                     );
 
-                    if (this.correcaoAtual != null) {
-                        txtFeedbackProfessor.setText("Último Feedback: " + this.correcaoAtual.getConteudo());
+                    if (this.correcaoAtual == null) {
+                        txtFeedbackProfessor.setText("Status: AGUARDANDO CORREÇÃO.\nVocê enviou esta seção e o professor ainda não visualizou/corrigiu. Os campos estão bloqueados até a devolutiva.");
+                        bloquearTodosOsCampos();
                     } else {
-                        txtFeedbackProfessor.setText("Sua seção foi salva, mas ainda não recebeu uma devolutiva do professor.");
+                        txtFeedbackProfessor.setText("Último Feedback: " + this.correcaoAtual.getConteudo());
+                        aplicarStatusDaCorrecao(this.secaoAtual);
                     }
-
-                    // 4. Trava os campos que já estão OK
-                    aplicarStatusDaCorrecao(this.secaoAtual);
 
                 } else {
                     System.out.println("Nenhuma seção anterior encontrada. Começando uma nova.");
                     this.secaoAtual = new Secao();
                     txtFeedbackProfessor.setText("Esta é uma nova seção. Preencha todos os campos e envie para seu orientador.");
-                    aplicarStatusDaCorrecao(null); // Habilita todos os campos
+                    aplicarStatusDaCorrecao(null);
                 }
 
             } catch (SQLException e) {
@@ -94,6 +86,24 @@ public class SecaoAlunoController {
                 exibirAlerta("Erro de Banco de Dados", "Não foi possível carregar os dados da seção.", Alert.AlertType.ERROR);
             }
         }
+    }
+
+    private void bloquearTodosOsCampos() {
+        txtIdentificacaoProjeto.setDisable(true);
+        txtEmpresaParceira.setDisable(true);
+        txtProblema.setDisable(true);
+        txtSolucao.setDisable(true);
+        txtLinkRepositorio.setDisable(true);
+        txtTecnologiasUtilizadas.setDisable(true);
+        txtContribuicoesPessoais.setDisable(true);
+        txtDescricaoHard.setDisable(true);
+        txtDescricaoSoft.setDisable(true);
+        txtHistoricoProfissional.setDisable(true);
+        txtHistoricoAcademico.setDisable(true);
+        txtMotivacao.setDisable(true);
+        txtAno.setDisable(true);
+        hbPeriodo.setDisable(true);
+        hbSemestre.setDisable(true);
     }
 
     private void aplicarStatusDaCorrecao(Secao secao) {
@@ -122,22 +132,21 @@ public class SecaoAlunoController {
             exibirAlerta("Erro", "Usuário não logado.", Alert.AlertType.ERROR);
             return;
         }
+        if (this.secaoAtual != null && this.correcaoAtual == null && this.secaoAtual.getIdTG() != 0) {
+            exibirAlerta("Aguarde", "Você já enviou esta seção. Aguarde a correção do professor.", Alert.AlertType.WARNING);
+            return;
+        }
 
         try {
             Secao novaSecao = new Secao();
 
-            // 2. Puxa os dados dos campos (mesmo os desabilitados)
             puxarDadosDosCampos(novaSecao);
 
-            // 3. Define as novas chaves primárias
             novaSecao.setData(LocalDateTime.now());
             novaSecao.setEmailAluno(usuarioLogado.getEmailCadastrado());
             novaSecao.setEmailOrientador(usuarioLogado.getEmailOrientador());
-            novaSecao.setIdTG(this.secaoAtual.getIdTG() != 0 ? this.secaoAtual.getIdTG() : 1); // TODO: Lógica do ID_TG
+            novaSecao.setIdTG(this.secaoAtual != null && this.secaoAtual.getIdTG() != 0 ? this.secaoAtual.getIdTG() : 1);
 
-            // --- A CORREÇÃO ESTÁ AQUI ---
-            // 4. Copia o status de 'OK' (os checkboxes) da seção anterior para a nova.
-            //    Isso garante que o progresso não seja perdido.
             if (this.secaoAtual != null) {
                 novaSecao.setIdentificacaoOk(this.secaoAtual.isIdentificacaoOk());
                 novaSecao.setEmpresaOk(this.secaoAtual.isEmpresaOk());
@@ -155,17 +164,14 @@ public class SecaoAlunoController {
                 novaSecao.setPeriodoOk(this.secaoAtual.isPeriodoOk());
                 novaSecao.setSemestreOk(this.secaoAtual.isSemestreOk());
             }
-            // --- FIM DA CORREÇÃO ---
 
-            // 5. Salva a NOVA seção (o DAO vai usar INSERT)
             secaoDAO.inserirSecao(novaSecao);
 
-            // 6. Atualiza o 'secaoAtual' da tela para ser esta nova seção
             this.secaoAtual = novaSecao;
+            this.correcaoAtual = null;
 
-            exibirAlerta("Sucesso", "Seção enviada com sucesso!", Alert.AlertType.INFORMATION);
+            exibirAlerta("Sucesso", "Seção enviada com sucesso! Aguarde a devolutiva do professor.", Alert.AlertType.INFORMATION);
 
-            // 7. Recarrega a tela
             initialize();
 
         } catch (NumberFormatException e) {
@@ -196,11 +202,6 @@ public class SecaoAlunoController {
         setSemestre(secao.getSemestre());
     }
 
-    /**
-     * Puxa os dados da tela e os insere em um objeto Secao.
-     * Ele lê os campos de texto, independentemente de estarem
-     * habilitados ou desabilitados.
-     */
     private void puxarDadosDosCampos(Secao secao) throws NumberFormatException {
         secao.setIdentificacaoProjeto(txtIdentificacaoProjeto.getText());
         secao.setEmpresaParceira(txtEmpresaParceira.getText());
@@ -226,7 +227,6 @@ public class SecaoAlunoController {
         secao.setSemestre(getSemestre());
     }
 
-    // --- Métodos Auxiliares para RadioButtons (Sem alterações) ---
     private char getPeriodo() {
         if (rbPeriodo1.isSelected()) return '1';
         if (rbPeriodo2.isSelected()) return '2';
@@ -266,7 +266,6 @@ public class SecaoAlunoController {
         alert.showAndWait();
     }
 
-    // --- Métodos de Navegação (Sem alterações) ---
     @FXML void sair(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/BemVindo.fxml", "Bem-vindo", event); }
     @FXML void perfilAluno (ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/aluno/PerfilAluno.fxml", "Perfil Aluno", event); }
     @FXML void secaoGeral(ActionEvent event) { System.out.println("Já está na tela de Seção."); }

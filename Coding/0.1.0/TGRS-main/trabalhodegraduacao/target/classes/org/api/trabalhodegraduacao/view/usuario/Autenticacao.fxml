@@ -23,7 +23,7 @@
             </padding>
 
             <children>
-                <ImageView fitHeight="200.0" fitWidth="200.0"
+                <ImageView fx:id="imgFotoPerfil" fitHeight="200.0" fitWidth="200.0"
                            pickOnBounds="true" preserveRatio="true"
                            styleClass="profile-image">
                     <image>
@@ -40,7 +40,7 @@
                                maxWidth="300.0" styleClass="text-field" />
 
                 <Button fx:id="bt_Entrar" onAction="#btEntrar" text="Entrar"
-                        styleClass="login-button" />
+                        styleClass="login-button" defaultButton="true"/>
 
                 <Button fx:id="bt_voltar" onAction="#btVoltar" text="Voltar"
                         styleClass="link-button" />

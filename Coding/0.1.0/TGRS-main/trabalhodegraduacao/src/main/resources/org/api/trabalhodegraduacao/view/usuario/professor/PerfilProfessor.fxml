@@ -87,7 +87,7 @@
                                             <image><Image url="@../../../images/imgFotoPerfil.png" /></image>
                                             <clip><Circle radius="50.0" centerX="50.0" centerY="50.0" /></clip>
                                         </ImageView>
-                                        <Button fx:id="bt_TrocarFoto" onAction="#trocarFoto" text="Trocar Foto de Perfil" styleClass="profile-button-secondary" visible="false" managed="false" />
+                                        <Button fx:id="bt_TrocarFotoPerfil" onAction="#trocarFoto" text="Trocar Foto de Perfil" styleClass="profile-button-secondary" visible="false" managed="false" />
                                     </children>
                                 </VBox>
 

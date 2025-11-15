@@ -3,11 +3,14 @@ package org.api.trabalhodegraduacao.controller.usuario;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
+import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import org.api.trabalhodegraduacao.Application;
 import org.api.trabalhodegraduacao.entities.Usuario;
-import org.api.trabalhodegraduacao.utils.SessaoUsuario; // Importa sua classe de Sessão
+import org.api.trabalhodegraduacao.utils.SessaoUsuario;
+import javafx.scene.image.ImageView;
+import org.api.trabalhodegraduacao.dao.UsuarioDAO;
+import org.api.trabalhodegraduacao.utils.GerenciadorImagens;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -15,8 +18,10 @@ import java.util.ResourceBundle;
 public class AutenticacaoController implements Initializable {
 
     @FXML private PasswordField txt_Senha;
+    @FXML private ImageView imgFotoPerfil;
 
     private Usuario usuarioDaSessao;
+    private UsuarioDAO usuarioDAO = new UsuarioDAO();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -27,6 +32,18 @@ public class AutenticacaoController implements Initializable {
             this.usuarioDaSessao.setNomeCompleto(sessao.getNome());
             this.usuarioDaSessao.setFuncao(sessao.getFuncao());
             this.usuarioDaSessao.setSenha(sessao.getSenha());
+            try {
+                Usuario usuarioCompleto = usuarioDAO.exibirPerfil(sessao.getEmail());
+
+                if (usuarioCompleto != null) {
+                    GerenciadorImagens.configurarImagemPerfil(imgFotoPerfil, usuarioCompleto.getFotoPerfil());
+                } else {
+                    GerenciadorImagens.configurarImagemPerfil(imgFotoPerfil, null);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                GerenciadorImagens.configurarImagemPerfil(imgFotoPerfil, null);
+            }
         } else {
             voltarParaLogin(null);
         }
@@ -47,6 +64,9 @@ public class AutenticacaoController implements Initializable {
 
         } else {
             System.out.println("Senha incorreta!");
+            exibirAlerta("A senha informada está incorreta. Tente novamente.", Alert.AlertType.ERROR);
+
+            txt_Senha.clear();
         }
     }
 
@@ -58,5 +78,12 @@ public class AutenticacaoController implements Initializable {
     private void voltarParaLogin(ActionEvent event) {
         SessaoUsuario.getInstance().limparSessao();
         Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/BemVindo.fxml", "Bem-vindo", event);
+    }
+    private void exibirAlerta(String msg, Alert.AlertType tipo) {
+        Alert alert = new Alert(tipo);
+        alert.setHeaderText(null);
+        alert.setTitle("Atenção");
+        alert.setContentText(msg);
+        alert.showAndWait();
     }
 }
