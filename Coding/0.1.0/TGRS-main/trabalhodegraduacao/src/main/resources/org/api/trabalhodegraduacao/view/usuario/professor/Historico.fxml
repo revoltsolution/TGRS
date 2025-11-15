@@ -25,20 +25,17 @@
                 <Insets top="10.0" right="15.0" bottom="20.0" left="15.0" />
             </padding>
             <children>
-                <HBox alignment="CENTER_LEFT" spacing="10.0">
-                    <children>
-                        <ImageView fitHeight="40.0" fitWidth="40.0" preserveRatio="true">
-                            <image>
-                                <Image url="@../../../images/imgLogoRevolt.png" />
-                            </image>
-                        </ImageView>
-                        <Label text="REVOLT SOLUTIONS" styleClass="sidebar-title" />
-                    </children>
-                </HBox>
-
+                <ImageView fitWidth="200.0" preserveRatio="true">
+                    <image>
+                        <Image url="@../../../images/Imagem1.jpg" />
+                    </image>
+                    <VBox.margin>
+                        <Insets top="0.0" right="0.0" bottom="0.0" left="0.0" />
+                    </VBox.margin>
+                </ImageView>
                 <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" styleClass="profile-image">
                     <image>
-                        <Image url="@../../../images/imgFotoPerfil.png" />
+                        <Image url="@../../../images/FatecLogo.png" />
                     </image>
                     <clip>
                         <Circle radius="75.0" centerX="75.0" centerY="75.0" />
@@ -66,8 +63,16 @@
                 <Insets top="20.0" right="40.0" bottom="40.0" left="40.0" />
             </padding>
             <children>
-                <Label text="DEVOLUTIVAS" styleClass="main-header-label" />
-
+                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                    <children>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" preserveRatio="true">
+                            <image>
+                                <Image url="@../../../images/alerta.png" />
+                            </image>
+                        </ImageView>
+                        <Label text="DEVOLUTIVAS" styleClass="main-header-label" />
+                    </children>
+                </HBox>
                 <Region styleClass="header-separator">
                     <VBox.margin>
                         <Insets top="10.0" bottom="30.0" />
