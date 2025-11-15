@@ -2,146 +2,275 @@ package org.api.trabalhodegraduacao.controller.usuario.aluno;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import org.api.trabalhodegraduacao.Application;
-import org.api.trabalhodegraduacao.bancoDeDados.ConexaoDB;
+import org.api.trabalhodegraduacao.dao.CorrecaoDAO;
 import org.api.trabalhodegraduacao.dao.SecaoDAO;
+import org.api.trabalhodegraduacao.dao.UsuarioDAO;
+import org.api.trabalhodegraduacao.entities.Correcao;
 import org.api.trabalhodegraduacao.entities.Secao;
 import org.api.trabalhodegraduacao.entities.Usuario;
 import org.api.trabalhodegraduacao.utils.SessaoUsuario;
 
-import java.sql.Connection;
-import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.List;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
 
 public class SecaoAlunoController {
 
-    @FXML private TextField txtIdentificacaoProjeto;
-    @FXML private TextField txtEmpresaParceira;
-    @FXML private TextArea txtProblema;
-    @FXML private TextArea txtSolucao;
-    @FXML private TextField txtLinkRepositorio;
-    @FXML private TextArea txtTecnologiasUtilizadas;
-    @FXML private TextArea txtContribuicoesPessoais;
-    @FXML private TextArea txtDescricaoHard;
-    @FXML private TextArea txtDescricaoSoft;
-    @FXML private TextArea txtHistoricoProfissional;
-    @FXML private TextArea txtHistoricoAcademico;
-    @FXML private TextArea txtMotivacao;
-    @FXML private TextField txtAno;
-    @FXML private CheckBox cbPeriodo1;
-    @FXML private CheckBox cbPeriodo2;
-    @FXML private CheckBox cbPeriodo3;
-    @FXML private CheckBox cbPeriodo4;
-    @FXML private CheckBox cbPeriodo5;
-    @FXML private CheckBox cbPeriodo6;
-    @FXML private CheckBox cbSemestre1;
-    @FXML private CheckBox cbSemestre2;
-    @FXML private TextField txtIdTG;
+    // --- FXML Barra Lateral ---
+    @FXML private Button bt_Sair, bt_devolutivas_geral, bt_perfil_geral, bt_secao_geral, bt_tela_inicial, bt_tg_geral;
+
+    // --- FXML do Formulário ---
+    @FXML private TextField txtIdentificacaoProjeto, txtEmpresaParceira, txtLinkRepositorio, txtAno;
+    @FXML private TextArea txtProblema, txtSolucao, txtTecnologiasUtilizadas, txtContribuicoesPessoais, txtDescricaoHard, txtDescricaoSoft, txtHistoricoProfissional, txtHistoricoAcademico, txtMotivacao;
+
+    // FXML para RadioButtons
+    @FXML private ToggleGroup grupoPeriodo, grupoSemestre;
+    @FXML private RadioButton rbPeriodo1, rbPeriodo2, rbPeriodo3, rbPeriodo4, rbPeriodo5, rbPeriodo6;
+    @FXML private RadioButton rbSemestre1, rbSemestre2;
+    @FXML private HBox hbPeriodo, hbSemestre;
+
+    // --- FXML do Feedback ---
+    @FXML private TextArea txtFeedbackProfessor;
+
+    // --- DAOs e Dados ---
+    private SecaoDAO secaoDAO;
+    private UsuarioDAO usuarioDAO;
+    private CorrecaoDAO correcaoDAO;
+    private Usuario usuarioLogado;
+    private Secao secaoAtual; // Armazena a seção MAIS RECENTE carregada do banco
+    private Correcao correcaoAtual;
 
     @FXML
     public void initialize() {
-        configurarSelecaoUnica(cbPeriodo1, cbPeriodo2, cbPeriodo3, cbPeriodo4, cbPeriodo5, cbPeriodo6);
-        configurarSelecaoUnica(cbSemestre1, cbSemestre2);
-    }
+        this.secaoDAO = new SecaoDAO();
+        this.usuarioDAO = new UsuarioDAO();
+        this.correcaoDAO = new CorrecaoDAO();
 
-    private void configurarSelecaoUnica(CheckBox... boxes) {
-        List<CheckBox> boxList = Arrays.asList(boxes);
-        for (CheckBox box : boxList) {
-            box.selectedProperty().addListener((obs, wasSelected, isNowSelected) -> {
-                if (isNowSelected) {
-                    for (CheckBox b : boxList) { if (b != box) b.setSelected(false); }
+        SessaoUsuario sessao = SessaoUsuario.getInstance();
+        if (sessao.isLogado()) {
+            try {
+                this.usuarioLogado = usuarioDAO.exibirPerfil(sessao.getEmail());
+                if (usuarioLogado == null || usuarioLogado.getEmailOrientador() == null || usuarioLogado.getEmailOrientador().isEmpty()) {
+                    exibirAlerta("Erro de Configuração", "Você não está vinculado a um orientador. Contate a coordenação.", Alert.AlertType.ERROR);
+                    return;
                 }
-            });
+
+                // 1. Busca a seção mais recente
+                this.secaoAtual = secaoDAO.buscarSecaoMaisRecente(
+                        usuarioLogado.getEmailCadastrado(),
+                        usuarioLogado.getEmailOrientador()
+                );
+
+                if (this.secaoAtual != null) {
+                    preencherCampos(this.secaoAtual);
+
+                    // 3. Busca a correção mais recente PARA ESTA SEÇÃO
+                    this.correcaoAtual = correcaoDAO.buscarCorrecaoMaisRecente(
+                            secaoAtual.getData(),
+                            secaoAtual.getEmailAluno(),
+                            secaoAtual.getEmailOrientador()
+                    );
+
+                    if (this.correcaoAtual != null) {
+                        txtFeedbackProfessor.setText("Último Feedback: " + this.correcaoAtual.getConteudo());
+                    } else {
+                        txtFeedbackProfessor.setText("Sua seção foi salva, mas ainda não recebeu uma devolutiva do professor.");
+                    }
+
+                    // 4. Trava os campos que já estão OK
+                    aplicarStatusDaCorrecao(this.secaoAtual);
+
+                } else {
+                    System.out.println("Nenhuma seção anterior encontrada. Começando uma nova.");
+                    this.secaoAtual = new Secao();
+                    txtFeedbackProfessor.setText("Esta é uma nova seção. Preencha todos os campos e envie para seu orientador.");
+                    aplicarStatusDaCorrecao(null); // Habilita todos os campos
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                exibirAlerta("Erro de Banco de Dados", "Não foi possível carregar os dados da seção.", Alert.AlertType.ERROR);
+            }
         }
     }
 
-    @FXML public void sair(ActionEvent event) { SessaoUsuario.getInstance().limparSessao(); Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/BemVindo.fxml", "Bem-vindo", event); }
-    @FXML public void perfilAluno (ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/aluno/PerfilAluno.fxml", "Perfil Aluno", event); }
-    @FXML public void secaoGeral(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/aluno/SecaoAluno.fxml", "Secao Geral", event); }
-    @FXML public void tgGeral(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/aluno/TGAluno.fxml", "TG Aluno", event); }
-    @FXML public void telaInicial(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/aluno/AtualizacoesAluno.fxml", "Tela Inicial", event); }
-    @FXML void devolutivasGeral(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/aluno/DevolutivasAluno.fxml", "TGRS - Devolutivas", event); }
+    private void aplicarStatusDaCorrecao(Secao secao) {
+        boolean isNova = (secao == null);
+
+        txtIdentificacaoProjeto.setDisable(isNova ? false : secao.isIdentificacaoOk());
+        txtEmpresaParceira.setDisable(isNova ? false : secao.isEmpresaOk());
+        txtProblema.setDisable(isNova ? false : secao.isProblemaOk());
+        txtSolucao.setDisable(isNova ? false : secao.isSolucaoOk());
+        txtLinkRepositorio.setDisable(isNova ? false : secao.isLinkOk());
+        txtTecnologiasUtilizadas.setDisable(isNova ? false : secao.isTecnologiasOk());
+        txtContribuicoesPessoais.setDisable(isNova ? false : secao.isContribuicoesOk());
+        txtDescricaoHard.setDisable(isNova ? false : secao.isHardskillsOk());
+        txtDescricaoSoft.setDisable(isNova ? false : secao.isSoftskillsOk());
+        txtHistoricoProfissional.setDisable(isNova ? false : secao.isHistProfOk());
+        txtHistoricoAcademico.setDisable(isNova ? false : secao.isHistAcadOk());
+        txtMotivacao.setDisable(isNova ? false : secao.isMotivacaoOk());
+        txtAno.setDisable(isNova ? false : secao.isAnoOk());
+        hbPeriodo.setDisable(isNova ? false : secao.isPeriodoOk());
+        hbSemestre.setDisable(isNova ? false : secao.isSemestreOk());
+    }
 
     @FXML
     void enviarSecao(ActionEvent event) {
-        try (Connection connection = ConexaoDB.getConexao()) {
-            SecaoDAO secaoDAO = new SecaoDAO(connection);
-            SessaoUsuario sessao = SessaoUsuario.getInstance();
+        if (usuarioLogado == null) {
+            exibirAlerta("Erro", "Usuário não logado.", Alert.AlertType.ERROR);
+            return;
+        }
 
-            Usuario alunoLogado = secaoDAO.buscarUsuarioPorEmail(sessao.getEmail());
-            if (alunoLogado == null || alunoLogado.getEmailOrientador() == null || alunoLogado.getEmailOrientador().trim().isEmpty()) {
-                mostrarAlerta("Erro Crítico: Seu cadastro não possui um Orientador vinculado.", Alert.AlertType.ERROR);
-                return;
+        try {
+            Secao novaSecao = new Secao();
+
+            // 2. Puxa os dados dos campos (mesmo os desabilitados)
+            puxarDadosDosCampos(novaSecao);
+
+            // 3. Define as novas chaves primárias
+            novaSecao.setData(LocalDateTime.now());
+            novaSecao.setEmailAluno(usuarioLogado.getEmailCadastrado());
+            novaSecao.setEmailOrientador(usuarioLogado.getEmailOrientador());
+            novaSecao.setIdTG(this.secaoAtual.getIdTG() != 0 ? this.secaoAtual.getIdTG() : 1); // TODO: Lógica do ID_TG
+
+            // --- A CORREÇÃO ESTÁ AQUI ---
+            // 4. Copia o status de 'OK' (os checkboxes) da seção anterior para a nova.
+            //    Isso garante que o progresso não seja perdido.
+            if (this.secaoAtual != null) {
+                novaSecao.setIdentificacaoOk(this.secaoAtual.isIdentificacaoOk());
+                novaSecao.setEmpresaOk(this.secaoAtual.isEmpresaOk());
+                novaSecao.setProblemaOk(this.secaoAtual.isProblemaOk());
+                novaSecao.setSolucaoOk(this.secaoAtual.isSolucaoOk());
+                novaSecao.setLinkOk(this.secaoAtual.isLinkOk());
+                novaSecao.setTecnologiasOk(this.secaoAtual.isTecnologiasOk());
+                novaSecao.setContribuicoesOk(this.secaoAtual.isContribuicoesOk());
+                novaSecao.setHardskillsOk(this.secaoAtual.isHardskillsOk());
+                novaSecao.setSoftskillsOk(this.secaoAtual.isSoftskillsOk());
+                novaSecao.setHistProfOk(this.secaoAtual.isHistProfOk());
+                novaSecao.setHistAcadOk(this.secaoAtual.isHistAcadOk());
+                novaSecao.setMotivacaoOk(this.secaoAtual.isMotivacaoOk());
+                novaSecao.setAnoOk(this.secaoAtual.isAnoOk());
+                novaSecao.setPeriodoOk(this.secaoAtual.isPeriodoOk());
+                novaSecao.setSemestreOk(this.secaoAtual.isSemestreOk());
             }
-            String emailOrientadorValido = alunoLogado.getEmailOrientador();
+            // --- FIM DA CORREÇÃO ---
 
-            int ano = LocalDate.now().getYear();
-            if (txtAno != null && !txtAno.getText().isEmpty()) {
-                try { ano = Integer.parseInt(txtAno.getText()); }
-                catch (NumberFormatException e) { mostrarAlerta("O campo 'Ano' deve conter apenas números.", Alert.AlertType.WARNING); return; }
-            }
+            // 5. Salva a NOVA seção (o DAO vai usar INSERT)
+            secaoDAO.inserirSecao(novaSecao);
 
-            char periodo = '0';
-            if (cbPeriodo1.isSelected()) periodo = '1';
-            else if (cbPeriodo2.isSelected()) periodo = '2';
-            else if (cbPeriodo3.isSelected()) periodo = '3';
-            else if (cbPeriodo4.isSelected()) periodo = '4';
-            else if (cbPeriodo5.isSelected()) periodo = '5';
-            else if (cbPeriodo6.isSelected()) periodo = '6';
+            // 6. Atualiza o 'secaoAtual' da tela para ser esta nova seção
+            this.secaoAtual = novaSecao;
 
-            if (periodo == '0') { mostrarAlerta("Por favor, selecione o Período (Etapa do Curso).", Alert.AlertType.WARNING); return; }
+            exibirAlerta("Sucesso", "Seção enviada com sucesso!", Alert.AlertType.INFORMATION);
 
-            char semestre = '0';
-            if (cbSemestre1.isSelected()) semestre = '1';
-            else if (cbSemestre2.isSelected()) semestre = '2';
+            // 7. Recarrega a tela
+            initialize();
 
-            if (semestre == '0') { mostrarAlerta("Por favor, selecione o Semestre do ano (1º ou 2º).", Alert.AlertType.WARNING); return; }
-
-            int idTG = (txtIdTG != null && !txtIdTG.getText().isEmpty()) ? Integer.parseInt(txtIdTG.getText()) : 0;
-
-            Secao secao = new Secao(
-                    0,
-                    txtIdentificacaoProjeto.getText(),
-                    txtEmpresaParceira.getText(),
-                    txtProblema.getText(),
-                    txtSolucao.getText(),
-                    txtLinkRepositorio.getText(),
-                    txtTecnologiasUtilizadas.getText(),
-                    txtContribuicoesPessoais.getText(),
-                    txtDescricaoSoft.getText(),
-                    txtDescricaoHard.getText(),
-                    txtHistoricoProfissional != null ? txtHistoricoProfissional.getText() : "",
-                    txtHistoricoAcademico != null ? txtHistoricoAcademico.getText() : "",
-                    txtMotivacao != null ? txtMotivacao.getText() : "",
-                    ano,
-                    periodo,
-                    semestre,
-                    // MUDANÇA CRÍTICA AQUI: Usando Timestamp para pegar HH:mm:ss
-                    new java.sql.Timestamp(System.currentTimeMillis()),
-                    idTG,
-                    sessao.getEmail(),
-                    emailOrientadorValido
-            );
-
-            secaoDAO.inserir(secao);
-            mostrarAlerta("Seção enviada com sucesso!", Alert.AlertType.INFORMATION);
-
+        } catch (NumberFormatException e) {
+            exibirAlerta("Erro de Formato", "O campo 'Ano' deve ser um número válido (ex: 2024).", Alert.AlertType.WARNING);
         } catch (Exception e) {
             e.printStackTrace();
-            mostrarAlerta("Erro ao enviar: " + e.getMessage(), Alert.AlertType.ERROR);
+            exibirAlerta("Erro ao Salvar", "Ocorreu um erro ao salvar a seção: " + e.getMessage(), Alert.AlertType.ERROR);
         }
     }
 
-    private void mostrarAlerta(String msg, Alert.AlertType tipo) {
+    private void preencherCampos(Secao secao) {
+        txtIdentificacaoProjeto.setText(secao.getIdentificacaoProjeto());
+        txtEmpresaParceira.setText(secao.getEmpresaParceira());
+        txtProblema.setText(secao.getProblema());
+        txtSolucao.setText(secao.getSolucao());
+        txtLinkRepositorio.setText(secao.getLinkRepositorio());
+        txtTecnologiasUtilizadas.setText(secao.getTecnologiasUtilizadas());
+        txtContribuicoesPessoais.setText(secao.getContribuicoesPessoais());
+        txtDescricaoHard.setText(secao.getDescricaoHard());
+        txtDescricaoSoft.setText(secao.getDescricaoSoft());
+        txtHistoricoProfissional.setText(secao.getHistoricoProfissional());
+        txtHistoricoAcademico.setText(secao.getHistoricoAcademico());
+        txtMotivacao.setText(secao.getMotivacao());
+        if(secao.getAno() > 0) {
+            txtAno.setText(String.valueOf(secao.getAno()));
+        }
+        setPeriodo(secao.getPeriodo());
+        setSemestre(secao.getSemestre());
+    }
+
+    /**
+     * Puxa os dados da tela e os insere em um objeto Secao.
+     * Ele lê os campos de texto, independentemente de estarem
+     * habilitados ou desabilitados.
+     */
+    private void puxarDadosDosCampos(Secao secao) throws NumberFormatException {
+        secao.setIdentificacaoProjeto(txtIdentificacaoProjeto.getText());
+        secao.setEmpresaParceira(txtEmpresaParceira.getText());
+        secao.setProblema(txtProblema.getText());
+        secao.setSolucao(txtSolucao.getText());
+        secao.setLinkRepositorio(txtLinkRepositorio.getText());
+        secao.setTecnologiasUtilizadas(txtTecnologiasUtilizadas.getText());
+        secao.setContribuicoesPessoais(txtContribuicoesPessoais.getText());
+        secao.setDescricaoHard(txtDescricaoHard.getText());
+        secao.setDescricaoSoft(txtDescricaoSoft.getText());
+        secao.setHistoricoProfissional(txtHistoricoProfissional.getText());
+        secao.setHistoricoAcademico(txtHistoricoAcademico.getText());
+        secao.setMotivacao(txtMotivacao.getText());
+
+        String anoTexto = txtAno.getText();
+        if(anoTexto != null && !anoTexto.trim().isEmpty()) {
+            secao.setAno(Integer.parseInt(anoTexto));
+        } else {
+            secao.setAno(0);
+        }
+
+        secao.setPeriodo(getPeriodo());
+        secao.setSemestre(getSemestre());
+    }
+
+    // --- Métodos Auxiliares para RadioButtons (Sem alterações) ---
+    private char getPeriodo() {
+        if (rbPeriodo1.isSelected()) return '1';
+        if (rbPeriodo2.isSelected()) return '2';
+        if (rbPeriodo3.isSelected()) return '3';
+        if (rbPeriodo4.isSelected()) return '4';
+        if (rbPeriodo5.isSelected()) return '5';
+        if (rbPeriodo6.isSelected()) return '6';
+        return '0';
+    }
+    private char getSemestre() {
+        if (rbPeriodo1.isSelected()) return '1';
+        if (rbSemestre2.isSelected()) return '2';
+        return '0';
+    }
+    private void setPeriodo(char p) {
+        switch (p) {
+            case '1': rbPeriodo1.setSelected(true); break;
+            case '2': rbPeriodo2.setSelected(true); break;
+            case '3': rbPeriodo3.setSelected(true); break;
+            case '4': rbPeriodo4.setSelected(true); break;
+            case '5': rbPeriodo5.setSelected(true); break;
+            case '6': rbPeriodo6.setSelected(true); break;
+        }
+    }
+    private void setSemestre(char s) {
+        if (s == '1') {
+            rbSemestre1.setSelected(true);
+        } else if (s == '2') {
+            rbSemestre2.setSelected(true);
+        }
+    }
+    private void exibirAlerta(String titulo, String msg, Alert.AlertType tipo) {
         Alert alert = new Alert(tipo);
-        alert.setTitle("Envio de Seção");
+        alert.setTitle(titulo);
         alert.setHeaderText(null);
         alert.setContentText(msg);
         alert.showAndWait();
     }
+
+    // --- Métodos de Navegação (Sem alterações) ---
+    @FXML void sair(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/BemVindo.fxml", "Bem-vindo", event); }
+    @FXML void perfilAluno (ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/aluno/PerfilAluno.fxml", "Perfil Aluno", event); }
+    @FXML void secaoGeral(ActionEvent event) { System.out.println("Já está na tela de Seção."); }
+    @FXML void tgGeral(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/aluno/TGAluno.fxml", "TG Aluno", event); }
+    @FXML void telaInicial(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/aluno/AtualizacoesAluno.fxml", "Tela Inicial", event); }
+    @FXML void devolutivasGeral(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/aluno/DevolutivasAluno.fxml", "TGRS - Devolutivas", event); }
 }

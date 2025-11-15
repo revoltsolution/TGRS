@@ -68,6 +68,25 @@ public class GerenciadorDB {
                 "Ano INT," +
                 "Periodo CHAR(1)," +
                 "Semestre CHAR(1)," +
+
+                // --- INÍCIO DAS NOVAS COLUNAS DE STATUS ---
+                "is_identificacao_ok TINYINT(1) DEFAULT 0," +
+                "is_empresa_ok TINYINT(1) DEFAULT 0," +
+                "is_problema_ok TINYINT(1) DEFAULT 0," +
+                "is_solucao_ok TINYINT(1) DEFAULT 0," +
+                "is_link_ok TINYINT(1) DEFAULT 0," +
+                "is_tecnologias_ok TINYINT(1) DEFAULT 0," +
+                "is_contribuicoes_ok TINYINT(1) DEFAULT 0," +
+                "is_softskills_ok TINYINT(1) DEFAULT 0," +
+                "is_hardskills_ok TINYINT(1) DEFAULT 0," +
+                "is_hist_prof_ok TINYINT(1) DEFAULT 0," +
+                "is_hist_acad_ok TINYINT(1) DEFAULT 0," +
+                "is_motivacao_ok TINYINT(1) DEFAULT 0," +
+                "is_ano_ok TINYINT(1) DEFAULT 0," +
+                "is_periodo_ok TINYINT(1) DEFAULT 0," +
+                "is_semestre_ok TINYINT(1) DEFAULT 0," +
+                // --- FIM DAS NOVAS COLUNAS ---
+
                 "Data DATETIME NOT NULL," +
                 "ID_TG INT NOT NULL," +
                 "Email_Aluno VARCHAR(100) NOT NULL," +

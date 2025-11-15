@@ -2,11 +2,12 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -55,9 +56,14 @@
             <padding><Insets top="20.0" right="40.0" bottom="40.0" left="40.0" /></padding>
             <children>
                 <Label text="SEÇÃO" styleClass="main-header-label" />
-                <Region styleClass="header-separator"><VBox.margin><Insets top="10.0" bottom="30.0" /></VBox.margin></Region>
-                <Label text="SEÇÃO ATUAL:" styleClass="content-subtitle-label" />
+                <Region styleClass="header-separator"><VBox.margin><Insets top="10.0" bottom="20.0" /></VBox.margin></Region>
 
+                <Label text="DEVOLUTIVA DO PROFESSOR:" styleClass="content-subtitle-label" />
+                <TextArea fx:id="txtFeedbackProfessor" editable="false" styleClass="feedback-display-area" wrapText="true" prefHeight="100.0">
+                    <VBox.margin><Insets bottom="10.0" top="5.0" /></VBox.margin>
+                </TextArea>
+
+                <Label text="SEÇÃO ATUAL:" styleClass="content-subtitle-label" />
                 <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" styleClass="scroll-pane-custom">
                     <VBox.margin><Insets top="10.0" bottom="20.0" /></VBox.margin>
                     <content>
@@ -65,12 +71,14 @@
                             <columnConstraints>
                                 <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="250.0" />
                                 <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" />
-                                <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="50.0" />
                             </columnConstraints>
                             <rowConstraints>
-                                <RowConstraints vgrow="SOMETIMES" /> <RowConstraints vgrow="SOMETIMES" /> <RowConstraints vgrow="SOMETIMES" /> <RowConstraints vgrow="SOMETIMES" /> <RowConstraints vgrow="SOMETIMES" /> <RowConstraints vgrow="SOMETIMES" /> <RowConstraints vgrow="SOMETIMES" /> <RowConstraints vgrow="SOMETIMES" /> <RowConstraints vgrow="SOMETIMES" />
                                 <RowConstraints vgrow="SOMETIMES" /> <RowConstraints vgrow="SOMETIMES" /> <RowConstraints vgrow="SOMETIMES" />
-                                <RowConstraints vgrow="SOMETIMES" /> <RowConstraints vgrow="SOMETIMES" /> <RowConstraints vgrow="SOMETIMES" /> </rowConstraints>
+                                <RowConstraints vgrow="SOMETIMES" /> <RowConstraints vgrow="SOMETIMES" /> <RowConstraints vgrow="SOMETIMES" />
+                                <RowConstraints vgrow="SOMETIMES" /> <RowConstraints vgrow="SOMETIMES" /> <RowConstraints vgrow="SOMETIMES" />
+                                <RowConstraints vgrow="SOMETIMES" /> <RowConstraints vgrow="SOMETIMES" /> <RowConstraints vgrow="SOMETIMES" />
+                                <RowConstraints vgrow="SOMETIMES" /> <RowConstraints vgrow="SOMETIMES" /> <RowConstraints vgrow="SOMETIMES" />
+                            </rowConstraints>
                             <children>
                                 <Label text="Identificação do projeto" styleClass="profile-grid-label" GridPane.rowIndex="0" />
                                 <Label text="Empresa parceira" styleClass="profile-grid-label" GridPane.rowIndex="1" />
@@ -102,46 +110,32 @@
                                 <TextArea fx:id="txtMotivacao" styleClass="profile-text-input" prefHeight="100.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="11" />
                                 <TextField fx:id="txtAno" styleClass="profile-text-input" promptText="Ex: 2024" GridPane.columnIndex="1" GridPane.rowIndex="12" />
 
-                                <HBox spacing="10.0" alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="13">
+                                <HBox fx:id="hbPeriodo" spacing="10.0" alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="13">
                                     <children>
-                                        <CheckBox fx:id="cbPeriodo1" text="1º" />
-                                        <CheckBox fx:id="cbPeriodo2" text="2º" />
-                                        <CheckBox fx:id="cbPeriodo3" text="3º" />
-                                        <CheckBox fx:id="cbPeriodo4" text="4º" />
-                                        <CheckBox fx:id="cbPeriodo5" text="5º" />
-                                        <CheckBox fx:id="cbPeriodo6" text="6º" />
+                                        <fx:define><ToggleGroup fx:id="grupoPeriodo" /></fx:define>
+                                        <RadioButton fx:id="rbPeriodo1" text="1º" toggleGroup="$grupoPeriodo" />
+                                        <RadioButton fx:id="rbPeriodo2" text="2º" toggleGroup="$grupoPeriodo" />
+                                        <RadioButton fx:id="rbPeriodo3" text="3º" toggleGroup="$grupoPeriodo" />
+                                        <RadioButton fx:id="rbPeriodo4" text="4º" toggleGroup="$grupoPeriodo" />
+                                        <RadioButton fx:id="rbPeriodo5" text="5º" toggleGroup="$grupoPeriodo" />
+                                        <RadioButton fx:id="rbPeriodo6" text="6º" toggleGroup="$grupoPeriodo" />
                                     </children>
                                 </HBox>
 
-                                <HBox spacing="15.0" alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="14">
+                                <HBox fx:id="hbSemestre" spacing="15.0" alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="14">
                                     <children>
-                                        <CheckBox fx:id="cbSemestre1" text="1º Semestre do ano" />
-                                        <CheckBox fx:id="cbSemestre2" text="2º Semestre do ano" />
+                                        <fx:define><ToggleGroup fx:id="grupoSemestre" /></fx:define>
+                                        <RadioButton fx:id="rbSemestre1" text="1º Semestre do ano" toggleGroup="$grupoSemestre" />
+                                        <RadioButton fx:id="rbSemestre2" text="2º Semestre do ano" toggleGroup="$grupoSemestre" />
                                     </children>
                                 </HBox>
-
-                                <CheckBox styleClass="checkbox-custom" GridPane.columnIndex="2" GridPane.rowIndex="0" />
-                                <CheckBox styleClass="checkbox-custom" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                                <CheckBox styleClass="checkbox-custom" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                                <CheckBox styleClass="checkbox-custom" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                                <CheckBox styleClass="checkbox-custom" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-                                <CheckBox styleClass="checkbox-custom" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-                                <CheckBox styleClass="checkbox-custom" GridPane.columnIndex="2" GridPane.rowIndex="6" />
-                                <CheckBox styleClass="checkbox-custom" GridPane.columnIndex="2" GridPane.rowIndex="7" />
-                                <CheckBox styleClass="checkbox-custom" GridPane.columnIndex="2" GridPane.rowIndex="8" />
-                                <CheckBox styleClass="checkbox-custom" GridPane.columnIndex="2" GridPane.rowIndex="9" />
-                                <CheckBox styleClass="checkbox-custom" GridPane.columnIndex="2" GridPane.rowIndex="10" />
-                                <CheckBox styleClass="checkbox-custom" GridPane.columnIndex="2" GridPane.rowIndex="11" />
-                                <CheckBox styleClass="checkbox-custom" GridPane.columnIndex="2" GridPane.rowIndex="12" />
-                                <CheckBox styleClass="checkbox-custom" GridPane.columnIndex="2" GridPane.rowIndex="13" />
-                                <CheckBox styleClass="checkbox-custom" GridPane.columnIndex="2" GridPane.rowIndex="14" />
                             </children>
                         </GridPane>
                     </content>
                 </ScrollPane>
                 <HBox alignment="CENTER_RIGHT">
                     <children>
-                        <Button text="ENVIAR" onAction="#enviarSecao" styleClass="profile-button-primary" />
+                        <Button onAction="#enviarSecao" text="ENVIAR" styleClass="profile-button-primary" />
                     </children>
                 </HBox>
             </children>

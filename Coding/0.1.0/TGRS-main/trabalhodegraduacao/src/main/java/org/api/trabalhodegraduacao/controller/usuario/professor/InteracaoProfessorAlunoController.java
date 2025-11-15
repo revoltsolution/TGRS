@@ -1,100 +1,122 @@
 package org.api.trabalhodegraduacao.controller.usuario.professor;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
-import org.api.trabalhodegraduacao.dao.SecaoDAO;
-import org.api.trabalhodegraduacao.entities.Secao;
-import org.api.trabalhodegraduacao.bancoDeDados.ConexaoDB; // Importação correta
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
+import org.api.trabalhodegraduacao.Application;
+import org.api.trabalhodegraduacao.entities.Usuario;
+import org.api.trabalhodegraduacao.utils.AlunoSelecionado;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.List;
+import java.time.format.DateTimeFormatter;
 
 public class InteracaoProfessorAlunoController {
 
-    @FXML
-    private TableView<Secao> tabelaSecoes;
+    // --- FXML Barra Lateral ---
+    @FXML private Button bt_perfil_geral, bt_alunos_geral, bt_devolutivas_geral, bt_tela_inicial, bt_Sair;
 
-    @FXML
-    private TableColumn<Secao, String> colProjeto, colAluno, colOrientador;
+    // --- FXML Conteúdo Principal ---
+    @FXML private Label lblNomeAlunoHeader;
+    @FXML private ImageView imgVwFotoPerfil;
 
-    @FXML
-    private TextArea txtDetalhes;
+    // FXML do GridPane (Corrigido)
+    @FXML private Label lblNome;
+    @FXML private Label lblEmail;
+    @FXML private Label lblCurso;
+    @FXML private Label lblDataNascimento;
+    @FXML private Label lblLinkedin;
+    @FXML private Label lblGitHub;
+    @FXML private Label lblOrientador;
 
-    @FXML
-    private Button btAtualizar, btEnviarFeedback;
+    // Botões de Ação
+    @FXML private Button bt_professor_secao_aluno;
+    @FXML private Button bt_professor_tg_aluno;
 
-    private SecaoDAO secaoDAO;
-
-    private ObservableList<Secao> secoesObservable;
+    private Usuario alunoSelecionado;
+    private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     @FXML
     public void initialize() {
-        colProjeto.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getIdentificacaoProjeto()));
-        colAluno.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getEmailAluno()));
-        colOrientador.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getEmailOrientador()));
+        this.alunoSelecionado = AlunoSelecionado.getInstance().getAluno();
 
-        carregarSecoes();
-
-        tabelaSecoes.setOnMouseClicked(this::mostrarDetalhes);
-    }
-
-    private void carregarSecoes() {
-        try (Connection conn = ConexaoDB.getConexao()) {
-            secaoDAO = new SecaoDAO(conn);
-            List<Secao> secoes = secaoDAO.listarTodas();
-            secoesObservable = FXCollections.observableArrayList(secoes);
-            tabelaSecoes.setItems(secoesObservable);
-        } catch (SQLException e) {
-            exibirErro("Erro ao carregar seções: " + e.getMessage());
-        }
-    }
-
-    private void mostrarDetalhes(MouseEvent event) {
-        Secao selecionada = tabelaSecoes.getSelectionModel().getSelectedItem();
-        if (selecionada != null) {
-            txtDetalhes.setText(
-                    "Projeto: " + selecionada.getIdentificacaoProjeto() + "\n\n" +
-                            "Problema: " + selecionada.getProblema() + "\n\n" +
-                            "Solução: " + selecionada.getSolucao() + "\n\n" +
-                            "Empresa Parceira: " + selecionada.getEmpresaParceira() + "\n\n" +
-                            "Aluno: " + selecionada.getEmailAluno() + "\n" +
-                            "Orientador: " + selecionada.getEmailOrientador()
-            );
-        }
-    }
-
-    @FXML
-    private void atualizarLista(ActionEvent event) {
-        carregarSecoes();
-    }
-
-    @FXML
-    private void enviarFeedback(ActionEvent event) {
-        Secao selecionada = tabelaSecoes.getSelectionModel().getSelectedItem();
-        if (selecionada == null) {
-            exibirErro("Selecione uma seção antes de enviar o feedback.");
+        if (this.alunoSelecionado == null) {
+            System.err.println("Erro: Nenhum aluno foi selecionado. Voltando para a lista.");
+            lblNomeAlunoHeader.setText("ERRO - ALUNO NÃO ENCONTRADO");
             return;
         }
 
-        exibirInfo("Feedback enviado com sucesso para o aluno " + selecionada.getEmailAluno());
+        preencherDadosAluno();
     }
 
-    private void exibirErro(String msg) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setHeaderText("Erro");
-        alert.setContentText(msg);
-        alert.showAndWait();
+    private void preencherDadosAluno() {
+        lblNomeAlunoHeader.setText(alunoSelecionado.getNomeCompleto());
+
+        // Preenche os labels do GridPane
+        lblNome.setText(getTextoOuPadrao(alunoSelecionado.getNomeCompleto()));
+        lblEmail.setText(getTextoOuPadrao(alunoSelecionado.getEmailCadastrado()));
+        lblCurso.setText(getTextoOuPadrao(alunoSelecionado.getCurso()));
+        lblLinkedin.setText(getTextoOuPadrao(alunoSelecionado.getLinkedin()));
+        lblGitHub.setText(getTextoOuPadrao(alunoSelecionado.getGitHub()));
+        lblOrientador.setText(getTextoOuPadrao(alunoSelecionado.getNomeOrientador()));
+
+        // Formata a data
+        if (alunoSelecionado.getDataNascimento() != null) {
+            lblDataNascimento.setText(alunoSelecionado.getDataNascimento().format(dateFormatter));
+        } else {
+            lblDataNascimento.setText("(Não informado)");
+        }
+
+        // (Lógica para carregar a foto do aluno)
     }
 
-    private void exibirInfo(String msg) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setHeaderText("Sucesso");
-        alert.setContentText(msg);
-        alert.showAndWait();
+    private String getTextoOuPadrao(String texto) {
+        return (texto != null && !texto.trim().isEmpty()) ? texto : "(Não informado)";
+    }
+
+    @FXML
+    void onAbrirSecaoAluno(ActionEvent event) {
+        if (this.alunoSelecionado == null) {
+            System.err.println("Nenhum aluno selecionado para abrir a seção.");
+            return;
+        }
+
+        Application.carregarNovaCena(
+                "/org/api/trabalhodegraduacao/view/usuario/professor/CorrecaoSecao.fxml",
+                "Corrigir Seção",
+                event
+        );
+    }
+
+    // --- Métodos de Navegação (Barra Lateral do Professor) ---
+
+    @FXML
+    void sair(ActionEvent event) {
+        AlunoSelecionado.getInstance().limparSelecao();
+        Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/BemVindo.fxml", "Bem-vindo", event);
+    }
+
+    @FXML
+    void perfilProfessor(ActionEvent event) {
+        AlunoSelecionado.getInstance().limparSelecao();
+        Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/professor/PerfilProfessor.fxml", "Perfil", event);
+    }
+
+    @FXML
+    void alunos(ActionEvent event) {
+        AlunoSelecionado.getInstance().limparSelecao();
+        Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/professor/Alunos.fxml", "Alunos", event);
+    }
+
+    @FXML
+    void devolutivas(ActionEvent event) {
+        AlunoSelecionado.getInstance().limparSelecao();
+        Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/professor/Historico.fxml", "Devolutivas", event);
+    }
+
+    @FXML
+    void telaInicial(ActionEvent event) {
+        AlunoSelecionado.getInstance().limparSelecao();
+        Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/professor/AtualizacoesProfessor.fxml", "Tela Inicial", event);
     }
 }

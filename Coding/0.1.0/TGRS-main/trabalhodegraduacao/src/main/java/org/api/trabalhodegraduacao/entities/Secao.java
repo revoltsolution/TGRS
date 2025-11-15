@@ -1,9 +1,18 @@
 package org.api.trabalhodegraduacao.entities;
-import java.util.Date;
+
+// 1. Importação de Date removida
+import java.time.LocalDateTime; // 2. Importação correta para DATETIME
 
 public class Secao {
 
-    private int idSecao;
+    // 3. idSecao REMOVIDO (não existe no seu banco)
+
+    // --- Chave Primária Composta ---
+    private LocalDateTime data; // 4. Tipo CORRIGIDO
+    private String emailAluno;
+    private String emailOrientador;
+    // --------------------------------
+
     private String identificacaoProjeto;
     private String empresaParceira;
     private String problema;
@@ -19,16 +28,149 @@ public class Secao {
     private int ano;
     private char periodo;
     private char semestre;
-    private Date data;
     private int idTG;
-    private String emailAluno;
-    private String emailOrientador;
+    private boolean isIdentificacaoOk;
+    private boolean isEmpresaOk;
+    private boolean isProblemaOk;
+    private boolean isSolucaoOk;
+    private boolean isLinkOk;
+    private boolean isTecnologiasOk;
+    private boolean isContribuicoesOk;
+    private boolean isSoftskillsOk;
+    private boolean isHardskillsOk;
+    private boolean isHistProfOk;
+    private boolean isHistAcadOk;
+    private boolean isMotivacaoOk;
+    private boolean isAnoOk;
+    private boolean isPeriodoOk;
+    private boolean isSemestreOk;
 
+    // Construtor vazio (usado pelo DAO)
     public Secao() {
     }
 
-    public Secao(int idSecao, String identificacaoProjeto, String empresaParceira, String problema, String solucao, String linkRepositorio, String tecnologiasUtilizadas, String contribuicoesPessoais, String descricaoSoft, String descricaoHard, String historicoProfissional, String historicoAcademico, String motivacao, int ano, char periodo, char semestre, Date data, int idTG, String emailAluno, String emailOrientador) {
-        this.idSecao = idSecao;
+    public boolean isIdentificacaoOk() {
+        return isIdentificacaoOk;
+    }
+
+    public void setIdentificacaoOk(boolean identificacaoOk) {
+        isIdentificacaoOk = identificacaoOk;
+    }
+
+    public boolean isEmpresaOk() {
+        return isEmpresaOk;
+    }
+
+    public void setEmpresaOk(boolean empresaOk) {
+        isEmpresaOk = empresaOk;
+    }
+
+    public boolean isProblemaOk() {
+        return isProblemaOk;
+    }
+
+    public void setProblemaOk(boolean problemaOk) {
+        isProblemaOk = problemaOk;
+    }
+
+    public boolean isSolucaoOk() {
+        return isSolucaoOk;
+    }
+
+    public void setSolucaoOk(boolean solucaoOk) {
+        isSolucaoOk = solucaoOk;
+    }
+
+    public boolean isLinkOk() {
+        return isLinkOk;
+    }
+
+    public void setLinkOk(boolean linkOk) {
+        isLinkOk = linkOk;
+    }
+
+    public boolean isTecnologiasOk() {
+        return isTecnologiasOk;
+    }
+
+    public void setTecnologiasOk(boolean tecnologiasOk) {
+        isTecnologiasOk = tecnologiasOk;
+    }
+
+    public boolean isContribuicoesOk() {
+        return isContribuicoesOk;
+    }
+
+    public void setContribuicoesOk(boolean contribuicoesOk) {
+        isContribuicoesOk = contribuicoesOk;
+    }
+
+    public boolean isSoftskillsOk() {
+        return isSoftskillsOk;
+    }
+
+    public void setSoftskillsOk(boolean softskillsOk) {
+        isSoftskillsOk = softskillsOk;
+    }
+
+    public boolean isHardskillsOk() {
+        return isHardskillsOk;
+    }
+
+    public void setHardskillsOk(boolean hardskillsOk) {
+        isHardskillsOk = hardskillsOk;
+    }
+
+    public boolean isHistProfOk() {
+        return isHistProfOk;
+    }
+
+    public void setHistProfOk(boolean histProfOk) {
+        isHistProfOk = histProfOk;
+    }
+
+    public boolean isHistAcadOk() {
+        return isHistAcadOk;
+    }
+
+    public void setHistAcadOk(boolean histAcadOk) {
+        isHistAcadOk = histAcadOk;
+    }
+
+    public boolean isMotivacaoOk() {
+        return isMotivacaoOk;
+    }
+
+    public void setMotivacaoOk(boolean motivacaoOk) {
+        isMotivacaoOk = motivacaoOk;
+    }
+
+    public boolean isAnoOk() {
+        return isAnoOk;
+    }
+
+    public void setAnoOk(boolean anoOk) {
+        isAnoOk = anoOk;
+    }
+
+    public boolean isPeriodoOk() {
+        return isPeriodoOk;
+    }
+
+    public void setPeriodoOk(boolean periodoOk) {
+        isPeriodoOk = periodoOk;
+    }
+
+    public boolean isSemestreOk() {
+        return isSemestreOk;
+    }
+
+    public void setSemestreOk(boolean semestreOk) {
+        isSemestreOk = semestreOk;
+    }
+
+    // 5. Construtor longo CORRIGIDO (sem idSecao, com LocalDateTime)
+    public Secao(String identificacaoProjeto, String empresaParceira, String problema, String solucao, String linkRepositorio, String tecnologiasUtilizadas, String contribuicoesPessoais, String descricaoSoft, String descricaoHard, String historicoProfissional, String historicoAcademico, String motivacao, int ano, char periodo, char semestre, LocalDateTime data, int idTG, String emailAluno, String emailOrientador) {
         this.identificacaoProjeto = identificacaoProjeto;
         this.empresaParceira = empresaParceira;
         this.problema = problema;
@@ -50,13 +192,20 @@ public class Secao {
         this.emailOrientador = emailOrientador;
     }
 
-    public int getIdSecao() {
-        return idSecao;
+    // --- Getters e Setters ---
+
+    // 6. Get/Set de idSecao REMOVIDOS
+
+    // 7. Get/Set de Data CORRIGIDOS
+    public LocalDateTime getData() {
+        return data;
     }
 
-    public void setIdSecao(int idSecao) {
-        this.idSecao = idSecao;
+    public void setData(LocalDateTime data) {
+        this.data = data;
     }
+
+    // (O resto dos seus Getters e Setters está correto)
 
     public String getIdentificacaoProjeto() {
         return identificacaoProjeto;
@@ -178,14 +327,6 @@ public class Secao {
         this.semestre = semestre;
     }
 
-    public Date getData() {
-        return data;
-    }
-
-    public void setData(Date data) {
-        this.data = data;
-    }
-
     public int getIdTG() {
         return idTG;
     }
@@ -213,8 +354,8 @@ public class Secao {
     @Override
     public String toString() {
         return "Secao{" +
-                "idSecao=" + idSecao +
-                ", identificacaoProjeto='" + identificacaoProjeto + '\'' +
+                // "idSecao=" + idSecao + // REMOVIDO
+                "identificacaoProjeto='" + identificacaoProjeto + '\'' +
                 ", empresaParceira='" + empresaParceira + '\'' +
                 ", problema='" + problema + '\'' +
                 ", solucao='" + solucao + '\'' +

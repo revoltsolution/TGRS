@@ -5,12 +5,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert; // Adicionado para exibir erros visuais
+import javafx.scene.control.Alert;
 
 import org.api.trabalhodegraduacao.Application;
 import org.api.trabalhodegraduacao.utils.SessaoUsuario;
-// MUDANÇA: Agora importa o SecaoDAO, pois ele contém a lógica de busca de usuário
-import org.api.trabalhodegraduacao.dao.SecaoDAO;
+// --- CORREÇÃO 1: Importar o DAO correto ---
+import org.api.trabalhodegraduacao.dao.UsuarioDAO;
 import org.api.trabalhodegraduacao.entities.Usuario;
 
 import java.net.URL;
@@ -19,8 +19,8 @@ import java.util.ResourceBundle;
 
 public class BemVindoController implements Initializable {
 
-    SecaoDAO secaoDAO = new SecaoDAO();
-
+    // --- CORREÇÃO 2: Instanciar o DAO correto ---
+    UsuarioDAO usuarioDAO = new UsuarioDAO();
 
     @FXML public Button bt_Entrar;
     @FXML private TextField txt_Login;
@@ -34,7 +34,9 @@ public class BemVindoController implements Initializable {
     @FXML
     void btEntrar(ActionEvent event) {
         String login = txt_Login.getText();
-        Usuario usuarioEncontrado = null;
+
+        // --- CORREÇÃO 3: Declarar a variável apenas uma vez ---
+        Usuario usuarioEncontrado;
 
         if (login.isEmpty()) {
             exibirAlerta("Por favor, insira seu email.", Alert.AlertType.WARNING);
@@ -42,7 +44,9 @@ public class BemVindoController implements Initializable {
         }
 
         try {
-            usuarioEncontrado = secaoDAO.buscarUsuarioPorEmail(login);
+            // --- CORREÇÃO 4: Chamar o DAO correto com o MÉTODO correto ---
+            usuarioEncontrado = usuarioDAO.buscarCredenciaisPorEmail(login);
+
         } catch (SQLException e) {
             e.printStackTrace();
             exibirAlerta("Erro ao consultar o banco de dados.", Alert.AlertType.ERROR);
@@ -56,6 +60,7 @@ public class BemVindoController implements Initializable {
 
         System.out.println(usuarioEncontrado.getEmailCadastrado());
 
+        // O seu método 'iniciarSessao' está correto aqui
         SessaoUsuario.getInstance().iniciarSessao(
                 usuarioEncontrado.getEmailCadastrado(),
                 usuarioEncontrado.getNomeCompleto(),
@@ -77,6 +82,7 @@ public class BemVindoController implements Initializable {
     private void exibirAlerta(String msg, Alert.AlertType tipo) {
         Alert alert = new Alert(tipo);
         alert.setHeaderText(null);
+        alert.setTitle("Atenção"); // Adicionado um título ao Alerta
         alert.setContentText(msg);
         alert.showAndWait();
     }

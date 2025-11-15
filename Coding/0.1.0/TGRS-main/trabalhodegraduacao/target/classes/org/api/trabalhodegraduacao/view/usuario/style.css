@@ -390,10 +390,11 @@ A CORREÇÃO PRINCIPAL ESTÁ AQUI
     -fx-opacity: 0.8;
 }
 
+
 /* --- Barra de Progresso Customizada --- */
 .progress-bar-custom {
-    -fx-accent: #FFFFFF; /* Cor da barra de progresso (branca) */
-    -fx-control-inner-background: #40607e; /* Cor do fundo (trilho) */
+    -fx-accent: #FFFFFF;
+    -fx-control-inner-background: #40607e;
     -fx-border-color: #5a84a6;
     -fx-border-radius: 5px;
     -fx-background-radius: 5px;
@@ -513,4 +514,52 @@ A CORREÇÃO PRINCIPAL ESTÁ AQUI
 
 .date-picker-popup .week-number-cell {
     -fx-text-fill: #cccccc;
+}
+/* ================================== */
+/* NOVOS ESTILOS (Checkbox Branco)    */
+/* ================================== */
+
+.checkbox-custom-white {
+    -fx-text-fill: white;
+    -fx-font-family: "Cambria";
+    -fx-font-size: 14px;
+}
+
+.checkbox-custom-white .box {
+    -fx-background-color: #5a84a6;
+    -fx-border-color: #a7d1ed;
+    -fx-border-radius: 3px;
+    -fx-background-radius: 3px;
+}
+
+.checkbox-custom-white:selected .box .mark {
+    -fx-background-color: white; /* Cor da marca de "check" */
+}
+/* ================================== */
+/* NOVOS ESTILOS (Feedback e Campos Travados) */
+/* ================================== */
+
+/* Estilo para a caixa de feedback do professor */
+.feedback-display-area {
+    -fx-control-inner-background: #3a6081; /* Cor da sidebar */
+    -fx-text-fill: white;
+    -fx-font-family: "Cambria";
+    -fx-font-style: italic;
+    -fx-font-size: 14px;
+    -fx-border-color: #5a84a6;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-padding: 8px;
+    -fx-opacity: 0.9; /* Levemente sutil */
+}
+
+/* Estilo para campos de texto travados (disabled) */
+.profile-text-input:disabled {
+    -fx-opacity: 0.7; /* Não fica tão "morto" */
+    -fx-control-inner-background: #3a6081; /* Fundo mais escuro */
+    -fx-text-fill: #cccccc; /* Texto legível */
+}
+
+.profile-text-input:disabled .content {
+    -fx-background-color: #3a6081;
 }
