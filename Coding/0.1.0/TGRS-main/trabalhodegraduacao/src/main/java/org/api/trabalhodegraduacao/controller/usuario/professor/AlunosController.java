@@ -4,47 +4,47 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*; // Importe tudo de .control
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import org.api.trabalhodegraduacao.Application;
 import org.api.trabalhodegraduacao.dao.UsuarioDAO;
 import org.api.trabalhodegraduacao.entities.Usuario;
+import org.api.trabalhodegraduacao.dao.SecaoDAO;
+import org.api.trabalhodegraduacao.entities.Secao;
 import org.api.trabalhodegraduacao.utils.AlunoSelecionado;
 import org.api.trabalhodegraduacao.utils.SessaoUsuario;
+import javafx.beans.property.SimpleStringProperty;
+
 
 import java.sql.SQLException;
 import java.util.List;
 
 public class AlunosController {
 
-    // --- FXML Barra Lateral ---
     @FXML private Button bt_Sair, bt_alunos_geral, bt_devolutivas_geral, bt_perfil_geral, bt_tela_inicial;
 
-    // --- FXML da Tabela ---
     @FXML private TableView<Usuario> tabelaAlunos;
     @FXML private TableColumn<Usuario, String> colNome;
-    @FXML private TableColumn<Usuario, String> colTG;
     @FXML private TableColumn<Usuario, String> colSecao;
 
-    // --- MUDANÇA AQUI: O tipo agora é Double ---
     @FXML private TableColumn<Usuario, Double> colProgresso;
 
     private UsuarioDAO usuarioDAO;
+    private SecaoDAO secaoDAO;
+
 
     @FXML
     void initialize() {
         this.usuarioDAO = new UsuarioDAO();
+        this.secaoDAO = new SecaoDAO();
 
-        // 1. Configura a coluna "NOME"
+
         colNome.setCellValueFactory(new PropertyValueFactory<>("nomeCompleto"));
 
-        // --- MUDANÇA AQUI: Configura a coluna "PROGRESSO" ---
 
-        // 2. Linka a coluna ao getter "getProgresso()" (que retorna um Double 0.0-1.0)
         colProgresso.setCellValueFactory(new PropertyValueFactory<>("progresso"));
 
-        // 3. (Opcional) Mostra uma barra de progresso em vez de um número
         colProgresso.setCellFactory(column -> {
             return new TableCell<Usuario, Double>() {
                 private final ProgressBar pb = new ProgressBar();
@@ -56,30 +56,39 @@ public class AlunosController {
                     if (empty || item == null) {
                         setGraphic(null);
                     } else {
-                        pb.setProgress(item); // 'item' é o double (0.0 a 1.0)
+                        pb.setProgress(item);
 
-                        // Reutiliza o estilo que já criamos para a tela do aluno
                         pb.getStyleClass().add("progress-bar-custom");
-                        pb.setMaxWidth(Double.MAX_VALUE); // Faz a barra preencher a célula
+                        pb.setMaxWidth(Double.MAX_VALUE);
                         setGraphic(pb);
                     }
                 }
             };
         });
-        // --- FIM DA MUDANÇA ---
+        colSecao.setCellValueFactory(cellData -> {
+            Usuario aluno = cellData.getValue();
+            SessaoUsuario sessao = SessaoUsuario.getInstance();
+            if (!sessao.isLogado()) {
+                return new SimpleStringProperty("-");
+            }
+            try {
+                Secao secaoAtual = secaoDAO.buscarSecaoMaisRecente(aluno.getEmailCadastrado(), sessao.getEmail());
+                if (secaoAtual != null) {
+                    return new SimpleStringProperty(secaoAtual.getIdentificacaoProjeto());
+                } else {
+                    return new SimpleStringProperty("-");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return new SimpleStringProperty("Erro");
+            }
+        });
 
-        // 4. Carrega os dados (agora com o progresso)
         carregarAlunosDaTabela();
 
-        // 5. Adiciona o clique-duplo
         tabelaAlunos.setOnMouseClicked(this::handleRowClick);
     }
 
-    // ... (O resto da sua classe AlunosController) ...
-
-    /**
-     * Chamado quando uma linha da tabela é clicada (clique-duplo).
-     */
     private void handleRowClick(MouseEvent event) {
         if (event.getClickCount() == 2) {
             Usuario alunoSelecionado = tabelaAlunos.getSelectionModel().getSelectedItem();
@@ -116,7 +125,6 @@ public class AlunosController {
         }
     }
 
-    // --- Métodos de Navegação ---
     @FXML void alunos(ActionEvent event) { System.out.println("Já está na tela de Alunos."); }
     @FXML void devolutivas(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/professor/Historico.fxml", "Devolutivas", event); }
     @FXML void perfilProfessor(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/professor/PerfilProfessor.fxml", "Perfil", event); }
