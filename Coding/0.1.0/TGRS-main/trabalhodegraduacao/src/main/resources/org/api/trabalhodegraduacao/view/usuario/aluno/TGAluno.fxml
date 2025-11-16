@@ -27,20 +27,17 @@
                 <Insets top="10.0" right="15.0" bottom="20.0" left="15.0" />
             </padding>
             <children>
-                <HBox alignment="CENTER_LEFT" spacing="10.0">
-                    <children>
-                        <ImageView fitHeight="40.0" fitWidth="40.0" preserveRatio="true">
-                            <image>
-                                <Image url="@../../../images/imgLogoRevolt.png" />
-                            </image>
-                        </ImageView>
-                        <Label text="REVOLT SOLUTIONS" styleClass="sidebar-title" />
-                    </children>
-                </HBox>
-
+                <ImageView fitWidth="200.0" preserveRatio="true">
+                    <image>
+                        <Image url="@../../../images/Imagem1.jpg" />
+                    </image>
+                    <VBox.margin>
+                        <Insets top="0.0" right="0.0" bottom="0.0" left="0.0" />
+                    </VBox.margin>
+                </ImageView>
                 <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" styleClass="profile-image">
                     <image>
-                        <Image url="@../../../images/imgFotoPerfil.png" />
+                        <Image url="@../../../images/FatecLogo.png" />
                     </image>
                     <clip>
                         <Circle radius="75.0" centerX="75.0" centerY="75.0" />
@@ -49,15 +46,11 @@
                         <Insets top="20.0" bottom="20.0" />
                     </VBox.margin>
                 </ImageView>
-
                 <Button fx:id="bt_perfil_geral" onAction="#perfilAluno" text="PERFIL" styleClass="sidebar-button" maxWidth="Infinity"/>
                 <Button fx:id="bt_secao_geral" onAction="#secaoGeral" text="SEÇÃO" styleClass="sidebar-button" maxWidth="Infinity"/>
                 <Button fx:id="bt_tg_geral" onAction="#tgGeral" text="TG" styleClass="sidebar-button" maxWidth="Infinity"/>
-
                 <Button fx:id="bt_devolutivas_geral" onAction="#devolutivasGeral" text="DEVOLUTIVAS" styleClass="sidebar-button" maxWidth="Infinity"/>
-
                 <Region VBox.vgrow="ALWAYS" />
-
                 <Button fx:id="bt_tela_inicial" onAction="#telaInicial" text="TELA INICIAL" styleClass="sidebar-button-secondary" maxWidth="Infinity"/>
                 <Button fx:id="bt_Sair" onAction="#sair" text="SAIR" styleClass="sidebar-button-secondary" maxWidth="Infinity"/>
             </children>
@@ -70,8 +63,16 @@
                 <Insets top="20.0" right="40.0" bottom="40.0" left="40.0" />
             </padding>
             <children>
-                <Label text="TG" styleClass="main-header-label" />
-
+                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                    <children>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" preserveRatio="true">
+                            <image>
+                                <Image url="@../../../images/nota.png" />
+                            </image>
+                        </ImageView>
+                        <Label text="TG" styleClass="main-header-label" />
+                    </children>
+                </HBox>
                 <Region styleClass="header-separator">
                     <VBox.margin>
                         <Insets top="10.0" bottom="30.0" />
@@ -97,29 +98,30 @@
                         <Label text="PROGRESSO" styleClass="grid-header-label" GridPane.columnIndex="1" />
                         <Label text="ACESSAR TG" styleClass="grid-header-label" GridPane.columnIndex="2" />
 
-                        <Label text="TRABALHO DE GRADUAÇÃO 1" styleClass="profile-data-label" GridPane.rowIndex="1" />
-                        <ProgressBar progress="0.0" maxWidth="Infinity" styleClass="progress-bar-custom" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <Button text="TG1" styleClass="profile-button-secondary" maxWidth="Infinity" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                        <Label text="TG 1 - SEÇÃO 1" styleClass="content-subtitle-label" GridPane.rowIndex="1" />
+                        <ProgressBar fx:id="pbSecao1" progress="0.0" maxWidth="Infinity" styleClass="progress-bar-custom" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Button text="Acessar Seção" styleClass="profile-button-secondary" maxWidth="Infinity" GridPane.columnIndex="2" GridPane.rowIndex="1" />
 
-                        <Label text="TRABALHO DE GRADUAÇÃO 2" styleClass="profile-data-label" GridPane.rowIndex="2" />
-                        <ProgressBar progress="0.0" maxWidth="Infinity" styleClass="progress-bar-custom" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <Button text="TG2" styleClass="profile-button-secondary" maxWidth="Infinity" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                        <Label text="TG 1 - SEÇÃO 2" styleClass="content-subtitle-label" GridPane.rowIndex="2" />
+                        <ProgressBar fx:id="pbSecao2" progress="0.0" maxWidth="Infinity" styleClass="progress-bar-custom" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Button text="Acessar Seção" styleClass="profile-button-secondary" maxWidth="Infinity" GridPane.columnIndex="2" GridPane.rowIndex="2" />
 
-                        <Label text="TRABALHO DE GRADUAÇÃO 3" styleClass="profile-data-label" GridPane.rowIndex="3" />
-                        <ProgressBar progress="0.0" maxWidth="Infinity" styleClass="progress-bar-custom" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                        <Button text="TG3" styleClass="profile-button-secondary" maxWidth="Infinity" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                        <Label text="TG 2 - SEÇÃO 1" styleClass="content-subtitle-label" GridPane.rowIndex="3" />
+                        <ProgressBar fx:id="pbSecao3" progress="0.0" maxWidth="Infinity" styleClass="progress-bar-custom" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Button text="Acessar Seção" styleClass="profile-button-secondary" maxWidth="Infinity" GridPane.columnIndex="2" GridPane.rowIndex="3" />
 
-                        <Label text="TRABALHO DE GRADUAÇÃO 4" styleClass="profile-data-label" GridPane.rowIndex="4" />
-                        <ProgressBar progress="0.0" maxWidth="Infinity" styleClass="progress-bar-custom" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                        <Button text="TG4" styleClass="profile-button-secondary" maxWidth="Infinity" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                        <Label text="TG 2 - SEÇÃO 2" styleClass="content-subtitle-label" GridPane.rowIndex="4" />
+                        <ProgressBar fx:id="pbSecao4" progress="0.0" maxWidth="Infinity" styleClass="progress-bar-custom" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <Button text="Acessar Seção" styleClass="profile-button-secondary" maxWidth="Infinity" GridPane.columnIndex="2" GridPane.rowIndex="4" />
 
-                        <Label text="TRABALHO DE GRADUAÇÃO 5" styleClass="profile-data-label" GridPane.rowIndex="5" />
-                        <ProgressBar progress="0.0" maxWidth="Infinity" styleClass="progress-bar-custom" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                        <Button text="TG5" styleClass="profile-button-secondary" maxWidth="Infinity" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                        <Label text="TG 2 - SEÇÃO 3" styleClass="content-subtitle-label" GridPane.rowIndex="5" />
+                        <ProgressBar fx:id="pbSecao5" progress="0.0" maxWidth="Infinity" styleClass="progress-bar-custom" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <Button text="Acessar Seção" styleClass="profile-button-secondary" maxWidth="Infinity" GridPane.columnIndex="2" GridPane.rowIndex="5" />
 
-                        <Label text="TRABALHO DE GRADUAÇÃO 6" styleClass="profile-data-label" GridPane.rowIndex="6" />
-                        <ProgressBar progress="0.0" maxWidth="Infinity" styleClass="progress-bar-custom" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                        <Button text="TG6" styleClass="profile-button-secondary" maxWidth="Infinity" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+                        <Label text="TG 2 - SEÇÃO 4" styleClass="content-subtitle-label" GridPane.rowIndex="6" />
+                        <ProgressBar fx:id="pbSecao6" progress="0.0" maxWidth="Infinity" styleClass="progress-bar-custom" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                        <Button text="Acessar Seção" styleClass="profile-button-secondary" maxWidth="Infinity" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+
                     </children>
                     <VBox.margin>
                         <Insets bottom="20.0" />

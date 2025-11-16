@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+
+<BorderPane prefHeight="768.0" prefWidth="1366.0"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.api.trabalhodegraduacao.controller.usuario.professor.CorrecaoSecaoController"
+            stylesheets="@../style.css">
+
+    <left>
+        <VBox alignment="TOP_CENTER" spacing="20.0" styleClass="sidebar">
+            <padding>
+                <Insets top="10.0" right="15.0" bottom="20.0" left="15.0" />
+            </padding>
+            <children>
+                <ImageView fitWidth="200.0" preserveRatio="true">
+                    <image>
+                        <Image url="@../../../images/Imagem1.jpg" />
+                    </image>
+                    <VBox.margin>
+                        <Insets top="0.0" right="0.0" bottom="0.0" left="0.0" />
+                    </VBox.margin>
+                </ImageView>
+                <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" styleClass="profile-image">
+                    <image>
+                        <Image url="@../../../images/FatecLogo.png" />
+                    </image>
+                    <clip>
+                        <Circle radius="75.0" centerX="75.0" centerY="75.0" />
+                    </clip>
+                    <VBox.margin>
+                        <Insets top="20.0" bottom="20.0" />
+                    </VBox.margin>
+                </ImageView>
+
+                <Button fx:id="bt_perfil_geral" onAction="#perfilProfessor" text="PERFIL" styleClass="sidebar-button" maxWidth="Infinity"/>
+                <Button fx:id="bt_alunos_geral" onAction="#alunos" text="ALUNOS" styleClass="sidebar-button" maxWidth="Infinity"/>
+                <Button fx:id="bt_devolutivas_geral" onAction="#devolutivas" text="DEVOLUTIVAS" styleClass="sidebar-button" maxWidth="Infinity"/>
+                <Region VBox.vgrow="ALWAYS" />
+                <Button fx:id="bt_tela_inicial" onAction="#telaInicial" text="TELA INICIAL" styleClass="sidebar-button-secondary" maxWidth="Infinity"/>
+                <Button fx:id="bt_Sair" onAction="#sair" text="SAIR" styleClass="sidebar-button-secondary" maxWidth="Infinity"/>
+            </children>
+        </VBox>
+    </left>
+
+    <center>
+        <VBox styleClass="main-content-pane">
+            <padding>
+                <Insets top="20.0" right="40.0" bottom="40.0" left="40.0" />
+            </padding>
+            <children>
+                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                    <children>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" preserveRatio="true">
+                            <image>
+                                <Image url="@../../../images/aprovar.png" />
+                            </image>
+                        </ImageView>
+                        <Label fx:id="lblTituloAluno" text="CORREÇÃO DA SEÇÃO" styleClass="main-header-label" />
+                    </children>
+                </HBox>
+                <Region styleClass="header-separator">
+                    <VBox.margin>
+                        <Insets top="10.0" bottom="30.0" />
+                    </VBox.margin>
+                </Region>
+
+                <HBox spacing="40.0" VBox.vgrow="ALWAYS">
+                    <ScrollPane fitToWidth="true" HBox.hgrow="ALWAYS" styleClass="scroll-pane-custom">
+                        <content>
+                            <GridPane hgap="15.0" vgap="10.0" styleClass="profile-grid-pane">
+                                <columnConstraints>
+                                    <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="250.0" />
+                                    <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                    <RowConstraints vgrow="SOMETIMES" /> <RowConstraints vgrow="SOMETIMES" /> <RowConstraints vgrow="SOMETIMES" />
+                                    <RowConstraints vgrow="SOMETIMES" /> <RowConstraints vgrow="SOMETIMES" /> <RowConstraints vgrow="SOMETIMES" />
+                                    <RowConstraints vgrow="SOMETIMES" /> <RowConstraints vgrow="SOMETIMES" /> <RowConstraints vgrow="SOMETIMES" />
+                                    <RowConstraints vgrow="SOMETIMES" /> <RowConstraints vgrow="SOMETIMES" /> <RowConstraints vgrow="SOMETIMES" />
+                                    <RowConstraints vgrow="SOMETIMES" /> <RowConstraints vgrow="SOMETIMES" /> <RowConstraints vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                <children>
+                                    <Label text="Identificação do projeto" styleClass="profile-grid-label" GridPane.rowIndex="0" />
+                                    <Label text="Empresa parceira" styleClass="profile-grid-label" GridPane.rowIndex="1" />
+                                    <Label text="Problema" styleClass="profile-grid-label" GridPane.rowIndex="2" />
+                                    <Label text="Solução" styleClass="profile-grid-label" GridPane.rowIndex="3" />
+                                    <Label text="Link repositório" styleClass="profile-grid-label" wrapText="true" GridPane.rowIndex="4" />
+                                    <Label text="Tecnologias utilizadas" styleClass="profile-grid-label" wrapText="true" GridPane.rowIndex="5" />
+                                    <Label text="Contribuições pessoais" styleClass="profile-grid-label" wrapText="true" GridPane.rowIndex="6" />
+                                    <Label text="Hard Skills" styleClass="profile-grid-label" wrapText="true" GridPane.rowIndex="7" />
+                                    <Label text="Soft Skills" styleClass="profile-grid-label" wrapText="true" GridPane.rowIndex="8" />
+                                    <Label text="Histórico Profissional" styleClass="profile-grid-label" wrapText="true" GridPane.rowIndex="9" />
+                                    <Label text="Histórico Acadêmico" styleClass="profile-grid-label" wrapText="true" GridPane.rowIndex="10" />
+                                    <Label text="Motivação" styleClass="profile-grid-label" wrapText="true" GridPane.rowIndex="11" />
+                                    <Label text="Ano Realização" styleClass="profile-grid-label" wrapText="true" GridPane.rowIndex="12" />
+                                    <Label text="Período (Etapa)" styleClass="profile-grid-label" wrapText="true" GridPane.rowIndex="13" />
+                                    <Label text="Semestre (Ano)" styleClass="profile-grid-label" wrapText="true" GridPane.rowIndex="14" />
+
+                                    <TextArea fx:id="txtIdentificacaoProjeto" editable="false" styleClass="profile-text-input" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                                    <TextArea fx:id="txtEmpresaParceira" editable="false" styleClass="profile-text-input" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <TextArea fx:id="txtProblema" editable="false" styleClass="profile-text-input" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <TextArea fx:id="txtSolucao" editable="false" styleClass="profile-text-input" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <TextArea fx:id="txtLinkRepositorio" editable="false" styleClass="profile-text-input" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    <TextArea fx:id="txtTecnologiasUtilizadas" editable="false" styleClass="profile-text-input" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                    <TextArea fx:id="txtContribuicoesPessoais" editable="false" styleClass="profile-text-input" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                    <TextArea fx:id="txtDescricaoHard" editable="false" styleClass="profile-text-input" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                                    <TextArea fx:id="txtDescricaoSoft" editable="false" styleClass="profile-text-input" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                                    <TextArea fx:id="txtHistoricoProfissional" editable="false" styleClass="profile-text-input" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                                    <TextArea fx:id="txtHistoricoAcademico" editable="false" styleClass="profile-text-input" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+                                    <TextArea fx:id="txtMotivacao" editable="false" styleClass="profile-text-input" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="11" />
+                                    <TextArea fx:id="txtAno" editable="false" styleClass="profile-text-input" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="12" />
+                                    <TextArea fx:id="txtPeriodo" editable="false" styleClass="profile-text-input" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="13" />
+                                    <TextArea fx:id="txtSemestre" editable="false" styleClass="profile-text-input" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="14" />
+                                </children>
+                            </GridPane>
+                        </content>
+                    </ScrollPane>
+
+                    <VBox spacing="10.0" minWidth="400.0" maxWidth="400.0" styleClass="profile-grid-pane">
+                        <children>
+                            <Label text="APROVAÇÃO DE CAMPO:" styleClass="content-subtitle-label" />
+
+                            <CheckBox fx:id="cbIdentificacao" text="Identificação do projeto OK" styleClass="checkbox-custom-white" />
+                            <CheckBox fx:id="cbEmpresa" text="Empresa parceira OK" styleClass="checkbox-custom-white" />
+                            <CheckBox fx:id="cbProblema" text="Problema OK" styleClass="checkbox-custom-white" />
+                            <CheckBox fx:id="cbSolucao" text="Solução OK" styleClass="checkbox-custom-white" />
+                            <CheckBox fx:id="cbLink" text="Link repositório OK" styleClass="checkbox-custom-white" />
+                            <CheckBox fx:id="cbTecnologias" text="Tecnologias OK" styleClass="checkbox-custom-white" />
+                            <CheckBox fx:id="cbContribuicoes" text="Contribuições OK" styleClass="checkbox-custom-white" />
+                            <CheckBox fx:id="cbHardSkills" text="Hard Skills OK" styleClass="checkbox-custom-white" />
+                            <CheckBox fx:id="cbSoftSkills" text="Soft Skills OK" styleClass="checkbox-custom-white" />
+                            <CheckBox fx:id="cbHistProf" text="Hist. Profissional OK" styleClass="checkbox-custom-white" />
+                            <CheckBox fx:id="cbHistAcad" text="Hist. Acadêmico OK" styleClass="checkbox-custom-white" />
+                            <CheckBox fx:id="cbMotivacao" text="Motivação OK" styleClass="checkbox-custom-white" />
+                            <CheckBox fx:id="cbAno" text="Ano OK" styleClass="checkbox-custom-white" />
+                            <CheckBox fx:id="cbPeriodo" text="Período OK" styleClass="checkbox-custom-white" />
+                            <CheckBox fx:id="cbSemestre" text="Semestre OK" styleClass="checkbox-custom-white" />
+
+                            <Region styleClass="header-separator"><VBox.margin><Insets top="10.0" bottom="10.0" /></VBox.margin></Region>
+
+                            <Label text="DEVOLUTIVA GERAL:" styleClass="content-subtitle-label" />
+                            <TextArea fx:id="txtDevolutiva" styleClass="profile-text-input" wrapText="true" VBox.vgrow="ALWAYS" promptText="Escreva seu feedback aqui..." />
+                            <Button fx:id="btEnviarCorrecao" onAction="#onEnviarCorrecao" text="Salvar Correção e Enviar" styleClass="profile-button-primary" maxWidth="Infinity" />
+                        </children>
+                    </VBox>
+                </HBox>
+            </children>
+        </VBox>
+    </center>
+</BorderPane>

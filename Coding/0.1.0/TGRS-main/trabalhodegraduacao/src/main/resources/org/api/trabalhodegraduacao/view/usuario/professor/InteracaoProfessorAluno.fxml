@@ -17,7 +17,7 @@
 <BorderPane prefHeight="768.0" prefWidth="1366.0"
             xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="org.api.trabalhodegraduacao.controller.usuario.professor.InteraçãoProfessorAlunoController"
+            fx:controller="org.api.trabalhodegraduacao.controller.usuario.professor.InteracaoProfessorAlunoController"
             stylesheets="@../style.css">
 
     <left>
@@ -26,20 +26,17 @@
                 <Insets top="10.0" right="15.0" bottom="20.0" left="15.0" />
             </padding>
             <children>
-                <HBox alignment="CENTER_LEFT" spacing="10.0">
-                    <children>
-                        <ImageView fitHeight="40.0" fitWidth="40.0" preserveRatio="true">
-                            <image>
-                                <Image url="@../../../images/imgLogoRevolt.png" />
-                            </image>
-                        </ImageView>
-                        <Label text="REVOLT SOLUTIONS" styleClass="sidebar-title" />
-                    </children>
-                </HBox>
-
+                <ImageView fitWidth="200.0" preserveRatio="true">
+                    <image>
+                        <Image url="@../../../images/Imagem1.jpg" />
+                    </image>
+                    <VBox.margin>
+                        <Insets top="0.0" right="0.0" bottom="0.0" left="0.0" />
+                    </VBox.margin>
+                </ImageView>
                 <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" styleClass="profile-image">
                     <image>
-                        <Image url="@../../../images/imgFotoPerfil.png" />
+                        <Image url="@../../../images/FatecLogo.png" />
                     </image>
                     <clip>
                         <Circle radius="75.0" centerX="75.0" centerY="75.0" />
@@ -48,13 +45,10 @@
                         <Insets top="20.0" bottom="20.0" />
                     </VBox.margin>
                 </ImageView>
-
                 <Button fx:id="bt_perfil_geral" onAction="#perfilProfessor" text="PERFIL" styleClass="sidebar-button" maxWidth="Infinity"/>
-                <Button fx:id="bt_alunos_geral" text="ALUNOS" styleClass="sidebar-button" maxWidth="Infinity"/>
-                <Button fx:id="bt_devolutivas_geral" text="DEVOLUTIVAS" styleClass="sidebar-button" maxWidth="Infinity"/>
-
+                <Button fx:id="bt_alunos_geral" onAction="#alunos" text="ALUNOS" styleClass="sidebar-button" maxWidth="Infinity"/>
+                <Button fx:id="bt_devolutivas_geral" onAction="#devolutivas" text="DEVOLUTIVAS" styleClass="sidebar-button" maxWidth="Infinity"/>
                 <Region VBox.vgrow="ALWAYS" />
-
                 <Button fx:id="bt_tela_inicial" onAction="#telaInicial" text="TELA INICIAL" styleClass="sidebar-button-secondary" maxWidth="Infinity"/>
                 <Button fx:id="bt_Sair" onAction="#sair" text="SAIR" styleClass="sidebar-button-secondary" maxWidth="Infinity"/>
             </children>
@@ -67,8 +61,13 @@
                 <Insets top="20.0" right="40.0" bottom="40.0" left="40.0" />
             </padding>
             <children>
-                <HBox spacing="10.0" alignment="BASELINE_LEFT">
+                <HBox spacing="10.0" alignment="CENTER_LEFT">
                     <children>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" preserveRatio="true">
+                            <image>
+                                <Image url="@../../../images/perfil-de-usuario.png" />
+                            </image>
+                        </ImageView>
                         <Label text="PERFIL" styleClass="main-header-label" />
                         <Label text="-" styleClass="main-header-label" />
                         <Label fx:id="lblNomeAlunoHeader" text="NOME DO ALUNO" styleClass="main-header-label" />
@@ -89,32 +88,16 @@
                                 <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" />
                             </columnConstraints>
                             <rowConstraints>
-                                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                            </rowConstraints>
+                                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" /> <RowConstraints minHeight="10.0" vgrow="SOMETIMES" /> <RowConstraints minHeight="10.0" vgrow="SOMETIMES" /> <RowConstraints minHeight="10.0" vgrow="SOMETIMES" /> <RowConstraints minHeight="10.0" vgrow="SOMETIMES" /> <RowConstraints minHeight="10.0" vgrow="SOMETIMES" /> <RowConstraints minHeight="10.0" vgrow="SOMETIMES" /> <RowConstraints minHeight="10.0" vgrow="SOMETIMES" /> </rowConstraints>
                             <children>
                                 <Label text="FOTO DE PERFIL:" styleClass="profile-grid-label" GridPane.rowIndex="0" />
                                 <Label text="NOME:" styleClass="profile-grid-label" GridPane.rowIndex="1" />
                                 <Label text="E-MAIL:" styleClass="profile-grid-label" GridPane.rowIndex="2" />
                                 <Label text="CURSO:" styleClass="profile-grid-label" GridPane.rowIndex="3" />
-                                <Label text="ÚLTIMA FORMAÇÃO ACADEMICA:" styleClass="profile-grid-label" wrapText="true" GridPane.rowIndex="4" />
-                                <Label text="HISTÓRICO PROFISSIONAL:" styleClass="profile-grid-label" wrapText="true" GridPane.rowIndex="5" />
-                                <Label fx:id="lblEmailCadastrado321" text="SEXO:" styleClass="profile-grid-label" GridPane.rowIndex="6" />
-                                <Label text="LINKEDIN:" styleClass="profile-grid-label" GridPane.rowIndex="7" />
-                                <Label text="GITHUB:" styleClass="profile-grid-label" GridPane.rowIndex="8" />
-                                <Label text="PRINCIPAIS CONHECIMENTOS:" styleClass="profile-grid-label" wrapText="true" GridPane.rowIndex="9" />
-                                <Label text="MOTIVAÇÃO PARA ENTRAR NA FATEC:" styleClass="profile-grid-label" wrapText="true" GridPane.rowIndex="10" />
-                                <Label text="ORIENTADOR:" styleClass="profile-grid-label" GridPane.rowIndex="11" />
+                                <Label text="DATA DE NASCIMENTO:" styleClass="profile-grid-label" GridPane.rowIndex="4" />
+                                <Label text="LINKEDIN:" styleClass="profile-grid-label" GridPane.rowIndex="5" />
+                                <Label text="GITHUB:" styleClass="profile-grid-label" GridPane.rowIndex="6" />
+                                <Label text="ORIENTADOR:" styleClass="profile-grid-label" GridPane.rowIndex="7" />
 
                                 <ImageView fx:id="imgVwFotoPerfil" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="0">
                                     <image>
@@ -124,23 +107,19 @@
                                         <Circle radius="50.0" centerX="50.0" centerY="50.0" />
                                     </clip>
                                 </ImageView>
-                                <Label fx:id="lblEmailCadastrado1" text="(NOME)" styleClass="profile-data-label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                <Label fx:id="lblEmailCadastrado" text="(EMAIL)" styleClass="profile-data-label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                <Label fx:id="lblEmailCadastrado2" text="(CURSO)" styleClass="profile-data-label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                <Label fx:id="lblEmailCadastrado31" text="(FORMAÇÃO)" styleClass="profile-data-label" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                                <Label fx:id="lblEmailCadastrado3" text="(HISTORICO)" styleClass="profile-data-label" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                                <Label fx:id="lblEmailCadastrado32" text="(SEXO)" styleClass="profile-data-label" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                                <Label fx:id="lblEmailCadastrado3224" text="(LINKEDIN)" styleClass="profile-data-label" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                                <Label fx:id="lblEmailCadastrado322" text="(GITHUB)" styleClass="profile-data-label" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-                                <Label fx:id="lblEmailCadastrado32234" text="(PRINCIPAIS CONHECIMENTOS)" styleClass="profile-data-label" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="9" />
-                                <Label fx:id="lblEmailCadastrado32233" text="(MOTIVAÇÃO)" styleClass="profile-data-label" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="10" />
-                                <Label fx:id="lblEmailCadastrado32232" text="(ORIENTADOR)" styleClass="profile-data-label" GridPane.columnIndex="1" GridPane.rowIndex="11" />
+                                <Label fx:id="lblNome" text="(Nome)" styleClass="profile-data-label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                <Label fx:id="lblEmail" text="(Email)" styleClass="profile-data-label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                <Label fx:id="lblCurso" text="(Curso)" styleClass="profile-data-label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                <Label fx:id="lblDataNascimento" text="(dd/mm/aaaa)" styleClass="profile-data-label" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                <Label fx:id="lblLinkedin" text="(LinkedIn)" styleClass="profile-data-label" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                <Label fx:id="lblGitHub" text="(GitHub)" styleClass="profile-data-label" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                <Label fx:id="lblOrientador" text="(Orientador)" styleClass="profile-data-label" GridPane.columnIndex="1" GridPane.rowIndex="7" />
                             </children>
                         </GridPane>
 
                         <VBox spacing="20.0" alignment="TOP_CENTER" minWidth="280.0">
                             <children>
-                                <Button fx:id="bt_professor_secao_aluno" text="SEÇÃO ATUAL" styleClass="action-panel-button" maxWidth="Infinity" />
+                                <Button fx:id="bt_professor_secao_aluno" onAction="#onAbrirSecaoAluno" text="SEÇÃO ATUAL" styleClass="action-panel-button" maxWidth="Infinity" />
                                 <Button fx:id="bt_professor_tg_aluno" text="TG" styleClass="action-panel-button" maxWidth="Infinity" />
                             </children>
                         </VBox>

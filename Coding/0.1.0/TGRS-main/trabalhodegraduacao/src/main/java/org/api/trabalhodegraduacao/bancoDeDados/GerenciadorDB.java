@@ -51,9 +51,8 @@ public class GerenciadorDB {
                 "PRIMARY KEY (ID_TG, Email)" +
                 ")";
 
-
-        String sqlSecoes = "CREATE TABLE IF NOT EXISTS Secoes (" +
-                "ID_Secao INT NOT NULL AUTO_INCREMENT," + // <-- ADICIONADO: Uma PK simples é muito melhor
+        // ALTERADO: Removido ID_Secao e definida PK composta (Data, Email_Aluno, Email_Orientador)
+        String sqlSecao = "CREATE TABLE IF NOT EXISTS Secao (" +
                 "Identificacao_Projeto TEXT," +
                 "Empresa_Parceira TEXT," +
                 "Problema TEXT," +
@@ -61,51 +60,69 @@ public class GerenciadorDB {
                 "Link_Repositorio VARCHAR(255)," +
                 "Tecnologias_Utilizadas TEXT," +
                 "Contribuicoes_Pessoais TEXT," +
-                "Descricao_Soft TEXT," + // <-- CORRIGIDO: Faltava vírgula
-                "Descricao_Hard TEXT," + // <-- CORRIGIDO: Faltava vírgula
+                "Descricao_Soft TEXT," +
+                "Descricao_Hard TEXT," +
                 "Historico_Profissional TEXT," +
                 "Historico_Academico TEXT," +
                 "Motivacao TEXT," +
                 "Ano INT," +
                 "Periodo CHAR(1)," +
                 "Semestre CHAR(1)," +
+
+                // --- INÍCIO DAS NOVAS COLUNAS DE STATUS ---
+                "is_identificacao_ok TINYINT(1) DEFAULT 0," +
+                "is_empresa_ok TINYINT(1) DEFAULT 0," +
+                "is_problema_ok TINYINT(1) DEFAULT 0," +
+                "is_solucao_ok TINYINT(1) DEFAULT 0," +
+                "is_link_ok TINYINT(1) DEFAULT 0," +
+                "is_tecnologias_ok TINYINT(1) DEFAULT 0," +
+                "is_contribuicoes_ok TINYINT(1) DEFAULT 0," +
+                "is_softskills_ok TINYINT(1) DEFAULT 0," +
+                "is_hardskills_ok TINYINT(1) DEFAULT 0," +
+                "is_hist_prof_ok TINYINT(1) DEFAULT 0," +
+                "is_hist_acad_ok TINYINT(1) DEFAULT 0," +
+                "is_motivacao_ok TINYINT(1) DEFAULT 0," +
+                "is_ano_ok TINYINT(1) DEFAULT 0," +
+                "is_periodo_ok TINYINT(1) DEFAULT 0," +
+                "is_semestre_ok TINYINT(1) DEFAULT 0," +
+                // --- FIM DAS NOVAS COLUNAS ---
+
                 "Data DATETIME NOT NULL," +
                 "ID_TG INT NOT NULL," +
                 "Email_Aluno VARCHAR(100) NOT NULL," +
-                "Email_Orientador VARCHAR(100) NOT NULL," + // <-- CORRIGIDO: Renomeado de Email_Professor
-                "PRIMARY KEY (ID_Secao)," + // <-- CORRIGIDO: Usando a nova PK
-                "UNIQUE KEY UQ_Secao_Unica (Data, Email_Aluno, Email_Orientador)," + // <-- ADICIONADO: Mantém sua regra de negócio original
-                "FOREIGN KEY (Email_Aluno) REFERENCES usuario(Email)," + // <-- CORRIGIDO: FK separada
-                "FOREIGN KEY (Email_Orientador) REFERENCES usuario(Email)" + // <-- CORRIGIDO: FK separada
+                "Email_Orientador VARCHAR(100) NOT NULL," +
+                "PRIMARY KEY (Data, Email_Aluno, Email_Orientador)," +
+                "FOREIGN KEY (Email_Aluno) REFERENCES usuario(Email)," +
+                "FOREIGN KEY (Email_Orientador) REFERENCES usuario(Email)" +
                 ")";
 
-
+        // ALTERADO: Tabela correcoes agora referencia a chave composta de Secao
         String sqlCorrecoes = "CREATE TABLE IF NOT EXISTS correcoes (" +
                 "ID_Correcao INT NOT NULL AUTO_INCREMENT," +
                 "data_correcoes DATE," +
                 "status VARCHAR(45)," +
                 "Conteudo TEXT," +
-                "ID_Secao INT NOT NULL," + // <-- CORRIGIDO: Renomeado de ID_Secoes para clareza
+                "Data_Secao DATETIME NOT NULL," +
+                "Email_Aluno VARCHAR(100) NOT NULL," +
+                "Email_Orientador VARCHAR(100) NOT NULL," +
                 "PRIMARY KEY (ID_Correcao)," +
-                "FOREIGN KEY (ID_Secao) REFERENCES Secoes(ID_Secao)" + // <-- CORRIGIDO: Referencia a nova PK da tabela Secoes
+                "FOREIGN KEY (Data_Secao, Email_Aluno, Email_Orientador) REFERENCES Secao(Data, Email_Aluno, Email_Orientador)" +
                 ")";
-
-
 
         try (Connection conn = ConexaoDB.getConexao();
              Statement stmt = conn.createStatement()) {
 
-            System.out.println("Conectado ao banco RSTGDB. Criando tabelas...");
+            System.out.println("Conectado ao banco TGRSDB. Criando tabelas...");
 
             stmt.execute(sqlUsuario);
             System.out.println("Tabela 'usuario' OK.");
-            this.InserirUsuarios(conn); // Assumindo que ConexaoDB.getConexao() já está conectado ao DB correto
+            this.InserirUsuarios(conn);
 
             stmt.execute(sqlTG);
             System.out.println("Tabela 'TG' OK.");
 
-            stmt.execute(sqlSecoes);
-            System.out.println("Tabela 'Secoes' OK.");
+            stmt.execute(sqlSecao);
+            System.out.println("Tabela 'Secao' OK.");
 
             stmt.execute(sqlCorrecoes);
             System.out.println("Tabela 'correcoes' OK.");
@@ -122,7 +139,6 @@ public class GerenciadorDB {
 
         System.out.println("Inserindo usuários na tabela usando Arquivo.csv, caso já existam, os mesmos serão ignorados.");
 
-        // --- MUDANÇA 1: Query atualizada para 5 colunas ---
         String sql = "INSERT IGNORE INTO usuario (Nome_Completo, Email, Senha, Funcao, Email_Orientador) VALUES (?, ?, ?, ?, ?)";
 
         String arquivoCSV = "usuarios.csv";
@@ -134,7 +150,7 @@ public class GerenciadorDB {
                 BufferedReader reader = new BufferedReader(isr);
                 PreparedStatement pstmt = conn.prepareStatement(sql)
         ) {
-            reader.readLine(); // Pula o cabeçalho
+            reader.readLine();
             String line;
             while ((line = reader.readLine()) != null) {
                 if (line.trim().isEmpty()) {
@@ -142,26 +158,23 @@ public class GerenciadorDB {
                 }
                 String[] parts = line.split(",");
 
-                // --- MUDANÇA 2: Verificando 5 colunas ---
                 if (parts.length >= 5) {
                     String nome = parts[0].trim();
                     String email = parts[1].trim();
                     String senha = parts[2].trim();
                     String funcao = parts[3].trim();
-                    String emailOrientador = parts[4].trim(); // <-- MUDANÇA: Lendo a 5ª coluna
+                    String emailOrientador = parts[4].trim();
 
                     pstmt.setString(1, nome);
                     pstmt.setString(2, email);
                     pstmt.setString(3, senha);
                     pstmt.setString(4, funcao);
 
-                    // --- MUDANÇA 3: Lógica para tratar "null" do CSV ---
                     if (emailOrientador.equalsIgnoreCase("null")) {
-                        pstmt.setNull(5, java.sql.Types.VARCHAR); // Insere NULL de verdade
+                        pstmt.setNull(5, java.sql.Types.VARCHAR);
                     } else {
-                        pstmt.setString(5, emailOrientador); // Insere o email do orientador
+                        pstmt.setString(5, emailOrientador);
                     }
-                    // --------------------------------------------------
 
                     int affectedRows = pstmt.executeUpdate();
                     if (affectedRows > 0) {
