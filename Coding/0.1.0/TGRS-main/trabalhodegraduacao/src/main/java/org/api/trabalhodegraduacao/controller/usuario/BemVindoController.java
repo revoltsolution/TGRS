@@ -5,11 +5,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert;
 
 import org.api.trabalhodegraduacao.Application;
 import org.api.trabalhodegraduacao.utils.SessaoUsuario;
-// --- CORREÇÃO 1: Importar o DAO correto ---
 import org.api.trabalhodegraduacao.dao.UsuarioDAO;
 import org.api.trabalhodegraduacao.entities.Usuario;
 
@@ -19,7 +17,8 @@ import java.util.ResourceBundle;
 
 public class BemVindoController implements Initializable {
 
-    UsuarioDAO usuarioDAO = new UsuarioDAO();
+    UsuarioDAO usuario = new UsuarioDAO();
+
 
     @FXML public Button bt_Entrar;
     @FXML private TextField txt_Login;
@@ -31,55 +30,32 @@ public class BemVindoController implements Initializable {
     }
 
     @FXML
-    void btEntrar(ActionEvent event) {
+    void btEntrar(ActionEvent event) throws SQLException {
         String login = txt_Login.getText();
-
-        Usuario usuarioEncontrado;
-
-        if (login.isEmpty()) {
-            exibirAlerta("Por favor, insira seu email.", Alert.AlertType.WARNING);
-            return;
-        }
-
-        try {
-            usuarioEncontrado = usuarioDAO.buscarCredenciaisPorEmail(login);
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            exibirAlerta("Erro ao consultar o banco de dados.", Alert.AlertType.ERROR);
-            return;
-        }
+        Usuario usuarioEncontrado = usuario.buscarCredenciaisPorEmail(login);
 
         if (usuarioEncontrado == null) {
-            exibirAlerta("Email não cadastrado ou não encontrado.", Alert.AlertType.ERROR);
+            System.out.println("Email não encontrado");
             return;
         }
 
         System.out.println(usuarioEncontrado.getEmailCadastrado());
 
-        SessaoUsuario.getInstance().iniciarSessao(
+        SessaoUsuario.getInstance().setUsuarioLogado(
                 usuarioEncontrado.getEmailCadastrado(),
                 usuarioEncontrado.getNomeCompleto(),
-                usuarioEncontrado.getFuncao(),
+                usuarioEncontrado.getTipo(),
                 usuarioEncontrado.getSenha()
         );
 
         System.out.println("Usuário salvo na Sessão: " + SessaoUsuario.getInstance().getEmail());
 
-        String funcao = usuarioEncontrado.getFuncao();
+        String tipo = usuarioEncontrado.getTipo();
 
-        if ("aluno".equalsIgnoreCase(funcao) || "professor".equalsIgnoreCase(funcao)) {
+        if (tipo.equals("aluno") || tipo.equals("professor")) {
             Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/Autenticacao.fxml", "Autenticação", event);
         } else {
-            exibirAlerta("Função de usuário desconhecida: " + funcao, Alert.AlertType.ERROR);
+            System.out.println("Função desconhecida: " + tipo);
         }
-    }
-
-    private void exibirAlerta(String msg, Alert.AlertType tipo) {
-        Alert alert = new Alert(tipo);
-        alert.setHeaderText(null);
-        alert.setTitle("Atenção");
-        alert.setContentText(msg);
-        alert.showAndWait();
     }
 }

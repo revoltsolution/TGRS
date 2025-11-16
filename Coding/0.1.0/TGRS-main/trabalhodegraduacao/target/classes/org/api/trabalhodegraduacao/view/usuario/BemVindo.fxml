@@ -36,7 +36,7 @@
                            maxWidth="300.0" styleClass="text-field" />
 
                 <Button fx:id="bt_Entrar" onAction="#btEntrar" text="Entrar"
-                        styleClass="login-button" defaultButton="true"/>
+                        styleClass="login-button" />
             </children>
         </VBox>
     </children>

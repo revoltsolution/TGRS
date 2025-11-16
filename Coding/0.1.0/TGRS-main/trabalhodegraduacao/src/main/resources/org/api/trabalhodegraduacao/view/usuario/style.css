@@ -1,32 +1,35 @@
-/* ========================================================================= */
-/* 0. CONFIGURAÇÕES GLOBAIS E TIPOGRAFIA BASE */
-/* ========================================================================= */
-* {
-    -fx-font-family: "Cambria", "Century Gothic", "System", sans-serif;
-}
-
 /* ================================== */
 /* Estilos Principais (Login)        */
 /* ================================== */
+
+/* Define o fundo azul para toda a tela */
 .root-pane {
     -fx-background-color: #50799c;
 }
+
+/* Estiliza o "cartão" de login branco */
 .login-card {
     -fx-background-color: white;
-    -fx-background-radius: 15px;
+    -fx-background-radius: 15px; /* Cantos arredondados */
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 20, 0, 0, 5);
 }
+
+/* Estiliza o título "Bem-Vindo!" */
 .header-label {
     -fx-font-size: 36px;
     -fx-font-weight: bold;
     -fx-text-fill: #333;
     -fx-font-family: "System";
 }
+
+/* Estiliza o rótulo "Insira seu email:" / "Insira sua senha:" */
 .prompt-label {
     -fx-font-size: 16px;
     -fx-text-fill: #555;
     -fx-font-family: "System";
 }
+
+/* Estiliza o campo de texto (funciona para TextField e PasswordField) */
 .text-field {
     -fx-font-size: 14px;
     -fx-background-radius: 5px;
@@ -34,6 +37,8 @@
     -fx-border-radius: 5px;
     -fx-padding: 8px;
 }
+
+/* Estiliza o botão "Entrar" */
 .login-button {
     -fx-background-color: #50799c;
     -fx-text-fill: white;
@@ -42,6 +47,8 @@
     -fx-background-radius: 5px;
     -fx-padding: 10px 30px;
 }
+
+/* Efeito ao passar o mouse sobre o botão principal */
 .login-button:hover {
     -fx-background-color: #40607e;
     -fx-cursor: hand;
@@ -50,81 +57,105 @@
 /* ================================== */
 /* NOVOS ESTILOS (Adicione)     */
 /* ================================== */
+
+/* Sombra sutil para a imagem de perfil */
 .profile-image {
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 10, 0, 0, 2);
 }
+
+/* Estiliza o botão "Voltar" para parecer um link */
 .link-button {
-    -fx-background-color: transparent;
-    -fx-text-fill: #50799c;
+    -fx-background-color: transparent; /* Sem fundo */
+    -fx-text-fill: #50799c;           /* Texto na cor azul principal */
     -fx-font-size: 14px;
-    -fx-underline: true;
+    -fx-underline: true;              /* Sublinhado */
 }
+
+/* Efeito ao passar o mouse sobre o botão "Voltar" */
 .link-button:hover {
-    -fx-text-fill: #40607e;
+    -fx-text-fill: #40607e; /* Azul mais escuro */
     -fx-cursor: hand;
 }
 
 /* ================================== */
 /* NOVOS ESTILOS (Dashboard Professor)  */
 /* ================================== */
+
+/* --- Barra Lateral --- */
 .sidebar {
     -fx-background-color: #3a6081;
-    -fx-pref-width: 300px;
+    -fx-pref-width: 300px; /* Largura fixa da barra */
     -fx-alignment: top-center;
 }
+
 .sidebar-title {
     -fx-font-size: 16px;
     -fx-font-family: "Century Gothic";
     -fx-font-weight: bold;
     -fx-text-fill: white;
 }
+
+/* --- Botões da Barra Lateral (Principais) --- */
 .sidebar-button {
-    -fx-background-color: transparent;
+    -fx-background-color: transparent; /* Sem fundo */
     -fx-text-fill: white;
     -fx-font-family: "Cambria";
     -fx-font-weight: bold;
     -fx-font-size: 20px;
+    /* -fx-pref-width: 100%; <-- REMOVIDO (Linha inválida) */
     -fx-alignment: center-left;
     -fx-padding: 12px 20px;
     -fx-background-radius: 8px;
 }
+
 .sidebar-button:hover {
-    -fx-background-color: #50799c;
+    -fx-background-color: #50799c; /* Azul mais claro ao passar o mouse */
     -fx-cursor: hand;
 }
+
+/* --- Botões da Barra Lateral (Sair / Tela Inicial) --- */
 .sidebar-button-secondary {
-    -fx-background-color: #2c4861;
+    -fx-background-color: #2c4861; /* Tom mais escuro */
     -fx-text-fill: white;
     -fx-font-family: "Cambria";
     -fx-font-size: 16px;
+    /* -fx-pref-width: 100%; <-- REMOVIDO (Linha inválida) */
     -fx-alignment: center;
     -fx-padding: 10px;
     -fx-background-radius: 8px;
 }
+
 .sidebar-button-secondary:hover {
     -fx-background-color: #50799c;
     -fx-cursor: hand;
 }
+
+
+/* --- Área de Conteúdo Principal --- */
 .main-content-pane {
     -fx-background-color: #50799c;
 }
+
 .main-header-label {
     -fx-font-family: "Cambria";
     -fx-font-size: 28px;
     -fx-font-weight: bold;
     -fx-text-fill: white;
 }
+
 .header-separator {
     -fx-background-color: white;
     -fx-min-height: 2px;
     -fx-max-height: 2px;
 }
+
 .notification-title {
     -fx-font-family: "Century Gothic";
     -fx-font-size: 24px;
     -fx-font-weight: bold;
     -fx-text-fill: white;
 }
+
 .notification-content {
     -fx-font-family: "Century Gothic";
     -fx-font-size: 18px;
@@ -132,42 +163,20 @@
 }
 
 /* ================================== */
-/* NOVOS ESTILOS (Tabela) - CORREÇÕES AGRESSIVAS PARA FUNDO AZUL */
+/* NOVOS ESTILOS (Tabela)             */
 /* ================================== */
 
 /* --- Estilo Base da Tabela --- */
 .table-view {
-    /* CORREÇÃO CRÍTICA 1: Usa a variável interna para forçar o fundo do corpo (máxima prioridade) */
-    -fx-control-inner-background: #40607e;
-
+    /* Fundo ligeiramente mais escuro que o painel principal */
     -fx-background-color: #40607e;
     -fx-background-radius: 8px;
 }
 
-/* CORREÇÃO CRÍTICA 2: Garante que o Viewport, ScrollPane e trilha usem a cor azul */
-.table-view .scroll-pane,
-.table-view .viewport,
-.table-view .scroll-bar:vertical .track,
-.table-view .scroll-bar:horizontal .track {
-    -fx-background-color: #40607e;
-}
-
-/* CORREÇÃO CRÍTICA 3: Força o fundo azul e texto branco para o texto de "Não há conteúdo..." */
-.table-view .placeholder {
-    -fx-background-color: #40607e;
-}
-
-.table-view .placeholder .label {
-    -fx-text-fill: white; /* Texto BRANCO */
-    -fx-font-family: "Century Gothic";
-    -fx-font-weight: bold;
-    -fx-font-size: 16px;
-}
-
 /* --- Cabeçalho da Tabela --- */
 .table-view .column-header-background {
-    -fx-background-color: #3a6081;
-    -fx-background-radius: 8px 8px 0 0;
+    -fx-background-color: #3a6081; /* Cor da sidebar */
+    -fx-background-radius: 8px 8px 0 0; /* Arredonda só cantos superiores */
 }
 
 .table-view .column-header {
@@ -184,36 +193,25 @@
 
 /* --- Células e Linhas da Tabela --- */
 .table-view .table-row-cell {
-    /* Linha transparente para herdar o fundo azul do viewport */
-    -fx-background-color: transparent;
+    -fx-background-color: transparent; /* Linhas transparentes */
     -fx-border-color: transparent;
 }
-
-/* Garante que linhas vazias sejam azuis */
-.table-view:row-selection .table-row-cell:empty,
-.table-view:row-selection .table-row-cell:empty .cell {
-    -fx-background-color: #40607e;
-    -fx-border-color: transparent;
-}
-
 
 .table-view .cell {
-    -fx-text-fill: white; /* Texto BRANCO para os dados */
+    -fx-text-fill: white;
     -fx-font-family: "Cambria";
     -fx-font-size: 14px;
     -fx-padding: 10px;
-    /* Linha separadora sutil mantida */
-    -fx-border-color: transparent transparent #50799c transparent;
-    -fx-background-color: transparent; /* Garante que a célula não tenha fundo branco */
+    -fx-border-color: transparent transparent #50799c transparent; /* Linha separadora sutil */
 }
 
 /* Efeito ao passar o mouse sobre uma linha */
 .table-view .table-row-cell:hover {
-    -fx-background-color: #5a84a6;
+    -fx-background-color: #5a84a6; /* Azul mais claro */
     -fx-cursor: hand;
 }
 
-/* Cor de seleção */
+/* Remove o fundo branco quando uma célula é selecionada */
 .table-view .table-row-cell:selected {
     -fx-background-color: #5a84a6;
 }
@@ -225,10 +223,11 @@
 }
 
 .table-view .scroll-bar .thumb {
-    -fx-background-color: #3a6081;
+    -fx-background-color: #3a6081; /* Cor da sidebar */
     -fx-background-radius: 5px;
 }
 
+/* Remove botões de seta da barra de rolagem */
 .table-view .scroll-bar .increment-button,
 .table-view .scroll-bar .decrement-button {
     -fx-background-color: transparent;
@@ -240,10 +239,10 @@
 
 .content-subtitle-label {
     -fx-font-family: "Century Gothic";
-    -fx-font-size: 20px;
+    -fx-font-size: 20px; /* Um pouco menor que o título de notificação */
     -fx-font-weight: bold;
     -fx-text-fill: white;
-    -fx-opacity: 0.9;
+    -fx-opacity: 0.9; /* Levemente sutil */
 }
 /* ================================== */
 /* NOVOS ESTILOS (Formulário Perfil)    */
@@ -252,7 +251,7 @@
 /* --- Contêiner do Formulário --- */
 .profile-grid-pane {
     -fx-padding: 20px;
-    -fx-background-color: #40607e;
+    -fx-background-color: #40607e; /* Mesmo fundo da tabela */
     -fx-background-radius: 8px;
 }
 
@@ -262,7 +261,7 @@
     -fx-font-weight: bold;
     -fx-font-size: 14px;
     -fx-text-fill: white;
-    -fx-alignment: center-right;
+    -fx-alignment: center-right; /* Alinha à direita */
     -fx-padding: 0 10px 0 0;
 }
 
@@ -270,17 +269,22 @@
 .profile-data-label {
     -fx-font-family: "Cambria";
     -fx-font-size: 16px;
-    -fx-text-fill: #e0e0e0;
+    -fx-text-fill: #e0e0e0; /* Branco um pouco mais sutil */
     -fx-padding: 5px 0;
 }
 
+/* ===================================================================
+A CORREÇÃO PRINCIPAL ESTÁ AQUI
+===================================================================
+*/
+
 /* --- Campos de texto (TextField, PasswordField, TextArea) --- */
 .profile-text-input {
-    -fx-background-color: #5a84a6;
-    -fx-control-inner-background: #5a84a6;
-    -fx-text-fill: white;
-    -fx-prompt-text-fill: #cccccc;
-    -fx-border-color: #3a6081;
+    -fx-background-color: #5a84a6; /* Um azul mais claro para o fundo do campo */
+    -fx-control-inner-background: #5a84a6; /* Cor interna (MUITO IMPORTANTE) */
+    -fx-text-fill: white; /* Cor do texto digitado */
+    -fx-prompt-text-fill: #cccccc; /* Cor do texto de dica (placeholder) */
+    -fx-border-color: #3a6081; /* Borda da cor da sidebar escura */
     -fx-border-width: 1px;
     -fx-border-radius: 5px;
     -fx-background-radius: 5px;
@@ -290,14 +294,14 @@
 }
 
 .profile-text-input:focused {
-    -fx-border-color: #a7d1ed;
+    -fx-border-color: #a7d1ed; /* Borda mais clara ao focar */
     -fx-border-width: 2px;
 }
 
 /* Estilo específico para TextArea */
 .profile-text-input.text-area {
-    -fx-wrap-text: true;
-    -fx-min-height: 80px;
+    -fx-wrap-text: true; /* Garantir que o texto quebre linha */
+    -fx-min-height: 80px; /* Altura mínima para TextArea */
 }
 
 /* Ajustes para a scrollbar do TextArea */
@@ -346,11 +350,11 @@
     -fx-border-width: 1px;
     -fx-border-radius: 5px;
     -fx-background-radius: 5px;
-    -fx-padding: 7px 20px;
+    -fx-padding: 7px 20px; /* 1px a menos no padding por causa da borda */
 }
 
 .profile-button-secondary:hover {
-    -fx-background-color: rgba(255, 255, 255, 0.1);
+    -fx-background-color: rgba(255, 255, 255, 0.1); /* Destaque sutil */
     -fx-cursor: hand;
 }
 /* ================================== */
@@ -358,18 +362,18 @@
 /* ================================== */
 
 .action-panel-button {
-    -fx-background-color: #3a6081;
+    -fx-background-color: #3a6081; /* Cor da sidebar */
     -fx-text-fill: white;
     -fx-font-family: "Cambria";
     -fx-font-weight: bold;
-    -fx-font-size: 28px;
+    -fx-font-size: 28px; /* Tamanho grande */
     -fx-padding: 30px;
     -fx-background-radius: 10px;
     -fx-alignment: center;
 }
 
 .action-panel-button:hover {
-    -fx-background-color: #40607e;
+    -fx-background-color: #40607e; /* Cor do painel de tabela */
     -fx-cursor: hand;
 }
 /* ================================== */
@@ -382,15 +386,14 @@
     -fx-font-weight: bold;
     -fx-font-size: 16px;
     -fx-text-fill: white;
-    -fx-padding: 0 0 10px 0;
+    -fx-padding: 0 0 10px 0; /* Espaço abaixo */
     -fx-opacity: 0.8;
 }
 
-
 /* --- Barra de Progresso Customizada --- */
 .progress-bar-custom {
-    -fx-accent: #FFFFFF;
-    -fx-control-inner-background: #40607e;
+    -fx-accent: #FFFFFF; /* Cor da barra de progresso (branca) */
+    -fx-control-inner-background: #40607e; /* Cor do fundo (trilho) */
     -fx-border-color: #5a84a6;
     -fx-border-radius: 5px;
     -fx-background-radius: 5px;
@@ -428,12 +431,12 @@
 }
 
 .scroll-pane-custom .scroll-bar:vertical .thumb {
-    -fx-background-color: #3a6081;
+    -fx-background-color: #3a6081; /* Cor da thumb */
     -fx-background-radius: 5px;
 }
 
 .scroll-pane-custom .scroll-bar:vertical .track {
-    -fx-background-color: #50799c;
+    -fx-background-color: #50799c; /* Cor da trilha */
     -fx-background-radius: 5px;
 }
 /* ================================== */
@@ -442,7 +445,7 @@
 
 /* Aplica o estilo de input ao DatePicker */
 .date-picker.profile-text-input {
-    -fx-padding: 0;
+    -fx-padding: 0; /* Remove padding para o text-field interno cuidar disso */
 }
 
 /* Estiliza o campo de texto dentro do DatePicker */
@@ -452,9 +455,9 @@
     -fx-text-fill: white;
     -fx-font-family: "Cambria";
     -fx-font-size: 16px;
-    -fx-border-color: transparent;
+    -fx-border-color: transparent; /* A borda fica no DatePicker principal */
     -fx-padding: 8px 10px;
-    -fx-background-radius: 5px 0 0 5px;
+    -fx-background-radius: 5px 0 0 5px; /* Arredonda só os cantos esquerdos */
 }
 
 .date-picker.profile-text-input:focused .text-field {
@@ -464,22 +467,22 @@
 /* Estiliza o botão do calendário */
 .date-picker.profile-text-input .arrow-button {
     -fx-background-color: #5a84a6;
-    -fx-background-radius: 0 5px 5px 0;
+    -fx-background-radius: 0 5px 5px 0; /* Arredonda só os cantos direitos */
     -fx-border-color: transparent;
 }
 
 .date-picker.profile-text-input .arrow-button .arrow {
-    -fx-background-color: white;
+    -fx-background-color: white; /* Cor da seta */
 }
 
 /* Estiliza o Popup do Calendário */
 .date-picker-popup {
-    -fx-background-color: #3a6081;
+    -fx-background-color: #3a6081; /* Cor da sidebar */
     -fx-border-color: #5a84a6;
 }
 
 .date-picker-popup .month-year-pane {
-    -fx-background-color: #2c4861;
+    -fx-background-color: #2c4861; /* Tom mais escuro */
 }
 
 .date-picker-popup .month-year-pane .label {
@@ -510,52 +513,4 @@
 
 .date-picker-popup .week-number-cell {
     -fx-text-fill: #cccccc;
-}
-/* ================================== */
-/* NOVOS ESTILOS (Checkbox Branco)    */
-/* ================================== */
-
-.checkbox-custom-white {
-    -fx-text-fill: white;
-    -fx-font-family: "Cambria";
-    -fx-font-size: 14px;
-}
-
-.checkbox-custom-white .box {
-    -fx-background-color: #5a84a6;
-    -fx-border-color: #a7d1ed;
-    -fx-border-radius: 3px;
-    -fx-background-radius: 3px;
-}
-
-.checkbox-custom-white:selected .box .mark {
-    -fx-background-color: white;
-}
-/* ================================== */
-/* NOVOS ESTILOS (Feedback e Campos Travados) */
-/* ================================== */
-
-/* Estilo para a caixa de feedback do professor */
-.feedback-display-area {
-    -fx-control-inner-background: #3a6081;
-    -fx-text-fill: white;
-    -fx-font-family: "Cambria";
-    -fx-font-style: italic;
-    -fx-font-size: 14px;
-    -fx-border-color: #5a84a6;
-    -fx-border-radius: 5px;
-    -fx-background-radius: 5px;
-    -fx-padding: 8px;
-    -fx-opacity: 0.9;
-}
-
-/* Estilo para campos de texto travados (disabled) */
-.profile-text-input:disabled {
-    -fx-opacity: 0.7;
-    -fx-control-inner-background: #3a6081;
-    -fx-text-fill: #cccccc;
-}
-
-.profile-text-input:disabled .content {
-    -fx-background-color: #3a6081;
 }

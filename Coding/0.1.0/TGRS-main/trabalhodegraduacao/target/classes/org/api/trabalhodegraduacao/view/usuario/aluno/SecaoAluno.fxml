@@ -2,12 +2,10 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.RadioButton?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.ScrollPane?> <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -27,18 +25,30 @@
 
     <left>
         <VBox alignment="TOP_CENTER" spacing="20.0" styleClass="sidebar">
-            <padding><Insets top="10.0" right="15.0" bottom="20.0" left="15.0" /></padding>
+            <padding>
+                <Insets top="10.0" right="15.0" bottom="20.0" left="15.0" />
+            </padding>
             <children>
                 <HBox alignment="CENTER_LEFT" spacing="10.0">
                     <children>
-                        <ImageView fitHeight="40.0" fitWidth="40.0" preserveRatio="true"><image><Image url="@../../../images/imgLogoRevolt.png" /></image></ImageView>
+                        <ImageView fitHeight="40.0" fitWidth="40.0" preserveRatio="true">
+                            <image>
+                                <Image url="@../../../images/imgLogoRevolt.png" />
+                            </image>
+                        </ImageView>
                         <Label text="REVOLT SOLUTIONS" styleClass="sidebar-title" />
                     </children>
                 </HBox>
                 <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" styleClass="profile-image">
-                    <image><Image url="@../../../images/imgFotoPerfil.png" /></image>
-                    <clip><Circle radius="75.0" centerX="75.0" centerY="75.0" /></clip>
-                    <VBox.margin><Insets top="20.0" bottom="20.0" /></VBox.margin>
+                    <image>
+                        <Image url="@../../../images/imgFotoPerfil.png" />
+                    </image>
+                    <clip>
+                        <Circle radius="75.0" centerX="75.0" centerY="75.0" />
+                    </clip>
+                    <VBox.margin>
+                        <Insets top="20.0" bottom="20.0" />
+                    </VBox.margin>
                 </ImageView>
                 <Button fx:id="bt_perfil_geral" onAction="#perfilAluno" text="PERFIL" styleClass="sidebar-button" maxWidth="Infinity"/>
                 <Button fx:id="bt_secao_geral" onAction="#secaoGeral" text="SEÇÃO" styleClass="sidebar-button" maxWidth="Infinity"/>
@@ -53,42 +63,31 @@
 
     <center>
         <VBox styleClass="main-content-pane">
-            <padding><Insets top="20.0" right="40.0" bottom="40.0" left="40.0" /></padding>
+            <padding>
+                <Insets top="20.0" right="40.0" bottom="40.0" left="40.0" />
+            </padding>
             <children>
-                <HBox alignment="CENTER_LEFT" spacing="10.0">
-                    <children>
-                        <ImageView fitHeight="30.0" fitWidth="30.0" preserveRatio="true">
-                            <image>
-                                <Image url="@../../../images/progresso.png" />
-                            </image>
-                        </ImageView>
-                        <Label text="SEÇÃO" styleClass="main-header-label" />
-                    </children>
-                </HBox>
-
-                <Region styleClass="header-separator"><VBox.margin><Insets top="10.0" bottom="20.0" /></VBox.margin></Region>
-
-                <Label text="DEVOLUTIVA DO PROFESSOR:" styleClass="content-subtitle-label" />
-                <TextArea fx:id="txtFeedbackProfessor" editable="false" styleClass="feedback-display-area" wrapText="true" prefHeight="100.0">
-                    <VBox.margin><Insets bottom="10.0" top="5.0" /></VBox.margin>
-                </TextArea>
-
+                <Label text="SEÇÃO" styleClass="main-header-label" />
+                <Region styleClass="header-separator">
+                    <VBox.margin>
+                        <Insets top="10.0" bottom="30.0" />
+                    </VBox.margin>
+                </Region>
                 <Label text="SEÇÃO ATUAL:" styleClass="content-subtitle-label" />
+
                 <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" styleClass="scroll-pane-custom">
-                    <VBox.margin><Insets top="10.0" bottom="20.0" /></VBox.margin>
+                    <VBox.margin>
+                        <Insets top="10.0" bottom="20.0" />
+                    </VBox.margin>
                     <content>
                         <GridPane hgap="15.0" vgap="10.0" styleClass="profile-grid-pane" >
                             <columnConstraints>
                                 <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="250.0" />
                                 <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" />
+                                <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="50.0" />
                             </columnConstraints>
                             <rowConstraints>
-                                <RowConstraints vgrow="SOMETIMES" /> <RowConstraints vgrow="SOMETIMES" /> <RowConstraints vgrow="SOMETIMES" />
-                                <RowConstraints vgrow="SOMETIMES" /> <RowConstraints vgrow="SOMETIMES" /> <RowConstraints vgrow="SOMETIMES" />
-                                <RowConstraints vgrow="SOMETIMES" /> <RowConstraints vgrow="SOMETIMES" /> <RowConstraints vgrow="SOMETIMES" />
-                                <RowConstraints vgrow="SOMETIMES" /> <RowConstraints vgrow="SOMETIMES" /> <RowConstraints vgrow="SOMETIMES" />
-                                <RowConstraints vgrow="SOMETIMES" /> <RowConstraints vgrow="SOMETIMES" /> <RowConstraints vgrow="SOMETIMES" />
-                            </rowConstraints>
+                                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" /> <RowConstraints minHeight="10.0" vgrow="SOMETIMES" /> <RowConstraints minHeight="10.0" vgrow="SOMETIMES" /> <RowConstraints minHeight="10.0" vgrow="SOMETIMES" /> <RowConstraints minHeight="10.0" vgrow="SOMETIMES" /> <RowConstraints minHeight="10.0" vgrow="SOMETIMES" /> <RowConstraints minHeight="10.0" vgrow="SOMETIMES" /> <RowConstraints minHeight="10.0" vgrow="SOMETIMES" /> <RowConstraints minHeight="10.0" vgrow="SOMETIMES" /> </rowConstraints>
                             <children>
                                 <Label text="Identificação do projeto" styleClass="profile-grid-label" GridPane.rowIndex="0" />
                                 <Label text="Empresa parceira" styleClass="profile-grid-label" GridPane.rowIndex="1" />
@@ -99,53 +98,34 @@
                                 <Label text="Contribuições pessoais" styleClass="profile-grid-label" wrapText="true" GridPane.rowIndex="6" />
                                 <Label text="Hard Skills (em níveis)" styleClass="profile-grid-label" wrapText="true" GridPane.rowIndex="7" />
                                 <Label text="Soft Skills" styleClass="profile-grid-label" wrapText="true" GridPane.rowIndex="8" />
-                                <Label text="Histórico Profissional" styleClass="profile-grid-label" wrapText="true" GridPane.rowIndex="9" />
-                                <Label text="Histórico Acadêmico" styleClass="profile-grid-label" wrapText="true" GridPane.rowIndex="10" />
-                                <Label text="Motivação" styleClass="profile-grid-label" wrapText="true" GridPane.rowIndex="11" />
-                                <Label text="Ano Realização" styleClass="profile-grid-label" wrapText="true" GridPane.rowIndex="12" />
-                                <Label text="Período (Etapa do Curso)" styleClass="profile-grid-label" wrapText="true" GridPane.rowIndex="13" />
-                                <Label text="Semestre (Metade do Ano)" styleClass="profile-grid-label" wrapText="true" GridPane.rowIndex="14" />
 
-                                <TextField fx:id="txtIdentificacaoProjeto" styleClass="profile-text-input" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-                                <TextField fx:id="txtEmpresaParceira" styleClass="profile-text-input" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                <TextArea fx:id="txtProblema" styleClass="profile-text-input" prefHeight="100.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                <TextArea fx:id="txtSolucao" styleClass="profile-text-input" prefHeight="100.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                <TextField fx:id="txtLinkRepositorio" styleClass="profile-text-input" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                                <TextArea fx:id="txtTecnologiasUtilizadas" styleClass="profile-text-input" prefHeight="100.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                                <TextArea fx:id="txtContribuicoesPessoais" styleClass="profile-text-input" prefHeight="100.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                                <TextArea fx:id="txtDescricaoHard" styleClass="profile-text-input" prefHeight="100.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                                <TextArea fx:id="txtDescricaoSoft" styleClass="profile-text-input" prefHeight="100.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-                                <TextArea fx:id="txtHistoricoProfissional" styleClass="profile-text-input" prefHeight="100.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="9" />
-                                <TextArea fx:id="txtHistoricoAcademico" styleClass="profile-text-input" prefHeight="100.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="10" />
-                                <TextArea fx:id="txtMotivacao" styleClass="profile-text-input" prefHeight="100.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="11" />
-                                <TextField fx:id="txtAno" styleClass="profile-text-input" promptText="Ex: 2024" GridPane.columnIndex="1" GridPane.rowIndex="12" />
+                                <TextField styleClass="profile-text-input" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                                <TextField styleClass="profile-text-input" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                <TextArea styleClass="profile-text-input" prefHeight="100.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                <TextArea styleClass="profile-text-input" prefHeight="100.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                <TextField styleClass="profile-text-input" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                <TextArea styleClass="profile-text-input" prefHeight="100.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                <TextArea styleClass="profile-text-input" prefHeight="100.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                <TextArea styleClass="profile-text-input" prefHeight="100.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                                <TextArea styleClass="profile-text-input" prefHeight="100.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="8" />
 
-                                <HBox fx:id="hbPeriodo" spacing="10.0" alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="13">
-                                    <children>
-                                        <fx:define><ToggleGroup fx:id="grupoPeriodo" /></fx:define>
-                                        <RadioButton fx:id="rbPeriodo1" text="1º" toggleGroup="$grupoPeriodo" />
-                                        <RadioButton fx:id="rbPeriodo2" text="2º" toggleGroup="$grupoPeriodo" />
-                                        <RadioButton fx:id="rbPeriodo3" text="3º" toggleGroup="$grupoPeriodo" />
-                                        <RadioButton fx:id="rbPeriodo4" text="4º" toggleGroup="$grupoPeriodo" />
-                                        <RadioButton fx:id="rbPeriodo5" text="5º" toggleGroup="$grupoPeriodo" />
-                                        <RadioButton fx:id="rbPeriodo6" text="6º" toggleGroup="$grupoPeriodo" />
-                                    </children>
-                                </HBox>
-
-                                <HBox fx:id="hbSemestre" spacing="15.0" alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="14">
-                                    <children>
-                                        <fx:define><ToggleGroup fx:id="grupoSemestre" /></fx:define>
-                                        <RadioButton fx:id="rbSemestre1" text="1º Semestre do ano" toggleGroup="$grupoSemestre" />
-                                        <RadioButton fx:id="rbSemestre2" text="2º Semestre do ano" toggleGroup="$grupoSemestre" />
-                                    </children>
-                                </HBox>
+                                <CheckBox styleClass="checkbox-custom" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                                <CheckBox styleClass="checkbox-custom" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                <CheckBox styleClass="checkbox-custom" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                <CheckBox styleClass="checkbox-custom" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                                <CheckBox styleClass="checkbox-custom" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                                <CheckBox styleClass="checkbox-custom" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                                <CheckBox styleClass="checkbox-custom" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+                                <CheckBox styleClass="checkbox-custom" GridPane.columnIndex="2" GridPane.rowIndex="7" />
+                                <CheckBox styleClass="checkbox-custom" GridPane.columnIndex="2" GridPane.rowIndex="8" />
                             </children>
                         </GridPane>
                     </content>
                 </ScrollPane>
+
                 <HBox alignment="CENTER_RIGHT">
                     <children>
-                        <Button onAction="#enviarSecao" text="ENVIAR" styleClass="profile-button-primary" />
+                        <Button text="ENVIAR" styleClass="profile-button-primary" />
                     </children>
                 </HBox>
             </children>

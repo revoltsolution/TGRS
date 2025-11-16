@@ -15,37 +15,22 @@ public class Usuario {
     private String funcao;
     private String senha;
     private String emailOrientador;
-    private String nomeOrientador;
-
-    // --- CAMPO ADICIONADO ---
-    // Este campo não está no banco, será calculado pelo DAO
-    private double progresso;
-    // ------------------------
-
-    public Usuario(String tipo, String senha, String emailCadastrado, String nome) {
-        this.funcao = tipo;
-        this.senha = senha;
-        this.emailCadastrado = emailCadastrado;
-        this.nomeCompleto = nome;
-    }
 
     public Usuario() {
     }
 
-    // --- CONSTRUTOR CORRIGIDO ---
     public Usuario(String nomeDB, String emailDB, String cursoDB, Date dataNascDB, String linkedinDB, String gitHubDB, String emailOrientador, String senhaDB) {
         this.nomeCompleto = nomeDB;
         this.emailCadastrado = emailDB;
         this.curso = cursoDB;
         if (dataNascDB != null) {
-            this.dataNascimento = dataNascDB.toLocalDate(); // Corrigido
+            this.dataNascimento = dataNascDB.toLocalDate(); // <-- CORRIGIDO
         }
         this.linkedin = linkedinDB;
         this.gitHub = gitHubDB;
         this.emailOrientador = emailOrientador;
-        this.senha = senhaDB; // Corrigido
+        this.senha = senhaDB; // <-- CORRIGIDO
     }
-    // --------------------------
 
     public void nomeProfessor(String nome) {
         this.nomeCompleto = nome;
@@ -136,6 +121,8 @@ public class Usuario {
     public void setCurso(String curso) {
         this.curso = curso;
     }
+    private String nomeOrientador;
+
 
     public String getNomeOrientador() {
         return nomeOrientador;
@@ -144,16 +131,6 @@ public class Usuario {
     public void setNomeOrientador(String nomeOrientador) {
         this.nomeOrientador = nomeOrientador;
     }
-
-    // --- GETTER/SETTER ADICIONADOS ---
-    public double getProgresso() {
-        return progresso;
-    }
-
-    public void setProgresso(double progresso) {
-        this.progresso = progresso;
-    }
-    // -------------------------------
 
 
     @Override
@@ -170,4 +147,6 @@ public class Usuario {
                 ", emailOrientador='" + emailOrientador + '\'' +
                 '}';
     }
+
+
 }

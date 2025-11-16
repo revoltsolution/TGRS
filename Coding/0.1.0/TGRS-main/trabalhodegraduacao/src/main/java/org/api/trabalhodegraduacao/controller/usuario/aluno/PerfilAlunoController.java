@@ -1,7 +1,10 @@
 package org.api.trabalhodegraduacao.controller.usuario.aluno;
 
+import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -10,86 +13,136 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.stage.Stage;
+import javafx.scene.input.MouseEvent;
 import org.api.trabalhodegraduacao.Application;
 import org.api.trabalhodegraduacao.dao.UsuarioDAO;
 import org.api.trabalhodegraduacao.entities.Usuario;
 import org.api.trabalhodegraduacao.utils.SessaoUsuario;
-import org.api.trabalhodegraduacao.utils.GerenciadorImagens;
+// import org.api.trabalhodegraduacao.model.Aluno;
+// import org.api.trabalhodegraduacao.service.SessaoService;
 
 public class PerfilAlunoController {
 
+    // --- Variáveis de Estado ---
     private boolean isEditMode = false;
     private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-    private Usuario usuarioLogado;
-    private UsuarioDAO usuarioDAO;
+    // --- Variáveis de Serviço e Dados ---
+    private Usuario usuarioLogado; // Guarda o usuário carregado do banco
+    private UsuarioDAO usuarioDAO; // Instância do DAO para comunicar com o banco
 
+    // --- Componentes FXML ---
     @FXML private Button bt_EditarSalvar;
     @FXML private Button bt_Sair;
     @FXML private Button bt_TrocarFotoPerfil;
+    @FXML private Button bt_devolutivas_geral;
+    @FXML private Button bt_perfil_geral;
+    @FXML private Button bt_secao_geral;
+    @FXML private Button bt_tela_inicial;
+    @FXML private Button bt_tg_geral;
     @FXML private ImageView imgVwFotoPerfil;
 
+    // Campos de Dados (Não Editáveis)
     @FXML private Label lbl_NomeUsuario;
     @FXML private Label lblEmailCadastrado;
     @FXML private Label lblOrientador;
+
+    // Campos de Dados (Editáveis - Labels de Visualização)
     @FXML private Label lblCurso;
-    @FXML private Label lblDataNascimento;
+    @FXML private Label lblDataNascimento; // NOVO
     @FXML private Label lblLinkedin;
     @FXML private Label lblGitHub;
     @FXML private Label lblSenha;
 
+    // Campos de Dados (Editáveis - Campos de Edição)
     @FXML private TextField txtCurso;
-    @FXML private DatePicker dpDataNascimento;
+    @FXML private DatePicker dpDataNascimento; // NOVO
     @FXML private TextField txtLinkedin;
     @FXML private TextField txtGitHub;
     @FXML private PasswordField txtSenha;
 
+
     @FXML
     void initialize() {
+        // 1. Inicializa o DAO (agora como variável da classe)
         this.usuarioDAO = new UsuarioDAO();
-        SessaoUsuario sessao = SessaoUsuario.getInstance();
 
+        // 2. Pega o e-mail da sessão
+        SessaoUsuario sessao = SessaoUsuario.getInstance();
         if (sessao.isLogado()) {
+            String emailDoUsuarioLogado = sessao.getEmail();
+
+            // 3. CARREGA os dados do banco
             try {
-                this.usuarioLogado = usuarioDAO.exibirPerfil(sessao.getEmail());
+                // Usamos o método 'exibirPerfil' do SEU DAO
+                this.usuarioLogado = usuarioDAO.exibirPerfil(emailDoUsuarioLogado);
+
+                // 4. Preenche os labels com os dados carregados
                 if (this.usuarioLogado != null) {
                     preencherLabelsComDados();
-                    GerenciadorImagens.configurarImagemPerfil(imgVwFotoPerfil, usuarioLogado.getFotoPerfil());
+                } else {
+                    // Tratar caso o usuário não seja encontrado no banco
+                    System.err.println("Usuário da sessão não encontrado no banco.");
+                    // (Talvez mostrar um alerta e voltar para o login)
                 }
+
             } catch (SQLException e) {
+                // Tratar erro de banco de dados (ex: mostrar um alerta)
                 System.err.println("Erro ao carregar perfil: " + e.getMessage());
                 e.printStackTrace();
             }
+        } else {
+            // Lógica para caso não tenha ninguém logado
+            System.err.println("Erro: Nenhum usuário na sessão.");
+            // (Talvez redirecionar para o login)
         }
-        setViewMode(true);
+
+        // 5. Configura o modo de visualização inicial
+        setViewMode(true); // true = View Mode
     }
 
+    /**
+     * Método auxiliar para preencher os labels com os dados do objeto 'usuarioLogado'.
+     * Isso centraliza a lógica de exibição.
+     */
     private void preencherLabelsComDados() {
         lbl_NomeUsuario.setText(usuarioLogado.getNomeCompleto());
+
+        // *** CORREÇÃO: O método é getEmailCadastrado() ***
         lblEmailCadastrado.setText(usuarioLogado.getEmailCadastrado());
 
+        // Puxa o nome do orientador (que o DAO já buscou)
         String nomeOrientador = usuarioLogado.getNomeOrientador();
-        lblOrientador.setText((nomeOrientador != null && !nomeOrientador.isEmpty()) ? nomeOrientador : "(Não definido)");
+        if (nomeOrientador != null && !nomeOrientador.isEmpty()) {
+            lblOrientador.setText(nomeOrientador);
+        } else {
+            lblOrientador.setText("(Não definido)");
+        }
 
+        // Campos editáveis (Labels de visualização)
         lblCurso.setText(getTextoOuPadrao(usuarioLogado.getCurso()));
         lblLinkedin.setText(getTextoOuPadrao(usuarioLogado.getLinkedin()));
         lblGitHub.setText(getTextoOuPadrao(usuarioLogado.getGitHub()));
-        lblSenha.setText("**********");
+        lblSenha.setText("**********"); // Sempre mostrar asteriscos
 
         if (usuarioLogado.getDataNascimento() != null) {
-            lblDataNascimento.setText(usuarioLogado.getDataNascimento().format(dateFormatter));
+            LocalDate dataNasc = usuarioLogado.getDataNascimento();
+            lblDataNascimento.setText(dataNasc.format(dateFormatter));
         } else {
             lblDataNascimento.setText("(Não informado)");
         }
     }
 
+    /**
+     * Método utilitário para evitar que "null" ou "" apareça na interface.
+     */
     private String getTextoOuPadrao(String texto) {
         return (texto != null && !texto.trim().isEmpty()) ? texto : "(Não informado)";
     }
 
+
     private void setViewMode(boolean viewMode) {
-        // Labels visíveis apenas no modo visualização
+        // Alterna os Labels
         lblCurso.setVisible(viewMode);
         lblDataNascimento.setVisible(viewMode);
         lblLinkedin.setVisible(viewMode);
@@ -102,7 +155,7 @@ public class PerfilAlunoController {
         lblGitHub.setManaged(viewMode);
         lblSenha.setManaged(viewMode);
 
-        // Inputs visíveis apenas no modo edição
+        // Alterna os Campos de Edição
         txtCurso.setVisible(!viewMode);
         dpDataNascimento.setVisible(!viewMode);
         txtLinkedin.setVisible(!viewMode);
@@ -115,43 +168,71 @@ public class PerfilAlunoController {
         txtGitHub.setManaged(!viewMode);
         txtSenha.setManaged(!viewMode);
 
-        // Botão de trocar foto apenas na edição
+        // Alterna o botão de trocar foto
         bt_TrocarFotoPerfil.setVisible(!viewMode);
         bt_TrocarFotoPerfil.setManaged(!viewMode);
     }
 
     @FXML
     void onToggleEditSave(ActionEvent event) {
-        if (isEditMode) { // Clicou em Salvar
+        if (isEditMode) {
+            // --- MODO SALVAR ---
             try {
+                // 1. Atualizar o objeto 'usuarioLogado' com os dados dos campos de texto
                 usuarioLogado.setCurso(txtCurso.getText());
                 usuarioLogado.setLinkedin(txtLinkedin.getText());
                 usuarioLogado.setGitHub(txtGitHub.getText());
-                usuarioLogado.setDataNascimento(dpDataNascimento.getValue());
 
-                String novaSenha = txtSenha.getText();
-                if (novaSenha != null && !novaSenha.trim().isEmpty()) {
-                    usuarioLogado.setSenha(novaSenha);
+                if (dpDataNascimento.getValue() != null) {
+                    // *** CORREÇÃO 3 ***: O setter 'setDataNascimento' espera um 'LocalDate'
+                    usuarioLogado.setDataNascimento(dpDataNascimento.getValue()); // <--- CORRIGIDO
+                } else {
+                    usuarioLogado.setDataNascimento(null);
                 }
 
-                usuarioDAO.atualizar(this.usuarioLogado);
+                // Lógica para senha: só atualiza se o campo não estiver vazio
+                String novaSenha = txtSenha.getText();
+                if (novaSenha != null && !novaSenha.trim().isEmpty()) {
+                    // (Idealmente, você deve criptografar a senha aqui antes de salvar)
+                    usuarioLogado.setSenha(novaSenha);
+                }
+                // Se estiver vazio, a senha antiga (já no objeto 'usuarioLogado') é mantida
+
+                // 2. !! PONTO IMPORTANTE: Mandar o DAO salvar no banco !!
+                usuarioDAO.atualizar(this.usuarioLogado); // Usando o método 'atualizar' do SEU DAO
+
+                // 3. Atualizar os Labels (puxando do objeto que acabamos de salvar)
                 preencherLabelsComDados();
 
+                // 4. Trocar para o modo de visualização
                 setViewMode(true);
                 bt_EditarSalvar.setText("Editar Perfil");
                 bt_EditarSalvar.getStyleClass().setAll("profile-button-secondary");
                 isEditMode = false;
 
             } catch (SQLException e) {
+                // Mostrar um alerta para o usuário sobre o erro de salvamento
+                System.err.println("Erro ao salvar perfil: " + e.getMessage());
                 e.printStackTrace();
+                // (Aqui você deve mostrar um Alert para o usuário)
             }
-        } else { // Clicou em Editar
+
+        } else {
+            // --- MODO EDITAR ---
+            // 1. Copiar dados do objeto 'usuarioLogado' para os TextFields
             txtCurso.setText(usuarioLogado.getCurso());
             txtLinkedin.setText(usuarioLogado.getLinkedin());
             txtGitHub.setText(usuarioLogado.getGitHub());
-            dpDataNascimento.setValue(usuarioLogado.getDataNascimento());
-            txtSenha.clear();
+            txtSenha.clear(); // Sempre limpar a senha
 
+            if (usuarioLogado.getDataNascimento() != null) {
+                // *** CORREÇÃO 4 ***: 'getDataNascimento()' já retorna um LocalDate.
+                dpDataNascimento.setValue(usuarioLogado.getDataNascimento()); // <--- CORRIGIDO
+            } else {
+                dpDataNascimento.setValue(null);
+            }
+
+            // 2. Trocar para o modo de edição
             setViewMode(false);
             bt_EditarSalvar.setText("Salvar");
             bt_EditarSalvar.getStyleClass().setAll("profile-button-primary");
@@ -160,36 +241,47 @@ public class PerfilAlunoController {
     }
 
     @FXML
-    void trocarFotoPerfil(ActionEvent event) {
-
-        System.out.println("Botão Foto Aluno.");
-
-        Stage stage = (Stage) bt_TrocarFotoPerfil.getScene().getWindow();
-
-
-        String nomeSeguro = usuarioLogado.getEmailCadastrado().replaceAll("[^a-zA-Z0-9.-]", "_");
-
-        String novoCaminho = GerenciadorImagens.selecionarESalvarNovaFoto(stage, nomeSeguro);
-
-        if (novoCaminho != null) {
-            usuarioLogado.setFotoPerfil(novoCaminho);
-
-            GerenciadorImagens.configurarImagemPerfil(imgVwFotoPerfil, novoCaminho);
-
-            try {
-                usuarioDAO.atualizar(usuarioLogado);
-                System.out.println("Foto atualizada no banco!");
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+    void trocarFoto(ActionEvent event) {
+        System.out.println("Botão Trocar Foto clicado.");
+        // (Aqui virá a lógica para abrir um FileChooser)
     }
 
-    // --- Navegação ---
-    @FXML public void sair(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/BemVindo.fxml", "Bem-vindo", event); }
-    @FXML public void perfilAluno(ActionEvent event) { System.out.println("Já está na tela."); }
-    @FXML public void secaoGeral(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/aluno/SecaoAluno.fxml", "Secao Geral", event); }
-    @FXML public void tgGeral(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/aluno/TGAluno.fxml", "TG Aluno", event); }
-    @FXML public void telaInicial(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/aluno/AtualizacoesAluno.fxml", "Tela Inicial", event); }
-    @FXML void devolutivasGeral(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/aluno/DevolutivasAluno.fxml", "TGRS - Devolutivas", event); }
+    @FXML
+    void nomeUsuario(MouseEvent event) {
+        // Lógica do onDragDetected (se houver)
+    }
+
+    // --- MÉTODOS DE NAVEGAÇÃO ---
+
+    @FXML
+    public void sair(ActionEvent event) {
+        Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/BemVindo.fxml", "Bem-vindo", event);
+    }
+
+    @FXML
+    public void perfilAluno (ActionEvent event) {
+        System.out.println("Já está na tela de Perfil.");
+    }
+
+    @FXML
+    public void secaoGeral(ActionEvent event) {
+        Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/aluno/SecaoAluno.fxml", "Secao Geral", event);
+    }
+
+    @FXML
+    public void tgGeral(ActionEvent event) {
+        Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/aluno/TGAluno.fxml", "TG Aluno", event);
+    }
+
+    @FXML
+    public void telaInicial(ActionEvent event) {
+        Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/aluno/AtualizacoesAluno.fxml", "Tela Inicial", event);
+    }
+
+    @FXML
+    void devolutivasGeral(ActionEvent event) {
+        String fxmlPath = "/org/api/trabalhodegraduacao/view/usuario/aluno/DevolutivasAluno.fxml";
+        String title = "TGRS - Devolutivas";
+        Application.carregarNovaCena(fxmlPath, title, event);
+    }
 }
