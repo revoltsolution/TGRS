@@ -81,7 +81,7 @@
 
                 <Label text="HISTÓRICO GERAL DE DEVOLUTIVAS:" styleClass="content-subtitle-label" />
 
-                <TableView VBox.vgrow="ALWAYS">
+                <TableView fx:id="tableViewDevolutivas" VBox.vgrow="ALWAYS" style="-fx-background-color: #40607e;">
                     <VBox.margin>
                         <Insets top="10.0" />
                     </VBox.margin>
