@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ScrollPane?>
@@ -18,12 +19,11 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
-
-<BorderPane prefHeight="768.0" prefWidth="1366.0"
-            xmlns="http://javafx.com/javafx/21"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="org.api.trabalhodegraduacao.controller.usuario.aluno.SecaoAlunoController"
-            stylesheets="@../style.css">
+<?import javafx.scene.text.Font?> <BorderPane prefHeight="768.0" prefWidth="1366.0"
+                                              xmlns="http://javafx.com/javafx/21"
+                                              xmlns:fx="http://javafx.com/fxml/1"
+                                              fx:controller="org.api.trabalhodegraduacao.controller.usuario.aluno.SecaoAlunoController"
+                                              stylesheets="@../style.css">
 
     <left>
         <VBox alignment="TOP_CENTER" spacing="20.0" styleClass="sidebar">
@@ -35,7 +35,7 @@
                         <Label text="REVOLT SOLUTIONS" styleClass="sidebar-title" />
                     </children>
                 </HBox>
-                <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" styleClass="profile-image">
+                <ImageView fx:id="imgVwFotoPerfil" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" styleClass="profile-image">
                     <image><Image url="@../../../images/imgFotoPerfil.png" /></image>
                     <clip><Circle radius="75.0" centerX="75.0" centerY="75.0" /></clip>
                     <VBox.margin><Insets top="20.0" bottom="20.0" /></VBox.margin>
@@ -55,25 +55,26 @@
         <VBox styleClass="main-content-pane">
             <padding><Insets top="20.0" right="40.0" bottom="40.0" left="40.0" /></padding>
             <children>
-                <HBox alignment="CENTER_LEFT" spacing="10.0">
-                    <children>
-                        <ImageView fitHeight="30.0" fitWidth="30.0" preserveRatio="true">
-                            <image>
-                                <Image url="@../../../images/progresso.png" />
-                            </image>
-                        </ImageView>
-                        <Label text="SEÇÃO" styleClass="main-header-label" />
-                    </children>
-                </HBox>
-
+                <Label text="SEÇÃO" styleClass="main-header-label" />
                 <Region styleClass="header-separator"><VBox.margin><Insets top="10.0" bottom="20.0" /></VBox.margin></Region>
 
+                <VBox fx:id="painelSucesso" alignment="CENTER" spacing="10.0" style="-fx-background-color: #4CAF50; -fx-background-radius: 10; -fx-padding: 15;" visible="false" managed="false">
+                    <children>
+                        <Label text="SEÇÃO CONCLUÍDA!" textFill="WHITE">
+                            <font><Font name="System Bold" size="20.0" /></font>
+                        </Label>
+                        <Label text="O professor aprovou esta seção. Bom trabalho!" textFill="WHITE" />
+                    </children>
+                    <VBox.margin><Insets bottom="10.0" /></VBox.margin>
+                </VBox>
+
                 <Label text="DEVOLUTIVA DO PROFESSOR:" styleClass="content-subtitle-label" />
-                <TextArea fx:id="txtFeedbackProfessor" editable="false" styleClass="feedback-display-area" wrapText="true" prefHeight="100.0">
+                <TextArea fx:id="txtFeedbackProfessor" editable="false" styleClass="feedback-display-area" wrapText="true" prefHeight="80.0">
                     <VBox.margin><Insets bottom="10.0" top="5.0" /></VBox.margin>
                 </TextArea>
 
                 <Label text="SEÇÃO ATUAL:" styleClass="content-subtitle-label" />
+
                 <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" styleClass="scroll-pane-custom">
                     <VBox.margin><Insets top="10.0" bottom="20.0" /></VBox.margin>
                     <content>
@@ -143,9 +144,10 @@
                         </GridPane>
                     </content>
                 </ScrollPane>
+
                 <HBox alignment="CENTER_RIGHT">
                     <children>
-                        <Button onAction="#enviarSecao" text="ENVIAR" styleClass="profile-button-primary" />
+                        <Button fx:id="btEnviar" onAction="#enviarSecao" text="ENVIAR" styleClass="profile-button-primary" />
                     </children>
                 </HBox>
             </children>

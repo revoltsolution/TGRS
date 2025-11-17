@@ -16,6 +16,8 @@ public class Usuario {
     private String senha;
     private String emailOrientador;
     private String nomeOrientador;
+    private String displayTG;
+    private String displaySecao;
 
     // --- CAMPO ADICIONADO ---
     // Este campo não está no banco, será calculado pelo DAO
@@ -153,6 +155,11 @@ public class Usuario {
     public void setProgresso(double progresso) {
         this.progresso = progresso;
     }
+    public String getDisplayTG() { return displayTG; }
+    public void setDisplayTG(String displayTG) { this.displayTG = displayTG; }
+
+    public String getDisplaySecao() { return displaySecao; }
+    public void setDisplaySecao(String displaySecao) { this.displaySecao = displaySecao; }
     // -------------------------------
 
 

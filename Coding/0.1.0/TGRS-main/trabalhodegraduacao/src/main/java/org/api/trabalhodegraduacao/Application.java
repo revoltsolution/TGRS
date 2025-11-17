@@ -1,98 +1,84 @@
 package org.api.trabalhodegraduacao;
 
-import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D; // Import necessário
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.layout.AnchorPane;
+import javafx.stage.Screen; // Import necessário
 import javafx.stage.Stage;
-import org.api.trabalhodegraduacao.bancoDeDados.GerenciadorDB;
-
 import java.io.IOException;
 
 public class Application extends javafx.application.Application {
 
-    public static Scene scene;
+    private static Stage stage;
 
     @Override
-    public void init() throws Exception {
-        System.out.println("### INICIALIZANDO BANCO DE DADOS ###");
-        GerenciadorDB gbd = new GerenciadorDB();
+    public void start(Stage stage) throws IOException {
+        Application.stage = stage;
 
-        gbd.criarBancoDeDados("TGRSDB");
-        gbd.criarTodasAsTabelas();
+        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("/org/api/trabalhodegraduacao/view/usuario/BemVindo.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
 
-        System.out.println("### BANCO DE DADOS PRONTO ###");
-    }
-
-    @Override
-    public void start(Stage stage) throws Exception {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/api/trabalhodegraduacao/view/usuario/BemVindo.fxml"));
-        scene = new Scene(fxmlLoader.load(), 1366, 768);
+        stage.setTitle("TGRS - Revolt Solutions");
         stage.setScene(scene);
-        stage.setTitle("Bem-vindo");
+
+        // --- CORREÇÃO PARA TELA CHEIA SEM COBRIR A BARRA ---
+        // 1. Pega as dimensões visuais da tela (tamanho total MENOS a barra de tarefas)
+        Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
+
+        // 2. Aplica essas dimensões à janela
+        stage.setX(visualBounds.getMinX());
+        stage.setY(visualBounds.getMinY());
+        stage.setWidth(visualBounds.getWidth());
+        stage.setHeight(visualBounds.getHeight());
+
+        // 3. Define como maximizado para travar nessas dimensões
+        stage.setMaximized(true);
+        // ---------------------------------------------------
+
         stage.show();
     }
 
-    public static void carregarNovaCena(String fxmlPath, String title, ActionEvent event) {
+    public static void carregarNovaCena(String fxmlPath, String title, Event event) {
         try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Application.class.getResource(fxmlPath));
-
-            Parent root = loader.load();
-
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-            if (stage == null && scene != null) {
-                stage = (Stage) scene.getWindow();
+            Stage currentStage;
+            if (event != null && event.getSource() instanceof Node) {
+                currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            } else {
+                currentStage = Application.stage;
             }
 
-            if (stage == null) {
-                throw new IllegalStateException("Stage principal não encontrado. A aplicação pode não ter sido iniciada corretamente.");
-            }
+            FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource(fxmlPath));
+            Parent root = fxmlLoader.load();
 
-            Scene novaScene = new Scene(root, 1366, 768);
+            // Passa o tamanho atual da janela para a nova cena para evitar "piscadas" de redimensionamento
+            Scene newScene = new Scene(root, currentStage.getWidth(), currentStage.getHeight());
 
-            stage.setScene(novaScene);
-            stage.setTitle(title);
-            stage.show();
+            currentStage.setTitle(title);
+            currentStage.setScene(newScene);
 
-        } catch (Throwable e) {
-            System.err.println("### FALHA CRÍTICA AO CARREGAR A CENA: " + fxmlPath);
+            // Garante que continue maximizado na troca de tela
+            currentStage.setMaximized(true);
 
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erro Crítico de Navegação");
-            alert.setHeaderText("A tela não pôde ser carregada.");
-            alert.setContentText("Caminho do FXML: " + fxmlPath + "\n\nDetalhes do erro: " + e.getMessage() + "\n\nVerifique o caminho do FXML e dos recursos (CSS/Imagens) na pasta 'resources'.");
-            alert.showAndWait();
+            currentStage.show();
 
+        } catch (IOException e) {
             e.printStackTrace();
+            System.err.println("Erro crítico ao carregar a cena: " + fxmlPath);
         }
     }
 
-    public static void carregarConteudoPane(String fxmlPath, AnchorPane contentPane) {
+    public static void main(String[] args) {
         try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Application.class.getResource(fxmlPath));
-
-            Parent conteudo = loader.load();
-
-            contentPane.getChildren().clear();
-            contentPane.getChildren().add(conteudo);
-
-            AnchorPane.setTopAnchor(conteudo, 0.0);
-            AnchorPane.setBottomAnchor(conteudo, 0.0);
-            AnchorPane.setLeftAnchor(conteudo, 0.0);
-            AnchorPane.setRightAnchor(conteudo, 0.0);
-
-        } catch (IOException e) {
-            System.err.println("### FALHA AO CARREGAR O CONTEÚDO NO PANE: " + fxmlPath);
-            e.printStackTrace();
-        } catch (NullPointerException e) {
-            System.err.println("### ERRO: FXML não encontrado em: " + fxmlPath);
+            org.api.trabalhodegraduacao.bancoDeDados.GerenciadorDB gbd = new org.api.trabalhodegraduacao.bancoDeDados.GerenciadorDB();
+            gbd.criarBancoDeDados("TGRSDB");
+            gbd.criarTodasAsTabelas();
+        } catch (Exception e) {
             e.printStackTrace();
         }
+
+        launch();
     }
 }

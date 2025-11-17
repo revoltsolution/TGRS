@@ -14,6 +14,7 @@ import org.api.trabalhodegraduacao.entities.Correcao;
 import org.api.trabalhodegraduacao.entities.Secao;
 import org.api.trabalhodegraduacao.entities.Usuario;
 import org.api.trabalhodegraduacao.utils.AlunoSelecionado;
+import org.api.trabalhodegraduacao.utils.SessaoTG; // IMPORTANTE: Importe isso
 import org.api.trabalhodegraduacao.utils.SessaoUsuario;
 
 import java.sql.SQLException;
@@ -22,7 +23,7 @@ import java.time.LocalDate;
 public class CorrecaoSecaoController {
 
     // --- FXML Barra Lateral ---
-    @FXML private Button bt_Sair, bt_alunos_geral, bt_devolutivas_geral, bt_perfil_geral, bt_tela_inicial;
+    @FXML private Button bt_Sair, bt_alunos_geral, bt_perfil_geral, bt_tela_inicial;
 
     // --- FXML Conteúdo (Dados Aluno) ---
     @FXML private Label lblTituloAluno;
@@ -39,12 +40,18 @@ public class CorrecaoSecaoController {
     private Usuario alunoSelecionado;
     private Usuario professorLogado;
     private Secao secaoAtual;
+    private int idTgAtual; // Para saber qual TG estamos corrigindo
 
     @FXML
     public void initialize() {
         this.secaoDAO = new SecaoDAO();
         this.correcaoDAO = new CorrecaoDAO();
         this.alunoSelecionado = AlunoSelecionado.getInstance().getAluno();
+
+        // --- RECUPERA O ID DO TG ---
+        this.idTgAtual = SessaoTG.getInstance().getIdTgAtual();
+        if (this.idTgAtual == 0) this.idTgAtual = 1;
+        // ---------------------------
 
         SessaoUsuario sessao = SessaoUsuario.getInstance();
         if (sessao.isLogado()) {
@@ -57,29 +64,96 @@ public class CorrecaoSecaoController {
             return;
         }
 
-        lblTituloAluno.setText("Correção de: " + alunoSelecionado.getNomeCompleto());
+        // Ajusta o título para mostrar qual TG é (ex: Correção de: João - TG 2 - Seção 1)
+        lblTituloAluno.setText("Correção: " + alunoSelecionado.getNomeCompleto() + " (ID " + idTgAtual + ")");
+
         carregarDadosSecao();
     }
 
     private void carregarDadosSecao() {
         try {
-            this.secaoAtual = secaoDAO.buscarSecaoMaisRecente(
-                    alunoSelecionado.getEmailCadastrado(),
-                    professorLogado.getEmailCadastrado()
-            );
+            // 1. Pega o ID da sessão
+            int idTgAlvo = SessaoTG.getInstance().getIdTgAtual();
+
+            // 2. LÓGICA DE DECISÃO
+            if (idTgAlvo == 0) {
+                // Se for 0 (clicou em "SEÇÃO ATUAL"), busca a mais recente por DATA
+                this.secaoAtual = secaoDAO.buscarSecaoMaisRecente(
+                        alunoSelecionado.getEmailCadastrado(),
+                        professorLogado.getEmailCadastrado()
+                );
+            } else {
+                // Se tiver um ID (clicou na lista de TGs), busca a mais recente DAQUELE ID
+                this.secaoAtual = secaoDAO.buscarUltimaVersaoPorIdTg(
+                        alunoSelecionado.getEmailCadastrado(),
+                        professorLogado.getEmailCadastrado(),
+                        idTgAlvo
+                );
+            }
 
             if (this.secaoAtual != null) {
                 preencherCamposDeTexto();
                 preencherCheckBoxes();
+
+                // Atualiza o título para mostrar qual TG foi carregado
+                lblTituloAluno.setText("Correção: " + alunoSelecionado.getNomeCompleto() + " (TG " + getNomeTg(secaoAtual.getIdTG()) + ")");
+
+                Correcao ultimaCorrecao = correcaoDAO.buscarCorrecaoMaisRecente(
+                        secaoAtual.getData(),
+                        secaoAtual.getEmailAluno(),
+                        secaoAtual.getEmailOrientador()
+                );
+
+                if (ultimaCorrecao != null && "Aprovada".equalsIgnoreCase(ultimaCorrecao.getStatus())) {
+                    txtDevolutiva.setText("SEÇÃO CONCLUÍDA. Feedback final: " + ultimaCorrecao.getConteudo());
+                    bloquearEdicao();
+                } else if (ultimaCorrecao != null) {
+                    txtDevolutiva.setText(ultimaCorrecao.getConteudo());
+                }
+
             } else {
-                lblTituloAluno.setText(alunoSelecionado.getNomeCompleto() + " - Nenhuma seção enviada.");
-                txtDevolutiva.setDisable(true);
-                btEnviarCorrecao.setDisable(true);
+                lblTituloAluno.setText("O aluno ainda não enviou esta seção.");
+                limparCampos();
+                bloquearEdicao();
             }
         } catch (SQLException e) {
             e.printStackTrace();
             exibirAlerta("Erro de Banco de Dados", "Não foi possível carregar a seção.", Alert.AlertType.ERROR);
         }
+    }
+
+    // Método auxiliarzinho para deixar o título bonito
+    private String getNomeTg(int id) {
+        if (id == 1 || id == 2) return "1";
+        return "2"; // Simplificação, pode melhorar se quiser (ex: TG 1 - Seção 2)
+    }
+
+    /**
+     * Bloqueia a tela para leitura apenas (quando concluído ou não encontrado).
+     */
+    private void bloquearEdicao() {
+        txtDevolutiva.setEditable(false);
+        btEnviarCorrecao.setDisable(true);
+        // Desabilita checkboxes
+        cbIdentificacao.setDisable(true); cbEmpresa.setDisable(true); cbProblema.setDisable(true);
+        cbSolucao.setDisable(true); cbLink.setDisable(true); cbTecnologias.setDisable(true);
+        cbContribuicoes.setDisable(true); cbHardSkills.setDisable(true); cbSoftSkills.setDisable(true);
+        cbHistProf.setDisable(true); cbHistAcad.setDisable(true); cbMotivacao.setDisable(true);
+        cbAno.setDisable(true); cbPeriodo.setDisable(true); cbSemestre.setDisable(true);
+    }
+
+    private void limparCampos() {
+        txtIdentificacaoProjeto.clear(); txtEmpresaParceira.clear(); txtProblema.clear();
+        txtSolucao.clear(); txtLinkRepositorio.clear(); txtTecnologiasUtilizadas.clear();
+        txtContribuicoesPessoais.clear(); txtDescricaoHard.clear(); txtDescricaoSoft.clear();
+        txtHistoricoProfissional.clear(); txtHistoricoAcademico.clear(); txtMotivacao.clear();
+        txtAno.clear(); txtPeriodo.clear(); txtSemestre.clear();
+        // Desmarca checkboxes
+        cbIdentificacao.setSelected(false); cbEmpresa.setSelected(false); cbProblema.setSelected(false);
+        cbSolucao.setSelected(false); cbLink.setSelected(false); cbTecnologias.setSelected(false);
+        cbContribuicoes.setSelected(false); cbHardSkills.setSelected(false); cbSoftSkills.setSelected(false);
+        cbHistProf.setSelected(false); cbHistAcad.setSelected(false); cbMotivacao.setSelected(false);
+        cbAno.setSelected(false); cbPeriodo.setSelected(false); cbSemestre.setSelected(false);
     }
 
     @FXML
@@ -90,33 +164,50 @@ public class CorrecaoSecaoController {
             return;
         }
 
-        // 1. Cria o objeto Correcao
         Correcao novaCorrecao = new Correcao();
         novaCorrecao.setConteudo(textoDevolutiva);
-        novaCorrecao.setStatus("Enviada");
+
+        // Verifica se todos os checkboxes estão marcados
+        boolean tudoAprovado = verificarSeTudoAprovado();
+
+        if (tudoAprovado) {
+            novaCorrecao.setStatus("Aprovada");
+        } else {
+            novaCorrecao.setStatus("Enviada");
+        }
+
         novaCorrecao.setDataCorrecoes(LocalDate.now());
         novaCorrecao.setDataSecao(secaoAtual.getData());
         novaCorrecao.setEmailAluno(secaoAtual.getEmailAluno());
         novaCorrecao.setEmailOrientador(secaoAtual.getEmailOrientador());
 
-        // 2. Atualiza o objeto Secao com o status dos checkboxes
         puxarDadosDosCheckBoxes();
 
         try {
-            // 3. Salva a Devolutiva (na tabela 'correcoes')
             correcaoDAO.salvar(novaCorrecao);
+            secaoDAO.atualizarStatusSecao(this.secaoAtual);
 
-            // 4. Salva o Progresso (na tabela 'Secao')
-            // --- CORREÇÃO AQUI ---
-            secaoDAO.atualizarStatusSecao(this.secaoAtual); // Chama o método correto de ATUALIZAR
-
-            exibirAlerta("Sucesso", "Devolutiva enviada e progresso salvo!", Alert.AlertType.INFORMATION);
-            alunos(event); // Volta para a tela de alunos
+            if (tudoAprovado) {
+                exibirAlerta("Seção Concluída!", "Todos os itens foram aprovados.", Alert.AlertType.INFORMATION);
+                bloquearEdicao(); // Bloqueia após aprovar
+            } else {
+                exibirAlerta("Sucesso", "Devolutiva enviada e progresso salvo!", Alert.AlertType.INFORMATION);
+            }
+            // Opcional: Voltar para a lista
+            // alunos(event);
 
         } catch (SQLException e) {
             e.printStackTrace();
             exibirAlerta("Erro no Banco", "Não foi possível salvar a correção: " + e.getMessage(), Alert.AlertType.ERROR);
         }
+    }
+
+    private boolean verificarSeTudoAprovado() {
+        return cbIdentificacao.isSelected() && cbEmpresa.isSelected() && cbProblema.isSelected() &&
+                cbSolucao.isSelected() && cbLink.isSelected() && cbTecnologias.isSelected() &&
+                cbContribuicoes.isSelected() && cbHardSkills.isSelected() && cbSoftSkills.isSelected() &&
+                cbHistProf.isSelected() && cbHistAcad.isSelected() && cbMotivacao.isSelected() &&
+                cbAno.isSelected() && cbPeriodo.isSelected() && cbSemestre.isSelected();
     }
 
     // --- Métodos Auxiliares ---
@@ -188,6 +279,5 @@ public class CorrecaoSecaoController {
     @FXML void sair(ActionEvent event) { AlunoSelecionado.getInstance().limparSelecao(); Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/BemVindo.fxml", "Bem-vindo", event); }
     @FXML void perfilProfessor(ActionEvent event) { AlunoSelecionado.getInstance().limparSelecao(); Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/professor/PerfilProfessor.fxml", "Perfil", event); }
     @FXML void alunos(ActionEvent event) { AlunoSelecionado.getInstance().limparSelecao(); Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/professor/Alunos.fxml", "Alunos", event); }
-    @FXML void devolutivas(ActionEvent event) { AlunoSelecionado.getInstance().limparSelecao(); Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/professor/Historico.fxml", "Devolutivas", event); }
     @FXML void telaInicial(ActionEvent event) { AlunoSelecionado.getInstance().limparSelecao(); Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/professor/AtualizacoesProfessor.fxml", "Tela Inicial", event); }
 }

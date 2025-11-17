@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import org.api.trabalhodegraduacao.Application;
 import org.api.trabalhodegraduacao.dao.CorrecaoDAO;
 import org.api.trabalhodegraduacao.dao.SecaoDAO;
@@ -11,25 +12,39 @@ import org.api.trabalhodegraduacao.dao.UsuarioDAO;
 import org.api.trabalhodegraduacao.entities.Correcao;
 import org.api.trabalhodegraduacao.entities.Secao;
 import org.api.trabalhodegraduacao.entities.Usuario;
+import org.api.trabalhodegraduacao.utils.SessaoTG;
 import org.api.trabalhodegraduacao.utils.SessaoUsuario;
+import org.api.trabalhodegraduacao.utils.SessaoVisualizacao; // Importe SessaoVisualizacao
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.shape.Circle;
+import java.io.File;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 public class SecaoAlunoController {
-
+    // --- FXML Barra Lateral ---
+    @FXML private ImageView imgVwFotoPerfil; // Adicionado fx:id para a imagem do perfil
     @FXML private Button bt_Sair, bt_devolutivas_geral, bt_perfil_geral, bt_secao_geral, bt_tela_inicial, bt_tg_geral;
 
+    // --- FXML do Formulário ---
     @FXML private TextField txtIdentificacaoProjeto, txtEmpresaParceira, txtLinkRepositorio, txtAno;
     @FXML private TextArea txtProblema, txtSolucao, txtTecnologiasUtilizadas, txtContribuicoesPessoais, txtDescricaoHard, txtDescricaoSoft, txtHistoricoProfissional, txtHistoricoAcademico, txtMotivacao;
 
+    // FXML para RadioButtons
     @FXML private ToggleGroup grupoPeriodo, grupoSemestre;
     @FXML private RadioButton rbPeriodo1, rbPeriodo2, rbPeriodo3, rbPeriodo4, rbPeriodo5, rbPeriodo6;
     @FXML private RadioButton rbSemestre1, rbSemestre2;
     @FXML private HBox hbPeriodo, hbSemestre;
 
+    // --- FXML do Feedback e Controle ---
     @FXML private TextArea txtFeedbackProfessor;
+    @FXML private VBox painelSucesso;
+    @FXML private Button btEnviar;
 
+    // --- DAOs e Dados ---
     private SecaoDAO secaoDAO;
     private UsuarioDAO usuarioDAO;
     private CorrecaoDAO correcaoDAO;
@@ -43,18 +58,48 @@ public class SecaoAlunoController {
         this.usuarioDAO = new UsuarioDAO();
         this.correcaoDAO = new CorrecaoDAO();
 
+        if (painelSucesso != null) {
+            painelSucesso.setVisible(false);
+            painelSucesso.setManaged(false);
+        }
+
+        // --- 1. VERIFICAÇÃO DE MODO HISTÓRICO ---
+        SessaoVisualizacao sessaoVis = SessaoVisualizacao.getInstance();
+        if (sessaoVis.getSecaoHistorica() != null) {
+            // Estamos abrindo uma versão antiga!
+            carregarModoHistorico(sessaoVis);
+            // Mesmo no modo histórico, pode ser útil tentar carregar a foto do usuário logado
+            carregarFotoPerfil(); // <--- CHAMA AQUI TAMBÉM
+            return; // PARE AQUI! Não carregue a versão atual.
+        }
+        // ----------------------------------------
+
         SessaoUsuario sessao = SessaoUsuario.getInstance();
+
+        // Recupera o ID do TG atual
+        int idTgAlvo = SessaoTG.getInstance().getIdTgAtual();
+        if (idTgAlvo == 0) idTgAlvo = 1;
+
         if (sessao.isLogado()) {
             try {
                 this.usuarioLogado = usuarioDAO.exibirPerfil(sessao.getEmail());
+
+                // --- CARREGA A FOTO DE PERFIL AQUI ---
+                if (this.usuarioLogado != null) {
+                    carregarFotoPerfil();
+                }
+                // ------------------------------------
+
                 if (usuarioLogado == null || usuarioLogado.getEmailOrientador() == null || usuarioLogado.getEmailOrientador().isEmpty()) {
                     exibirAlerta("Erro de Configuração", "Você não está vinculado a um orientador. Contate a coordenação.", Alert.AlertType.ERROR);
                     return;
                 }
 
-                this.secaoAtual = secaoDAO.buscarSecaoMaisRecente(
+                // Busca a seção mais recente do TG ESPECÍFICO (Fluxo Normal)
+                this.secaoAtual = secaoDAO.buscarUltimaVersaoPorIdTg(
                         usuarioLogado.getEmailCadastrado(),
-                        usuarioLogado.getEmailOrientador()
+                        usuarioLogado.getEmailOrientador(),
+                        idTgAlvo
                 );
 
                 if (this.secaoAtual != null) {
@@ -67,25 +112,133 @@ public class SecaoAlunoController {
                     );
 
                     if (this.correcaoAtual == null) {
-                        txtFeedbackProfessor.setText("Status: AGUARDANDO CORREÇÃO.\nVocê enviou esta seção e o professor ainda não visualizou/corrigiu. Os campos estão bloqueados até a devolutiva.");
+                        txtFeedbackProfessor.setText("Status: AGUARDANDO CORREÇÃO.\nVocê enviou esta seção e o professor ainda não visualizou. Aguarde.");
                         bloquearTodosOsCampos();
+                        if (btEnviar != null) btEnviar.setVisible(false);
                     } else {
                         txtFeedbackProfessor.setText("Último Feedback: " + this.correcaoAtual.getConteudo());
-                        aplicarStatusDaCorrecao(this.secaoAtual);
+
+                        if ("Aprovada".equalsIgnoreCase(this.correcaoAtual.getStatus())) {
+                            if (painelSucesso != null) {
+                                painelSucesso.setVisible(true);
+                                painelSucesso.setManaged(true);
+                            }
+                            if (btEnviar != null) btEnviar.setVisible(false);
+                            bloquearTodosOsCampos();
+                        } else {
+                            if (btEnviar != null) btEnviar.setVisible(true);
+                            aplicarStatusDaCorrecao(this.secaoAtual);
+                        }
                     }
 
                 } else {
-                    System.out.println("Nenhuma seção anterior encontrada. Começando uma nova.");
+                    // Seção nova
+                    System.out.println("Nenhuma seção anterior encontrada para o TG " + idTgAlvo);
                     this.secaoAtual = new Secao();
-                    txtFeedbackProfessor.setText("Esta é uma nova seção. Preencha todos os campos e envie para seu orientador.");
+                    this.secaoAtual.setIdTG(idTgAlvo);
+
+                    txtFeedbackProfessor.setText("Iniciando TG " + idTgAlvo + ". Preencha e envie.");
                     aplicarStatusDaCorrecao(null);
+                    if (btEnviar != null) btEnviar.setVisible(true);
                 }
 
             } catch (SQLException e) {
                 e.printStackTrace();
-                exibirAlerta("Erro de Banco de Dados", "Não foi possível carregar os dados da seção.", Alert.AlertType.ERROR);
+                exibirAlerta("Erro de Banco de Dados", "Não foi possível carregar os dados.", Alert.AlertType.ERROR);
+            }
+        } else {
+            // Se o usuário não está logado na sessão, carrega a imagem padrão
+            Image imagemPadrao = new Image(getClass().getResourceAsStream("/org/api/trabalhodegraduacao/images/imgFotoPerfil.png"));
+            configurarImagemRedonda(imgVwFotoPerfil, imagemPadrao);
+        }
+    }
+
+    /**
+     * Carrega a foto de perfil do usuário logado e a exibe com recorte redondo.
+     */
+    private void carregarFotoPerfil() {
+        if (imgVwFotoPerfil == null) return; // Garante que o ImageView existe
+
+        Image imagem = null;
+        String caminhoFoto = (usuarioLogado != null) ? usuarioLogado.getFotoPerfil() : null;
+
+        if (caminhoFoto != null && !caminhoFoto.isEmpty()) {
+            try {
+                if (caminhoFoto.startsWith("file:") || caminhoFoto.startsWith("http")) {
+                    imagem = new Image(caminhoFoto, false);
+                } else {
+                    File arquivo = new File(caminhoFoto);
+                    if (arquivo.exists()) {
+                        imagem = new Image(arquivo.toURI().toString());
+                    }
+                }
+            } catch (Exception e) {
+                System.err.println("Erro ao carregar foto do usuário (" + caminhoFoto + "): " + e.getMessage());
             }
         }
+
+        // Se a imagem do usuário falhou ou não existe, carrega a padrão
+        if (imagem == null || imagem.isError()) {
+            System.out.println("Usando imagem padrão para o perfil.");
+            imagem = new Image(getClass().getResourceAsStream("/org/api/trabalhodegraduacao/images/imgFotoPerfil.png"));
+        }
+
+        configurarImagemRedonda(imgVwFotoPerfil, imagem);
+    }
+
+    /**
+     * Ajusta uma imagem para caber perfeitamente em um ImageView circular (Center Crop).
+     */
+    private void configurarImagemRedonda(ImageView imageView, Image imagem) {
+        if (imagem == null || imageView == null) return;
+
+        imageView.setImage(imagem);
+
+        double w = imagem.getWidth();
+        double h = imagem.getHeight();
+
+        // Evita divisão por zero se a imagem não carregou dimensões ainda
+        if (w <= 0 || h <= 0) return;
+
+        double tamanhoQuadrado = Math.min(w, h);
+
+        // Calcula as coordenadas para centralizar o recorte
+        double x = (w - tamanhoQuadrado) / 2;
+        double y = (h - tamanhoQuadrado) / 2;
+
+        imageView.setViewport(new Rectangle2D(x, y, tamanhoQuadrado, tamanhoQuadrado));
+        imageView.setPreserveRatio(true);
+        imageView.setSmooth(true);
+
+        // O raio deve ser metade da largura/altura definida no FXML (ex: 150 / 2 = 75)
+        double raio = imageView.getFitWidth() / 2;
+        Circle clip = new Circle(raio, raio, raio);
+        imageView.setClip(clip);
+    }
+
+    /**
+     * Configura a tela para exibir um histórico antigo (apenas leitura).
+     */
+    private void carregarModoHistorico(SessaoVisualizacao sessaoVis) {
+        this.secaoAtual = sessaoVis.getSecaoHistorica();
+        this.correcaoAtual = sessaoVis.getCorrecaoHistorica();
+
+        // Preenche os campos com os dados daquela época
+        preencherCampos(this.secaoAtual);
+
+        // Mostra o feedback daquela época
+        String dataFormatada = this.correcaoAtual.getDataCorrecoes() != null ? this.correcaoAtual.getDataCorrecoes().toString() : "N/A";
+        txtFeedbackProfessor.setText("VISUALIZAÇÃO DE HISTÓRICO (" + dataFormatada + "):\n" + this.correcaoAtual.getConteudo());
+
+        // Mostra quais checkboxes estavam marcados naquela época
+        aplicarStatusDaCorrecao(this.secaoAtual);
+
+        // Bloqueia TUDO (não se edita histórico)
+        bloquearTodosOsCampos();
+        if (btEnviar != null) btEnviar.setVisible(false); // Remove o botão de enviar
+
+        // Limpa a sessão para que a próxima navegação seja normal
+        sessaoVis.limpar();
     }
 
     private void bloquearTodosOsCampos() {
@@ -132,14 +285,9 @@ public class SecaoAlunoController {
             exibirAlerta("Erro", "Usuário não logado.", Alert.AlertType.ERROR);
             return;
         }
-        if (this.secaoAtual != null && this.correcaoAtual == null && this.secaoAtual.getIdTG() != 0) {
-            exibirAlerta("Aguarde", "Você já enviou esta seção. Aguarde a correção do professor.", Alert.AlertType.WARNING);
-            return;
-        }
 
         try {
             Secao novaSecao = new Secao();
-
             puxarDadosDosCampos(novaSecao);
 
             novaSecao.setData(LocalDateTime.now());
@@ -147,22 +295,9 @@ public class SecaoAlunoController {
             novaSecao.setEmailOrientador(usuarioLogado.getEmailOrientador());
             novaSecao.setIdTG(this.secaoAtual != null && this.secaoAtual.getIdTG() != 0 ? this.secaoAtual.getIdTG() : 1);
 
+            // Copia os status da seção anterior
             if (this.secaoAtual != null) {
-                novaSecao.setIdentificacaoOk(this.secaoAtual.isIdentificacaoOk());
-                novaSecao.setEmpresaOk(this.secaoAtual.isEmpresaOk());
-                novaSecao.setProblemaOk(this.secaoAtual.isProblemaOk());
-                novaSecao.setSolucaoOk(this.secaoAtual.isSolucaoOk());
-                novaSecao.setLinkOk(this.secaoAtual.isLinkOk());
-                novaSecao.setTecnologiasOk(this.secaoAtual.isTecnologiasOk());
-                novaSecao.setContribuicoesOk(this.secaoAtual.isContribuicoesOk());
-                novaSecao.setHardskillsOk(this.secaoAtual.isHardskillsOk());
-                novaSecao.setSoftskillsOk(this.secaoAtual.isSoftskillsOk());
-                novaSecao.setHistProfOk(this.secaoAtual.isHistProfOk());
-                novaSecao.setHistAcadOk(this.secaoAtual.isHistAcadOk());
-                novaSecao.setMotivacaoOk(this.secaoAtual.isMotivacaoOk());
-                novaSecao.setAnoOk(this.secaoAtual.isAnoOk());
-                novaSecao.setPeriodoOk(this.secaoAtual.isPeriodoOk());
-                novaSecao.setSemestreOk(this.secaoAtual.isSemestreOk());
+                copiarStatus(this.secaoAtual, novaSecao);
             }
 
             secaoDAO.inserirSecao(novaSecao);
@@ -170,9 +305,9 @@ public class SecaoAlunoController {
             this.secaoAtual = novaSecao;
             this.correcaoAtual = null;
 
-            exibirAlerta("Sucesso", "Seção enviada com sucesso! Aguarde a devolutiva do professor.", Alert.AlertType.INFORMATION);
+            exibirAlerta("Sucesso", "Seção enviada com sucesso!", Alert.AlertType.INFORMATION);
 
-            initialize();
+            initialize(); // Recarrega a tela para mostrar o novo status
 
         } catch (NumberFormatException e) {
             exibirAlerta("Erro de Formato", "O campo 'Ano' deve ser um número válido (ex: 2024).", Alert.AlertType.WARNING);
@@ -180,6 +315,24 @@ public class SecaoAlunoController {
             e.printStackTrace();
             exibirAlerta("Erro ao Salvar", "Ocorreu um erro ao salvar a seção: " + e.getMessage(), Alert.AlertType.ERROR);
         }
+    }
+
+    private void copiarStatus(Secao origem, Secao destino) {
+        destino.setIdentificacaoOk(origem.isIdentificacaoOk());
+        destino.setEmpresaOk(origem.isEmpresaOk());
+        destino.setProblemaOk(origem.isProblemaOk());
+        destino.setSolucaoOk(origem.isSolucaoOk());
+        destino.setLinkOk(origem.isLinkOk());
+        destino.setTecnologiasOk(origem.isTecnologiasOk());
+        destino.setContribuicoesOk(origem.isContribuicoesOk());
+        destino.setHardskillsOk(origem.isHardskillsOk());
+        destino.setSoftskillsOk(origem.isSoftskillsOk());
+        destino.setHistProfOk(origem.isHistProfOk());
+        destino.setHistAcadOk(origem.isHistAcadOk());
+        destino.setMotivacaoOk(origem.isMotivacaoOk());
+        destino.setAnoOk(origem.isAnoOk());
+        destino.setPeriodoOk(origem.isPeriodoOk());
+        destino.setSemestreOk(origem.isSemestreOk());
     }
 
     private void preencherCampos(Secao secao) {
@@ -197,6 +350,8 @@ public class SecaoAlunoController {
         txtMotivacao.setText(secao.getMotivacao());
         if(secao.getAno() > 0) {
             txtAno.setText(String.valueOf(secao.getAno()));
+        } else {
+            txtAno.clear();
         }
         setPeriodo(secao.getPeriodo());
         setSemestre(secao.getSemestre());
@@ -237,11 +392,13 @@ public class SecaoAlunoController {
         return '0';
     }
     private char getSemestre() {
-        if (rbPeriodo1.isSelected()) return '1';
+        if (rbSemestre1.isSelected()) return '1';
         if (rbSemestre2.isSelected()) return '2';
         return '0';
     }
     private void setPeriodo(char p) {
+        // Deseleciona todos primeiro para evitar múltiplos selecionados caso haja bug
+        grupoPeriodo.selectToggle(null);
         switch (p) {
             case '1': rbPeriodo1.setSelected(true); break;
             case '2': rbPeriodo2.setSelected(true); break;
@@ -252,6 +409,8 @@ public class SecaoAlunoController {
         }
     }
     private void setSemestre(char s) {
+        // Deseleciona todos primeiro
+        grupoSemestre.selectToggle(null);
         if (s == '1') {
             rbSemestre1.setSelected(true);
         } else if (s == '2') {

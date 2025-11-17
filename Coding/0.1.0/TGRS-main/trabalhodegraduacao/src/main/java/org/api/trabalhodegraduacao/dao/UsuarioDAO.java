@@ -98,16 +98,36 @@ public class UsuarioDAO {
         usuario.setSenha(rs.getString("Senha"));
         usuario.setNomeOrientador(rs.getString("Nome_Orientador"));
 
-        // --- MUDANÇA AQUI ---
-        // Lê a coluna 'progresso_decimal' que é calculada na query
-        // O "try-catch" evita erros se a coluna 'progresso_decimal' não existir (ex: no login)
+        // --- Progresso (Tenta ler, ignora se não existir) ---
         try {
             usuario.setProgresso(rs.getDouble("progresso_decimal"));
         } catch (SQLException e) {
-            // Ignora o erro se a coluna não for encontrada (ex: no exibirPerfil)
             usuario.setProgresso(0.0);
         }
-        // --- FIM DA MUDANÇA ---
+
+        // --- Lógica de Mapeamento TG/Seção (Tenta ler, ignora se não existir) ---
+        int idTg = 0;
+        try {
+            idTg = rs.getInt("ultimo_id_tg"); // <-- O PONTO DO ERRO ERA AQUI
+        } catch (SQLException e) {
+            idTg = 0; // Se a coluna não existir, assume 0
+        }
+
+        if (idTg == 0) {
+            usuario.setDisplayTG("-");
+            usuario.setDisplaySecao("-");
+        } else {
+            // Mapeamento manual dos IDs para os textos
+            switch (idTg) {
+                case 1: usuario.setDisplayTG("TG 1"); usuario.setDisplaySecao("Seção 1"); break;
+                case 2: usuario.setDisplayTG("TG 1"); usuario.setDisplaySecao("Seção 2"); break;
+                case 3: usuario.setDisplayTG("TG 2"); usuario.setDisplaySecao("Seção 1"); break;
+                case 4: usuario.setDisplayTG("TG 2"); usuario.setDisplaySecao("Seção 2"); break;
+                case 5: usuario.setDisplayTG("TG 2"); usuario.setDisplaySecao("Seção 3"); break;
+                case 6: usuario.setDisplayTG("TG 2"); usuario.setDisplaySecao("Seção 4"); break;
+                default: usuario.setDisplayTG("TG ?"); usuario.setDisplaySecao("Seção " + idTg);
+            }
+        }
 
         return usuario;
     }
@@ -120,8 +140,7 @@ public class UsuarioDAO {
 
         List<Usuario> alunos = new ArrayList<>();
 
-        // Esta query agora usa um Sub-SELECT para calcular o progresso (de 0.0 a 1.0)
-        // da seção mais recente de cada aluno.
+        // Query atualizada: Agora busca também o 'ultimo_id_tg'
         String sql = "SELECT " +
                 "    u.*, " +
                 "    o.Nome_Completo AS Nome_Orientador, " +
@@ -133,9 +152,14 @@ public class UsuarioDAO {
                 "        ) " +
                 "        FROM Secao s " +
                 "        WHERE s.Email_Aluno = u.Email AND s.Email_Orientador = u.Email_Orientador " +
-                "        ORDER BY s.Data DESC " +
-                "        LIMIT 1 " +
-                "    ) AS progresso_decimal " + // Nome da coluna calculada
+                "        ORDER BY s.Data DESC LIMIT 1 " +
+                "    ) AS progresso_decimal, " +
+                "    ( " +
+                "        SELECT s.ID_TG " +  // <--- NOVA SUBQUERY: Pega o último ID_TG
+                "        FROM Secao s " +
+                "        WHERE s.Email_Aluno = u.Email AND s.Email_Orientador = u.Email_Orientador " +
+                "        ORDER BY s.Data DESC LIMIT 1 " +
+                "    ) AS ultimo_id_tg " +
                 "FROM " +
                 "    usuario u " +
                 "LEFT JOIN " +
@@ -149,9 +173,7 @@ public class UsuarioDAO {
             pstmt.setString(1, emailOrientador);
 
             try (ResultSet rs = pstmt.executeQuery()) {
-
                 while (rs.next()) {
-                    // O construirUsuario agora vai ler o campo 'progresso_decimal'
                     alunos.add(construirUsuario(rs));
                 }
             }

@@ -559,3 +559,21 @@
 .profile-text-input:disabled .content {
     -fx-background-color: #3a6081;
 }
+/* --- ListView Customizada --- */
+.list-view-custom {
+    -fx-background-color: transparent;
+    -fx-border-color: #5a84a6;
+    -fx-border-radius: 5px;
+}
+
+.list-view-custom .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-family: "Cambria";
+    -fx-font-size: 16px;
+    -fx-padding: 10px;
+}
+
+.list-view-custom .list-cell:odd {
+    -fx-background-color: rgba(0, 0, 0, 0.1); /* Zebra striping sutil */
+}

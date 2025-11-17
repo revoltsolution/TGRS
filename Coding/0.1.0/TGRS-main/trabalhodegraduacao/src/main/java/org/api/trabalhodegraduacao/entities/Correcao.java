@@ -15,6 +15,9 @@ public class Correcao {
     private String emailAluno;
     private String emailOrientador;
 
+    // --- CAMPO NOVO (Para exibição na tabela) ---
+    private String tituloSecao; // Ex: "TG 1 - Seção 2"
+
     // Construtor
     public Correcao() {
     }
@@ -41,4 +44,8 @@ public class Correcao {
 
     public String getEmailOrientador() { return emailOrientador; }
     public void setEmailOrientador(String emailOrientador) { this.emailOrientador = emailOrientador; }
+
+    // --- Getters e Setters do Novo Campo ---
+    public String getTituloSecao() { return tituloSecao; }
+    public void setTituloSecao(String tituloSecao) { this.tituloSecao = tituloSecao; }
 }

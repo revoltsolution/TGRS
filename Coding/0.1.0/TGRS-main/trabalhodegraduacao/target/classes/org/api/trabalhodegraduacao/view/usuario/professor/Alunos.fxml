@@ -46,7 +46,6 @@
                 </ImageView>
                 <Button fx:id="bt_perfil_geral" onAction="#perfilProfessor" text="PERFIL" styleClass="sidebar-button" maxWidth="Infinity"/>
                 <Button fx:id="bt_alunos_geral" onAction="#alunos" text="ALUNOS" styleClass="sidebar-button" maxWidth="Infinity"/>
-                <Button fx:id="bt_devolutivas_geral" onAction="#devolutivas" text="DEVOLUTIVAS" styleClass="sidebar-button" maxWidth="Infinity"/>
                 <Region VBox.vgrow="ALWAYS" />
                 <Button fx:id="bt_tela_inicial" onAction="#telaInicial" text="TELA INICIAL" styleClass="sidebar-button-secondary" maxWidth="Infinity"/>
                 <Button fx:id="bt_Sair" onAction="#sair" text="SAIR" styleClass="sidebar-button-secondary" maxWidth="Infinity"/>

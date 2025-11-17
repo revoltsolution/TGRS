@@ -1,41 +1,49 @@
 package org.api.trabalhodegraduacao.controller.usuario.professor;
 
+import java.io.File;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import org.api.trabalhodegraduacao.Application;
 import org.api.trabalhodegraduacao.dao.UsuarioDAO;
 import org.api.trabalhodegraduacao.entities.Usuario;
+import org.api.trabalhodegraduacao.utils.GerenciadorImagens; // Importe se estiver usando
 import org.api.trabalhodegraduacao.utils.SessaoUsuario;
-import org.api.trabalhodegraduacao.utils.GerenciadorImagens;
 
 public class PerfilProfessorController {
 
     private boolean isEditMode = false;
     private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
     private Usuario usuarioLogado;
     private UsuarioDAO usuarioDAO;
 
+    // FXML Barra Lateral
+    @FXML private Button bt_Sair, bt_alunos_geral, bt_perfil_geral, bt_tela_inicial;
+
+    // FXML Conteúdo
     @FXML private Button bt_EditarSalvar;
     @FXML private Button bt_TrocarFotoPerfil;
     @FXML private ImageView imgVwFotoPerfil;
 
-    // Labels
     @FXML private Label lblNome;
     @FXML private Label lblEmail;
-    @FXML private Label lblCurso; // Ou Departamento
+    @FXML private Label lblCurso;
     @FXML private Label lblDataNascimento;
     @FXML private Label lblSenha;
 
-    // Inputs
     @FXML private TextField txtCurso;
     @FXML private DatePicker dpDataNascimento;
     @FXML private PasswordField txtSenha;
@@ -50,8 +58,7 @@ public class PerfilProfessorController {
                 this.usuarioLogado = usuarioDAO.exibirPerfil(sessao.getEmail());
                 if (this.usuarioLogado != null) {
                     preencherLabelsComDados();
-                    GerenciadorImagens.configurarImagemPerfil(imgVwFotoPerfil, usuarioLogado.getFotoPerfil());
-
+                    carregarFotoPerfil();
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -63,7 +70,10 @@ public class PerfilProfessorController {
     private void preencherLabelsComDados() {
         lblNome.setText(usuarioLogado.getNomeCompleto());
         lblEmail.setText(usuarioLogado.getEmailCadastrado());
-        lblCurso.setText(getTextoOuPadrao(usuarioLogado.getCurso()));
+
+        String curso = usuarioLogado.getCurso();
+        lblCurso.setText((curso != null && !curso.isEmpty()) ? curso : "(Não informado)");
+
         lblSenha.setText("**********");
 
         if (usuarioLogado.getDataNascimento() != null) {
@@ -73,14 +83,11 @@ public class PerfilProfessorController {
         }
     }
 
-    private String getTextoOuPadrao(String texto) {
-        return (texto != null && !texto.trim().isEmpty()) ? texto : "(Não informado)";
-    }
-
     private void setViewMode(boolean viewMode) {
         lblCurso.setVisible(viewMode);
         lblDataNascimento.setVisible(viewMode);
         lblSenha.setVisible(viewMode);
+
         lblCurso.setManaged(viewMode);
         lblDataNascimento.setManaged(viewMode);
         lblSenha.setManaged(viewMode);
@@ -88,6 +95,7 @@ public class PerfilProfessorController {
         txtCurso.setVisible(!viewMode);
         dpDataNascimento.setVisible(!viewMode);
         txtSenha.setVisible(!viewMode);
+
         txtCurso.setManaged(!viewMode);
         dpDataNascimento.setManaged(!viewMode);
         txtSenha.setManaged(!viewMode);
@@ -98,7 +106,7 @@ public class PerfilProfessorController {
 
     @FXML
     void onToggleEditSave(ActionEvent event) {
-        if (isEditMode) {
+        if (isEditMode) { // SALVAR
             try {
                 usuarioLogado.setCurso(txtCurso.getText());
                 usuarioLogado.setDataNascimento(dpDataNascimento.getValue());
@@ -107,6 +115,7 @@ public class PerfilProfessorController {
                 if (novaSenha != null && !novaSenha.trim().isEmpty()) {
                     usuarioLogado.setSenha(novaSenha);
                 }
+
                 usuarioDAO.atualizar(this.usuarioLogado);
                 preencherLabelsComDados();
 
@@ -114,11 +123,16 @@ public class PerfilProfessorController {
                 bt_EditarSalvar.setText("Editar Perfil");
                 bt_EditarSalvar.getStyleClass().setAll("profile-button-secondary");
                 isEditMode = false;
-            } catch (SQLException e) { e.printStackTrace(); }
-        } else {
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                // Mostrar Alerta
+            }
+
+        } else { // EDITAR
             txtCurso.setText(usuarioLogado.getCurso());
-            dpDataNascimento.setValue(usuarioLogado.getDataNascimento());
             txtSenha.clear();
+            dpDataNascimento.setValue(usuarioLogado.getDataNascimento());
 
             setViewMode(false);
             bt_EditarSalvar.setText("Salvar");
@@ -127,33 +141,48 @@ public class PerfilProfessorController {
         }
     }
 
-    @FXML void trocarFoto(ActionEvent event) {
-        System.out.println("Botão Foto Professor.");
+    // --- FOTO DE PERFIL ---
 
-        Stage stage = (Stage) bt_TrocarFotoPerfil.getScene().getWindow();
-
-        String nomeSeguro = usuarioLogado.getEmailCadastrado().replaceAll("[^a-zA-Z0-9.-]", "_");
-
-        String novoCaminho = GerenciadorImagens.selecionarESalvarNovaFoto(stage, nomeSeguro);
-
-        if (novoCaminho != null) {
-            usuarioLogado.setFotoPerfil(novoCaminho);
-
-            GerenciadorImagens.configurarImagemPerfil(imgVwFotoPerfil, novoCaminho);
-
+    private void carregarFotoPerfil() {
+        if (imgVwFotoPerfil == null) return;
+        Image imagem = null;
+        String caminho = usuarioLogado.getFotoPerfil();
+        if (caminho != null && !caminho.isEmpty()) {
             try {
-                usuarioDAO.atualizar(usuarioLogado);
-                System.out.println("Foto atualizada no banco!");
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+                if (caminho.startsWith("file:") || caminho.startsWith("http")) {
+                    imagem = new Image(caminho);
+                } else {
+                    File arquivo = new File(caminho);
+                    if (arquivo.exists()) imagem = new Image(arquivo.toURI().toString());
+                }
+            } catch (Exception e) { }
         }
+        if (imagem == null) imagem = new Image(getClass().getResourceAsStream("/org/api/trabalhodegraduacao/images/imgFotoPerfil.png"));
+        configurarImagemRedonda(imgVwFotoPerfil, imagem);
     }
 
-    // Navegação
+    private void configurarImagemRedonda(ImageView imageView, Image imagem) {
+        if (imagem == null) return;
+        imageView.setImage(imagem);
+        double w = imagem.getWidth(); double h = imagem.getHeight();
+        if (w <= 0 || h <= 0) return;
+        double tamanho = Math.min(w, h);
+        double x = (w - tamanho) / 2; double y = (h - tamanho) / 2;
+        imageView.setViewport(new Rectangle2D(x, y, tamanho, tamanho));
+        imageView.setPreserveRatio(true); imageView.setSmooth(true);
+        double raio = imageView.getFitWidth() / 2;
+        imageView.setClip(new Circle(raio, raio, raio));
+    }
+
+    @FXML
+    void trocarFoto(ActionEvent event) {
+        // Lógica para trocar foto (mesma do aluno, usando GerenciadorImagens)
+        System.out.println("Botão Trocar Foto clicado.");
+    }
+
+    // --- Navegação ---
     @FXML void sair(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/BemVindo.fxml", "Bem-vindo", event); }
-    @FXML void perfilProfessor(ActionEvent event) { System.out.println("Já está."); }
+    @FXML void perfilProfessor(ActionEvent event) { System.out.println("Já está na tela."); }
     @FXML void alunos(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/professor/Alunos.fxml", "Alunos", event); }
-    @FXML void devolutivas(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/professor/Historico.fxml", "Devolutivas", event); }
     @FXML void telaInicial(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/professor/AtualizacoesProfessor.fxml", "Tela Inicial", event); }
 }

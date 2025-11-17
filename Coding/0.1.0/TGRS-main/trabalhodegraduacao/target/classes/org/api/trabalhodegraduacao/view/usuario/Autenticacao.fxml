@@ -16,23 +16,25 @@
            fx:controller="org.api.trabalhodegraduacao.controller.usuario.AutenticacaoController"
            stylesheets="@style.css" styleClass="root-pane">
     <children>
-        <VBox fx:id="authCard" alignment="CENTER" spacing="20.0"
-              maxWidth="500.0" styleClass="login-card">
+        <VBox fx:id="authCard" alignment="CENTER" spacing="15.0"
+              maxWidth="400.0" maxHeight="-Infinity" styleClass="login-card">
             <padding>
-                <Insets top="40" right="40" bottom="40" left="40" />
+                <Insets top="30" right="40" bottom="30" left="40" />
             </padding>
 
             <children>
-                <ImageView fx:id="imgFotoPerfil" fitHeight="200.0" fitWidth="200.0"
+                <ImageView fx:id="imgFotoPerfil" fitHeight="150.0" fitWidth="150.0"
                            pickOnBounds="true" preserveRatio="true"
                            styleClass="profile-image">
                     <image>
                         <Image url="@../../images/imgFotoPerfil.png" />
                     </image>
                     <clip>
-                        <Circle radius="100.0" centerX="100.0" centerY="100.0"/>
+                        <Circle radius="75.0" centerX="75.0" centerY="75.0"/>
                     </clip>
                 </ImageView>
+
+                <Label fx:id="lblNomeUsuario" text="Carregando..." styleClass="header-label" />
 
                 <Label text="Insira sua senha:" styleClass="prompt-label" />
 
@@ -40,7 +42,11 @@
                                maxWidth="300.0" styleClass="text-field" />
 
                 <Button fx:id="bt_Entrar" onAction="#btEntrar" text="Entrar"
-                        styleClass="login-button" defaultButton="true"/>
+                        styleClass="login-button" defaultButton="true">
+                    <VBox.margin>
+                        <Insets top="5.0" />
+                    </VBox.margin>
+                </Button>
 
                 <Button fx:id="bt_voltar" onAction="#btVoltar" text="Voltar"
                         styleClass="link-button" />

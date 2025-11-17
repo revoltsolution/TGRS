@@ -1,15 +1,20 @@
 package org.api.trabalhodegraduacao.controller.usuario.aluno;
 
+import java.io.File; // Import necessário
 import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Rectangle2D; // Import necessário
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.shape.Circle; // Import necessário
+import javafx.stage.FileChooser; // Import necessário
 import javafx.stage.Stage;
 import org.api.trabalhodegraduacao.Application;
 import org.api.trabalhodegraduacao.dao.UsuarioDAO;
@@ -55,7 +60,34 @@ public class PerfilAlunoController {
                 this.usuarioLogado = usuarioDAO.exibirPerfil(sessao.getEmail());
                 if (this.usuarioLogado != null) {
                     preencherLabelsComDados();
-                    GerenciadorImagens.configurarImagemPerfil(imgVwFotoPerfil, usuarioLogado.getFotoPerfil());
+
+                    // Carrega a imagem (do banco ou padrão) com o recorte redondo
+                    Image imagem = null;
+                    String caminhoFoto = usuarioLogado.getFotoPerfil();
+
+                    if (caminhoFoto != null && !caminhoFoto.isEmpty()) {
+                        // --- CORREÇÃO AQUI ---
+                        // Verifica se o caminho já é uma URL válida (começa com "file:" ou "http")
+                        if (caminhoFoto.startsWith("file:") || caminhoFoto.startsWith("http")) {
+                            imagem = new Image(caminhoFoto);
+                        } else {
+                            // Se for um caminho de arquivo puro do Windows (ex: "C:\Users..."), converte para file URI
+                            File arquivoImagem = new File(caminhoFoto);
+                            if (arquivoImagem.exists()) {
+                                imagem = new Image(arquivoImagem.toURI().toString());
+                            } else {
+                                // Se o arquivo não existir, carrega a padrão
+                                imagem = new Image(getClass().getResourceAsStream("/org/api/trabalhodegraduacao/images/imgFotoPerfil.png"));
+                            }
+                        }
+                        // ---------------------
+                    } else {
+                        // Se não tiver foto no banco, carrega a padrão
+                        imagem = new Image(getClass().getResourceAsStream("/org/api/trabalhodegraduacao/images/imgFotoPerfil.png"));
+                    }
+
+                    configurarImagemRedonda(imgVwFotoPerfil, imagem);
+
                 }
             } catch (SQLException e) {
                 System.err.println("Erro ao carregar perfil: " + e.getMessage());
@@ -64,7 +96,6 @@ public class PerfilAlunoController {
         }
         setViewMode(true);
     }
-
     private void preencherLabelsComDados() {
         lbl_NomeUsuario.setText(usuarioLogado.getNomeCompleto());
         lblEmailCadastrado.setText(usuarioLogado.getEmailCadastrado());
@@ -89,7 +120,6 @@ public class PerfilAlunoController {
     }
 
     private void setViewMode(boolean viewMode) {
-        // Labels visíveis apenas no modo visualização
         lblCurso.setVisible(viewMode);
         lblDataNascimento.setVisible(viewMode);
         lblLinkedin.setVisible(viewMode);
@@ -102,7 +132,6 @@ public class PerfilAlunoController {
         lblGitHub.setManaged(viewMode);
         lblSenha.setManaged(viewMode);
 
-        // Inputs visíveis apenas no modo edição
         txtCurso.setVisible(!viewMode);
         dpDataNascimento.setVisible(!viewMode);
         txtLinkedin.setVisible(!viewMode);
@@ -115,7 +144,6 @@ public class PerfilAlunoController {
         txtGitHub.setManaged(!viewMode);
         txtSenha.setManaged(!viewMode);
 
-        // Botão de trocar foto apenas na edição
         bt_TrocarFotoPerfil.setVisible(!viewMode);
         bt_TrocarFotoPerfil.setManaged(!viewMode);
     }
@@ -161,28 +189,59 @@ public class PerfilAlunoController {
 
     @FXML
     void trocarFotoPerfil(ActionEvent event) {
-
-        System.out.println("Botão Foto Aluno.");
-
+        System.out.println("Botão Trocar Foto clicado.");
         Stage stage = (Stage) bt_TrocarFotoPerfil.getScene().getWindow();
 
-
+        // Gera um nome de arquivo seguro baseado no email do usuário
         String nomeSeguro = usuarioLogado.getEmailCadastrado().replaceAll("[^a-zA-Z0-9.-]", "_");
 
+        // Chama o gerenciador para selecionar e salvar a nova foto
         String novoCaminho = GerenciadorImagens.selecionarESalvarNovaFoto(stage, nomeSeguro);
 
         if (novoCaminho != null) {
+            // Salva o caminho no objeto usuário
             usuarioLogado.setFotoPerfil(novoCaminho);
 
-            GerenciadorImagens.configurarImagemPerfil(imgVwFotoPerfil, novoCaminho);
+            // --- CORREÇÃO AQUI ---
+            // Converte o caminho do arquivo (String) para um objeto File e depois para uma URI válida
+            File arquivoImagem = new File(novoCaminho);
+            Image novaImagem = new Image(arquivoImagem.toURI().toString());
+            // ---------------------
+
+            // Configura a imagem redonda na tela
+            configurarImagemRedonda(imgVwFotoPerfil, novaImagem);
 
             try {
+                // Atualiza no banco de dados
                 usuarioDAO.atualizar(usuarioLogado);
                 System.out.println("Foto atualizada no banco!");
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    /**
+     * Ajusta uma imagem para caber perfeitamente em um ImageView circular (Center Crop).
+     */
+    private void configurarImagemRedonda(ImageView imageView, Image imagem) {
+        if (imagem == null) return;
+
+        imageView.setImage(imagem);
+
+        double w = imagem.getWidth();
+        double h = imagem.getHeight();
+        double tamanhoQuadrado = Math.min(w, h);
+        double x = (w - tamanhoQuadrado) / 2;
+        double y = (h - tamanhoQuadrado) / 2;
+
+        imageView.setViewport(new Rectangle2D(x, y, tamanhoQuadrado, tamanhoQuadrado));
+        imageView.setPreserveRatio(true);
+        imageView.setSmooth(true);
+
+        double raio = imageView.getFitWidth() / 2;
+        Circle clip = new Circle(raio, raio, raio);
+        imageView.setClip(clip);
     }
 
     // --- Navegação ---
