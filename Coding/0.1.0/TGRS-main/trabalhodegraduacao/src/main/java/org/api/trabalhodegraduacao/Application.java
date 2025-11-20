@@ -2,11 +2,11 @@ package org.api.trabalhodegraduacao;
 
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Rectangle2D; // Import necessário
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.stage.Screen; // Import necessário
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import java.io.IOException;
 
@@ -24,19 +24,14 @@ public class Application extends javafx.application.Application {
         stage.setTitle("TGRS - Revolt Solutions");
         stage.setScene(scene);
 
-        // --- CORREÇÃO PARA TELA CHEIA SEM COBRIR A BARRA ---
-        // 1. Pega as dimensões visuais da tela (tamanho total MENOS a barra de tarefas)
         Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
 
-        // 2. Aplica essas dimensões à janela
         stage.setX(visualBounds.getMinX());
         stage.setY(visualBounds.getMinY());
         stage.setWidth(visualBounds.getWidth());
         stage.setHeight(visualBounds.getHeight());
 
-        // 3. Define como maximizado para travar nessas dimensões
         stage.setMaximized(true);
-        // ---------------------------------------------------
 
         stage.show();
     }
@@ -53,13 +48,11 @@ public class Application extends javafx.application.Application {
             FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource(fxmlPath));
             Parent root = fxmlLoader.load();
 
-            // Passa o tamanho atual da janela para a nova cena para evitar "piscadas" de redimensionamento
             Scene newScene = new Scene(root, currentStage.getWidth(), currentStage.getHeight());
 
             currentStage.setTitle(title);
             currentStage.setScene(newScene);
 
-            // Garante que continue maximizado na troca de tela
             currentStage.setMaximized(true);
 
             currentStage.show();

@@ -51,7 +51,6 @@ public class GerenciadorDB {
                 "PRIMARY KEY (ID_TG, Email)" +
                 ")";
 
-        // ALTERADO: Removido ID_Secao e definida PK composta (Data, Email_Aluno, Email_Orientador)
         String sqlSecao = "CREATE TABLE IF NOT EXISTS Secao (" +
                 "Identificacao_Projeto TEXT," +
                 "Empresa_Parceira TEXT," +
@@ -69,7 +68,6 @@ public class GerenciadorDB {
                 "Periodo CHAR(1)," +
                 "Semestre CHAR(1)," +
 
-                // --- INÍCIO DAS NOVAS COLUNAS DE STATUS ---
                 "is_identificacao_ok TINYINT(1) DEFAULT 0," +
                 "is_empresa_ok TINYINT(1) DEFAULT 0," +
                 "is_problema_ok TINYINT(1) DEFAULT 0," +
@@ -85,7 +83,6 @@ public class GerenciadorDB {
                 "is_ano_ok TINYINT(1) DEFAULT 0," +
                 "is_periodo_ok TINYINT(1) DEFAULT 0," +
                 "is_semestre_ok TINYINT(1) DEFAULT 0," +
-                // --- FIM DAS NOVAS COLUNAS ---
 
                 "Data DATETIME NOT NULL," +
                 "ID_TG INT NOT NULL," +
@@ -96,7 +93,6 @@ public class GerenciadorDB {
                 "FOREIGN KEY (Email_Orientador) REFERENCES usuario(Email)" +
                 ")";
 
-        // ALTERADO: Tabela correcoes agora referencia a chave composta de Secao
         String sqlCorrecoes = "CREATE TABLE IF NOT EXISTS correcoes (" +
                 "ID_Correcao INT NOT NULL AUTO_INCREMENT," +
                 "data_correcoes DATE," +

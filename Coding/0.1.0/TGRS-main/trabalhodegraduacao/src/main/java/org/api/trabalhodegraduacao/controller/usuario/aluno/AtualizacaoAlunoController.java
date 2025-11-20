@@ -2,6 +2,7 @@ package org.api.trabalhodegraduacao.controller.usuario.aluno;
 
 import java.io.File;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -25,7 +26,6 @@ public class AtualizacaoAlunoController {
     @FXML private Button bt_Sair, bt_devolutivas_geral, bt_perfil_geral, bt_secao_geral, bt_tela_inicial, bt_tg_geral;
     @FXML private ListView<Notificacao> listaNotificacoes;
 
-    // --- ADICIONE O FX:ID DA FOTO ---
     @FXML private ImageView imgVwFotoPerfil;
 
     private NotificacaoDAO notificacaoDAO;
@@ -34,18 +34,24 @@ public class AtualizacaoAlunoController {
     @FXML
     public void initialize() {
         this.notificacaoDAO = new NotificacaoDAO();
-        this.usuarioDAO = new UsuarioDAO(); // Inicializa o DAO de usuário
+        this.usuarioDAO = new UsuarioDAO();
 
-        carregarNotificacoes();
-        carregarFotoPerfil(); // Chama o método para carregar a foto
+        Usuario usuarioLogado = carregarFotoPerfil();
+        if (usuarioLogado == null) {
+            System.out.println("ERRO: O objeto usuarioLogado está NULO. Verifique o DAO ou a Sessão.");
+        } else {
+            System.out.println("Usuario carregado: " + usuarioLogado.getNomeCompleto());
+        }
+        carregarNotificacoes(usuarioLogado);
     }
 
-    // --- MÉTODO NOVO PARA CARREGAR FOTO ---
-    private void carregarFotoPerfil() {
+    private Usuario carregarFotoPerfil() {
         SessaoUsuario sessao = SessaoUsuario.getInstance();
+        Usuario usuario = null;
+
         if (sessao.isLogado()) {
             try {
-                Usuario usuario = usuarioDAO.exibirPerfil(sessao.getEmail());
+                usuario = usuarioDAO.exibirPerfil(sessao.getEmail());
                 if (usuario != null) {
                     Image imagem = null;
                     String caminhoFoto = usuario.getFotoPerfil();
@@ -65,16 +71,15 @@ public class AtualizacaoAlunoController {
                         imagem = new Image(getClass().getResourceAsStream("/org/api/trabalhodegraduacao/images/imgFotoPerfil.png"));
                     }
 
-                    // Aplica o recorte redondo
                     configurarImagemRedonda(imgVwFotoPerfil, imagem);
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
+        return usuario;
     }
 
-    // --- MÉTODO DE RECORTE REDONDO (O mesmo das outras telas) ---
     private void configurarImagemRedonda(ImageView imageView, Image imagem) {
         if (imagem == null || imageView == null) return;
 
@@ -94,12 +99,23 @@ public class AtualizacaoAlunoController {
         imageView.setClip(clip);
     }
 
-    private void carregarNotificacoes() {
+    private void carregarNotificacoes(Usuario usuario) {
         SessaoUsuario sessao = SessaoUsuario.getInstance();
         if (sessao.isLogado()) {
             try {
                 List<Notificacao> notificacoes = notificacaoDAO.buscarUltimasNotificacoes(sessao.getEmail());
                 ObservableList<Notificacao> items = FXCollections.observableArrayList(notificacoes);
+
+                if (usuario != null) {
+                    boolean incompleto = isPerfilIncompleto(usuario);
+                    if (incompleto) {
+
+                        String texto = "PERFIL INCOMPLETO: Preencha seus dados na aba Perfil.";
+                        Notificacao aviso = new Notificacao(texto, java.time.LocalDate.now());
+                        items.add(0, aviso);
+                    }
+                }
+
                 listaNotificacoes.setItems(items);
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -107,7 +123,19 @@ public class AtualizacaoAlunoController {
         }
     }
 
-    // --- Navegação ---
+    private boolean isPerfilIncompleto(Usuario u) {
+        String curso = u.getCurso();
+        String linkedin = u.getLinkedin();
+        String github = u.getGitHub();
+        java.time.LocalDate nasc = u.getDataNascimento();
+
+        boolean cursoVazio = curso == null || curso.trim().isEmpty();
+        boolean linkedinVazio = linkedin == null || linkedin.trim().isEmpty();
+        boolean githubVazio = github == null || github.trim().isEmpty();
+        boolean dataNascVazia = nasc == null;
+        return cursoVazio || linkedinVazio || githubVazio || dataNascVazia;
+    }
+
     @FXML void sair(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/BemVindo.fxml", "Bem-vindo", event); }
     @FXML void perfilAluno (ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/aluno/PerfilAluno.fxml", "Perfil Aluno", event); }
     @FXML void secaoGeral(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/aluno/SecaoAluno.fxml", "Seção", event); }

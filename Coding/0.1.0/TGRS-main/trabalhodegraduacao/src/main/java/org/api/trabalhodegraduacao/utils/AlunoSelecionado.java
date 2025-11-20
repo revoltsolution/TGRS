@@ -2,10 +2,6 @@ package org.api.trabalhodegraduacao.utils;
 
 import org.api.trabalhodegraduacao.entities.Usuario;
 
-/**
- * Singleton para "passar" o aluno selecionado pelo professor
- * da tela de Alunos para a tela de Interacao.
- */
 public class AlunoSelecionado {
 
     private static AlunoSelecionado instance;

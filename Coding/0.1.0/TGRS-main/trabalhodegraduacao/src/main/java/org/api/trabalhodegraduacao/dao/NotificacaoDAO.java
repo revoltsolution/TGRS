@@ -9,13 +9,9 @@ import java.util.List;
 
 public class NotificacaoDAO {
 
-    /**
-     * Busca as últimas 5 correções recebidas pelo aluno.
-     */
     public List<Notificacao> buscarUltimasNotificacoes(String emailAluno) throws SQLException {
         List<Notificacao> notificacoes = new ArrayList<>();
 
-        // Faz um JOIN para pegar o ID_TG da seção corrigida
         String sql = "SELECT c.data_correcoes, c.status, s.ID_TG, s.Semestre " +
                 "FROM correcoes c " +
                 "INNER JOIN Secao s ON c.Data_Secao = s.Data AND c.Email_Aluno = s.Email_Aluno AND c.Email_Orientador = s.Email_Orientador " +
@@ -48,19 +44,15 @@ public class NotificacaoDAO {
         return notificacoes;
     }
 
-    /**
-     * Busca os envios mais recentes dos alunos de um professor específico.
-     */
     public List<Notificacao> buscarEnviosRecentesParaProfessor(String emailProfessor) throws SQLException {
         List<Notificacao> notificacoes = new ArrayList<>();
 
-        // Busca data, nome do aluno e ID do TG das seções mais recentes
         String sql = "SELECT s.Data, u.Nome_Completo, s.ID_TG " +
                 "FROM Secao s " +
                 "INNER JOIN usuario u ON s.Email_Aluno = u.Email " +
                 "WHERE s.Email_Orientador = ? " +
                 "ORDER BY s.Data DESC " +
-                "LIMIT 10"; // Mostra os 10 últimos
+                "LIMIT 10";
 
         try (Connection conn = ConexaoDB.getConexao();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -72,10 +64,8 @@ public class NotificacaoDAO {
                     String nomeAluno = rs.getString("Nome_Completo");
                     int idTg = rs.getInt("ID_TG");
 
-                    // Monta a mensagem
                     String msg = "O aluno " + nomeAluno + " enviou uma atualização no TG " + idTg;
 
-                    // Cria o objeto Notificacao
                     Timestamp dataTs = rs.getTimestamp("Data");
                     if (dataTs != null) {
                         notificacoes.add(new Notificacao(msg, dataTs.toLocalDateTime().toLocalDate()));

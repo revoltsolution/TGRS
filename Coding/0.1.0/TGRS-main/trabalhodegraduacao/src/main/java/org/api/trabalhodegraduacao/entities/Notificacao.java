@@ -6,6 +6,9 @@ public class Notificacao {
     private String mensagem;
     private LocalDate data;
 
+    public Notificacao() {
+    }
+
     public Notificacao(String mensagem, LocalDate data) {
         this.mensagem = mensagem;
         this.data = data;
@@ -14,9 +17,14 @@ public class Notificacao {
     public String getMensagem() { return mensagem; }
     public LocalDate getData() { return data; }
 
+    public void setMensagem(String mensagem) { this.mensagem = mensagem; }
+    public void setData(LocalDate data) { this.data = data; }
+
     @Override
     public String toString() {
-        // Formato simples para ListView
+        if (data == null) {
+            return mensagem;
+        }
         return data + " - " + mensagem;
     }
 }

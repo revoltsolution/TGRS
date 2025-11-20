@@ -2,7 +2,7 @@ package org.api.trabalhodegraduacao.utils;
 
 public class SessaoTG {
     private static SessaoTG instance;
-    private int idTgAtual; // Armazena qual TG (1 a 6) o aluno quer acessar
+    private int idTgAtual;
 
     private SessaoTG() {}
 

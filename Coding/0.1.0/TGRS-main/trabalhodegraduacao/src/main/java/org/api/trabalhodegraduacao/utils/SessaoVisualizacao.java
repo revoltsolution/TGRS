@@ -6,8 +6,8 @@ import org.api.trabalhodegraduacao.entities.Correcao;
 public class SessaoVisualizacao {
     private static SessaoVisualizacao instance;
 
-    private Secao secaoHistorica; // A seção antiga para visualizar
-    private Correcao correcaoHistorica; // A correção daquela época
+    private Secao secaoHistorica;
+    private Correcao correcaoHistorica;
 
     private SessaoVisualizacao() {}
 

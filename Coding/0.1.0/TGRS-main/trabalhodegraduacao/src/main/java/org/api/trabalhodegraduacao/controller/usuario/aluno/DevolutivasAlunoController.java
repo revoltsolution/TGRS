@@ -10,11 +10,11 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image; // Importe
-import javafx.scene.image.ImageView; // Importe
-import javafx.geometry.Rectangle2D; // Importe
-import javafx.scene.shape.Circle; // Importe
-import java.io.File; // Importe
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.shape.Circle;
+import java.io.File;
 
 import org.api.trabalhodegraduacao.Application;
 import org.api.trabalhodegraduacao.dao.CorrecaoDAO;
@@ -34,7 +34,7 @@ public class DevolutivasAlunoController {
 
     @FXML private Button bt_Sair, bt_devolutivas_geral, bt_perfil_geral, bt_secao_geral, bt_tela_inicial, bt_tg_geral;
 
-    @FXML private ImageView imgVwFotoPerfil; // Adicionado
+    @FXML private ImageView imgVwFotoPerfil;
 
     @FXML private TableView<Correcao> devolutivasTableView;
     @FXML private TableColumn<Correcao, LocalDate> colunaData;
@@ -44,7 +44,7 @@ public class DevolutivasAlunoController {
     private CorrecaoDAO correcaoDAO;
     private UsuarioDAO usuarioDAO;
     private SecaoDAO secaoDAO;
-    private Usuario usuarioLogado; // Para guardar o usuário carregado
+    private Usuario usuarioLogado;
 
     @FXML
     public void initialize() {
@@ -55,7 +55,6 @@ public class DevolutivasAlunoController {
         configurarTabela();
         carregarDadosTabela();
 
-        // --- CARREGA A FOTO DE PERFIL ---
         SessaoUsuario sessao = SessaoUsuario.getInstance();
         if (sessao.isLogado()) {
             try {
@@ -67,11 +66,9 @@ public class DevolutivasAlunoController {
                 e.printStackTrace();
             }
         } else {
-            // Foto Padrão
             Image imagemPadrao = new Image(getClass().getResourceAsStream("/org/api/trabalhodegraduacao/images/imgFotoPerfil.png"));
             configurarImagemRedonda(imgVwFotoPerfil, imagemPadrao);
         }
-        // --------------------------------
 
         devolutivasTableView.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2) {
@@ -79,10 +76,6 @@ public class DevolutivasAlunoController {
             }
         });
     }
-
-    /**
-     * Carrega a foto de perfil do usuário logado e a exibe com recorte redondo.
-     */
     private void carregarFotoPerfil() {
         if (imgVwFotoPerfil == null) return;
 
@@ -202,7 +195,6 @@ public class DevolutivasAlunoController {
         }
     }
 
-    // --- Métodos de Navegação ---
     @FXML void sair(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/BemVindo.fxml", "Bem-vindo", event); }
     @FXML void perfilAluno (ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/aluno/PerfilAluno.fxml", "Perfil Aluno", event); }
     @FXML void secaoGeral(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/aluno/SecaoAluno.fxml", "Seção", event); }

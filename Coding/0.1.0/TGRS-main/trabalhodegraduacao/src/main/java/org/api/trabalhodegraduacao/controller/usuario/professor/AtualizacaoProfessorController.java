@@ -13,9 +13,9 @@ import javafx.scene.shape.Circle;
 import java.io.File;
 import org.api.trabalhodegraduacao.Application;
 import org.api.trabalhodegraduacao.dao.NotificacaoDAO;
-import org.api.trabalhodegraduacao.dao.UsuarioDAO; // Importe
+import org.api.trabalhodegraduacao.dao.UsuarioDAO;
 import org.api.trabalhodegraduacao.entities.Notificacao;
-import org.api.trabalhodegraduacao.entities.Usuario; // Importe
+import org.api.trabalhodegraduacao.entities.Usuario;
 import org.api.trabalhodegraduacao.utils.SessaoUsuario;
 
 import java.sql.SQLException;
@@ -25,7 +25,7 @@ public class AtualizacaoProfessorController {
 
     @FXML private Button bt_Sair, bt_alunos_geral, bt_devolutivas_geral, bt_perfil_geral, bt_tela_inicial;
     @FXML private ListView<Notificacao> listaNotificacoes;
-    @FXML private ImageView imgVwFotoPerfil; // Foto da Sidebar
+    @FXML private ImageView imgVwFotoPerfil;
 
     private NotificacaoDAO notificacaoDAO;
     private UsuarioDAO usuarioDAO;
@@ -35,15 +35,26 @@ public class AtualizacaoProfessorController {
         this.notificacaoDAO = new NotificacaoDAO();
         this.usuarioDAO = new UsuarioDAO();
 
-        carregarAtualizacoes();
-        carregarFotoProfessor(); // Carrega a foto
+        System.out.println("--- INICIANDO DASHBOARD PROFESSOR ---");
+
+        Usuario professorLogado = carregarDadosProfessor();
+
+        if (professorLogado == null) {
+            System.out.println("ERRO: Objeto professorLogado veio NULO.");
+        } else {
+            System.out.println("Professor carregado: " + professorLogado.getNomeCompleto());
+        }
+
+        carregarAtualizacoes(professorLogado);
     }
 
-    private void carregarFotoProfessor() {
+    private Usuario carregarDadosProfessor() {
         SessaoUsuario sessao = SessaoUsuario.getInstance();
+        Usuario professor = null;
+
         if (sessao.isLogado()) {
             try {
-                Usuario professor = usuarioDAO.exibirPerfil(sessao.getEmail());
+                professor = usuarioDAO.exibirPerfil(sessao.getEmail());
                 if (professor != null) {
                     carregarImagemSegura(imgVwFotoPerfil, professor.getFotoPerfil());
                 }
@@ -51,6 +62,7 @@ public class AtualizacaoProfessorController {
                 e.printStackTrace();
             }
         }
+        return professor;
     }
 
     private void carregarImagemSegura(ImageView imageView, String caminho) {
@@ -65,13 +77,18 @@ public class AtualizacaoProfessorController {
                 }
             } catch (Exception e) { System.err.println("Erro img: " + e.getMessage()); }
         }
+
         if (imagem == null) imagem = new Image(getClass().getResourceAsStream("/org/api/trabalhodegraduacao/images/imgFotoPerfil.png"));
 
         configurarImagemRedonda(imageView, imagem);
     }
 
+    private void configuringImagemRedonda(ImageView imageView, Image imagem) {
+        configurarImagemRedonda(imageView, imagem);
+    }
+
     private void configurarImagemRedonda(ImageView imageView, Image imagem) {
-        if (imagem == null) return;
+        if (imagem == null || imageView == null) return;
         imageView.setImage(imagem);
         double w = imagem.getWidth(); double h = imagem.getHeight();
         double tamanho = Math.min(w, h);
@@ -82,23 +99,48 @@ public class AtualizacaoProfessorController {
         imageView.setClip(new Circle(raio, raio, raio));
     }
 
-    private void carregarAtualizacoes() {
+    private void carregarAtualizacoes(Usuario professor) {
         SessaoUsuario sessao = SessaoUsuario.getInstance();
+
+        ObservableList<Notificacao> items = FXCollections.observableArrayList();
+
         if (sessao.isLogado()) {
             try {
                 List<Notificacao> notificacoes = notificacaoDAO.buscarEnviosRecentesParaProfessor(sessao.getEmail());
-                ObservableList<Notificacao> items = FXCollections.observableArrayList(notificacoes);
-                listaNotificacoes.setItems(items);
+                if (notificacoes != null) {
+                    items.addAll(notificacoes);
+                }
             } catch (SQLException e) {
-                e.printStackTrace();
+                System.err.println("Erro ao buscar notificações no banco: " + e.getMessage());
+            }
+
+            if (professor != null && isPerfilIncompleto(professor)) {
+
+                Notificacao aviso = new Notificacao();
+                aviso.setMensagem("PERFIL INCOMPLETO: Preencha seus dados na aba Perfil.");
+                aviso.setData(java.time.LocalDate.now());
+
+                items.add(0, aviso);
             }
         }
+
+        listaNotificacoes.setItems(items);
     }
 
-    // --- Navegação ---
+    private boolean isPerfilIncompleto(Usuario u) {
+        String curso = u.getCurso();
+        java.time.LocalDate nasc = u.getDataNascimento();
+
+        boolean cursoVazio = curso == null || curso.trim().isEmpty();
+        boolean dataNascVazia = nasc == null;
+        return cursoVazio || dataNascVazia;
+    }
+
     @FXML void sair(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/BemVindo.fxml", "Bem-vindo", event); }
     @FXML void perfilProfessor(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/professor/PerfilProfessor.fxml", "Perfil", event); }
     @FXML void alunos(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/professor/Alunos.fxml", "Alunos", event); }
-    @FXML void devolutivas(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/professor/Historico.fxml", "Devolutivas", event); }
+    @FXML void devolutivas(ActionEvent event) {
+        Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/professor/Historico.fxml", "Devolutivas", event);
+    }
     @FXML void telaInicial(ActionEvent event) { System.out.println("Já está na tela inicial."); }
 }

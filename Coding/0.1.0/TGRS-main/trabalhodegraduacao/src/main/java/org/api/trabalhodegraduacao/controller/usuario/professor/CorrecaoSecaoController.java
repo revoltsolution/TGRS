@@ -14,7 +14,7 @@ import org.api.trabalhodegraduacao.entities.Correcao;
 import org.api.trabalhodegraduacao.entities.Secao;
 import org.api.trabalhodegraduacao.entities.Usuario;
 import org.api.trabalhodegraduacao.utils.AlunoSelecionado;
-import org.api.trabalhodegraduacao.utils.SessaoTG; // IMPORTANTE: Importe isso
+import org.api.trabalhodegraduacao.utils.SessaoTG;
 import org.api.trabalhodegraduacao.utils.SessaoUsuario;
 
 import java.sql.SQLException;
@@ -22,25 +22,21 @@ import java.time.LocalDate;
 
 public class CorrecaoSecaoController {
 
-    // --- FXML Barra Lateral ---
     @FXML private Button bt_Sair, bt_alunos_geral, bt_perfil_geral, bt_tela_inicial;
 
-    // --- FXML Conteúdo (Dados Aluno) ---
     @FXML private Label lblTituloAluno;
     @FXML private TextArea txtIdentificacaoProjeto, txtEmpresaParceira, txtProblema, txtSolucao, txtLinkRepositorio, txtTecnologiasUtilizadas, txtContribuicoesPessoais, txtDescricaoHard, txtDescricaoSoft, txtHistoricoProfissional, txtHistoricoAcademico, txtMotivacao, txtAno, txtPeriodo, txtSemestre;
 
-    // --- FXML Conteúdo (Correção Professor) ---
     @FXML private TextArea txtDevolutiva;
     @FXML private Button btEnviarCorrecao;
     @FXML private CheckBox cbIdentificacao, cbEmpresa, cbProblema, cbSolucao, cbLink, cbTecnologias, cbContribuicoes, cbHardSkills, cbSoftSkills, cbHistProf, cbHistAcad, cbMotivacao, cbAno, cbPeriodo, cbSemestre;
 
-    // --- DAOs e Dados ---
     private SecaoDAO secaoDAO;
     private CorrecaoDAO correcaoDAO;
     private Usuario alunoSelecionado;
     private Usuario professorLogado;
     private Secao secaoAtual;
-    private int idTgAtual; // Para saber qual TG estamos corrigindo
+    private int idTgAtual;
 
     @FXML
     public void initialize() {
@@ -48,10 +44,8 @@ public class CorrecaoSecaoController {
         this.correcaoDAO = new CorrecaoDAO();
         this.alunoSelecionado = AlunoSelecionado.getInstance().getAluno();
 
-        // --- RECUPERA O ID DO TG ---
         this.idTgAtual = SessaoTG.getInstance().getIdTgAtual();
         if (this.idTgAtual == 0) this.idTgAtual = 1;
-        // ---------------------------
 
         SessaoUsuario sessao = SessaoUsuario.getInstance();
         if (sessao.isLogado()) {
@@ -64,7 +58,6 @@ public class CorrecaoSecaoController {
             return;
         }
 
-        // Ajusta o título para mostrar qual TG é (ex: Correção de: João - TG 2 - Seção 1)
         lblTituloAluno.setText("Correção: " + alunoSelecionado.getNomeCompleto() + " (ID " + idTgAtual + ")");
 
         carregarDadosSecao();
@@ -72,18 +65,14 @@ public class CorrecaoSecaoController {
 
     private void carregarDadosSecao() {
         try {
-            // 1. Pega o ID da sessão
             int idTgAlvo = SessaoTG.getInstance().getIdTgAtual();
 
-            // 2. LÓGICA DE DECISÃO
             if (idTgAlvo == 0) {
-                // Se for 0 (clicou em "SEÇÃO ATUAL"), busca a mais recente por DATA
                 this.secaoAtual = secaoDAO.buscarSecaoMaisRecente(
                         alunoSelecionado.getEmailCadastrado(),
                         professorLogado.getEmailCadastrado()
                 );
             } else {
-                // Se tiver um ID (clicou na lista de TGs), busca a mais recente DAQUELE ID
                 this.secaoAtual = secaoDAO.buscarUltimaVersaoPorIdTg(
                         alunoSelecionado.getEmailCadastrado(),
                         professorLogado.getEmailCadastrado(),
@@ -95,7 +84,6 @@ public class CorrecaoSecaoController {
                 preencherCamposDeTexto();
                 preencherCheckBoxes();
 
-                // Atualiza o título para mostrar qual TG foi carregado
                 lblTituloAluno.setText("Correção: " + alunoSelecionado.getNomeCompleto() + " (TG " + getNomeTg(secaoAtual.getIdTG()) + ")");
 
                 Correcao ultimaCorrecao = correcaoDAO.buscarCorrecaoMaisRecente(
@@ -122,19 +110,14 @@ public class CorrecaoSecaoController {
         }
     }
 
-    // Método auxiliarzinho para deixar o título bonito
     private String getNomeTg(int id) {
         if (id == 1 || id == 2) return "1";
-        return "2"; // Simplificação, pode melhorar se quiser (ex: TG 1 - Seção 2)
+        return "2";
     }
 
-    /**
-     * Bloqueia a tela para leitura apenas (quando concluído ou não encontrado).
-     */
     private void bloquearEdicao() {
         txtDevolutiva.setEditable(false);
         btEnviarCorrecao.setDisable(true);
-        // Desabilita checkboxes
         cbIdentificacao.setDisable(true); cbEmpresa.setDisable(true); cbProblema.setDisable(true);
         cbSolucao.setDisable(true); cbLink.setDisable(true); cbTecnologias.setDisable(true);
         cbContribuicoes.setDisable(true); cbHardSkills.setDisable(true); cbSoftSkills.setDisable(true);
@@ -148,7 +131,6 @@ public class CorrecaoSecaoController {
         txtContribuicoesPessoais.clear(); txtDescricaoHard.clear(); txtDescricaoSoft.clear();
         txtHistoricoProfissional.clear(); txtHistoricoAcademico.clear(); txtMotivacao.clear();
         txtAno.clear(); txtPeriodo.clear(); txtSemestre.clear();
-        // Desmarca checkboxes
         cbIdentificacao.setSelected(false); cbEmpresa.setSelected(false); cbProblema.setSelected(false);
         cbSolucao.setSelected(false); cbLink.setSelected(false); cbTecnologias.setSelected(false);
         cbContribuicoes.setSelected(false); cbHardSkills.setSelected(false); cbSoftSkills.setSelected(false);
@@ -167,7 +149,6 @@ public class CorrecaoSecaoController {
         Correcao novaCorrecao = new Correcao();
         novaCorrecao.setConteudo(textoDevolutiva);
 
-        // Verifica se todos os checkboxes estão marcados
         boolean tudoAprovado = verificarSeTudoAprovado();
 
         if (tudoAprovado) {
@@ -189,12 +170,10 @@ public class CorrecaoSecaoController {
 
             if (tudoAprovado) {
                 exibirAlerta("Seção Concluída!", "Todos os itens foram aprovados.", Alert.AlertType.INFORMATION);
-                bloquearEdicao(); // Bloqueia após aprovar
+                bloquearEdicao();
             } else {
                 exibirAlerta("Sucesso", "Devolutiva enviada e progresso salvo!", Alert.AlertType.INFORMATION);
             }
-            // Opcional: Voltar para a lista
-            // alunos(event);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -210,7 +189,6 @@ public class CorrecaoSecaoController {
                 cbAno.isSelected() && cbPeriodo.isSelected() && cbSemestre.isSelected();
     }
 
-    // --- Métodos Auxiliares ---
 
     private void preencherCamposDeTexto() {
         txtIdentificacaoProjeto.setText(secaoAtual.getIdentificacaoProjeto());
@@ -274,7 +252,6 @@ public class CorrecaoSecaoController {
         alert.showAndWait();
     }
 
-    // --- Métodos de Navegação ---
 
     @FXML void sair(ActionEvent event) { AlunoSelecionado.getInstance().limparSelecao(); Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/BemVindo.fxml", "Bem-vindo", event); }
     @FXML void perfilProfessor(ActionEvent event) { AlunoSelecionado.getInstance().limparSelecao(); Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/professor/PerfilProfessor.fxml", "Perfil", event); }

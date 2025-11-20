@@ -19,7 +19,7 @@ import javafx.stage.Stage;
 import org.api.trabalhodegraduacao.Application;
 import org.api.trabalhodegraduacao.dao.UsuarioDAO;
 import org.api.trabalhodegraduacao.entities.Usuario;
-import org.api.trabalhodegraduacao.utils.GerenciadorImagens; // Importe se estiver usando
+import org.api.trabalhodegraduacao.utils.GerenciadorImagens;
 import org.api.trabalhodegraduacao.utils.SessaoUsuario;
 
 public class PerfilProfessorController {
@@ -30,10 +30,8 @@ public class PerfilProfessorController {
     private Usuario usuarioLogado;
     private UsuarioDAO usuarioDAO;
 
-    // FXML Barra Lateral
     @FXML private Button bt_Sair, bt_alunos_geral, bt_perfil_geral, bt_tela_inicial;
 
-    // FXML Conteúdo
     @FXML private Button bt_EditarSalvar;
     @FXML private Button bt_TrocarFotoPerfil;
     @FXML private ImageView imgVwFotoPerfil;
@@ -106,7 +104,7 @@ public class PerfilProfessorController {
 
     @FXML
     void onToggleEditSave(ActionEvent event) {
-        if (isEditMode) { // SALVAR
+        if (isEditMode) {
             try {
                 usuarioLogado.setCurso(txtCurso.getText());
                 usuarioLogado.setDataNascimento(dpDataNascimento.getValue());
@@ -126,10 +124,9 @@ public class PerfilProfessorController {
 
             } catch (SQLException e) {
                 e.printStackTrace();
-                // Mostrar Alerta
             }
 
-        } else { // EDITAR
+        } else {
             txtCurso.setText(usuarioLogado.getCurso());
             txtSenha.clear();
             dpDataNascimento.setValue(usuarioLogado.getDataNascimento());
@@ -141,7 +138,6 @@ public class PerfilProfessorController {
         }
     }
 
-    // --- FOTO DE PERFIL ---
 
     private void carregarFotoPerfil() {
         if (imgVwFotoPerfil == null) return;
@@ -176,11 +172,9 @@ public class PerfilProfessorController {
 
     @FXML
     void trocarFoto(ActionEvent event) {
-        // Lógica para trocar foto (mesma do aluno, usando GerenciadorImagens)
         System.out.println("Botão Trocar Foto clicado.");
     }
 
-    // --- Navegação ---
     @FXML void sair(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/BemVindo.fxml", "Bem-vindo", event); }
     @FXML void perfilProfessor(ActionEvent event) { System.out.println("Já está na tela."); }
     @FXML void alunos(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/professor/Alunos.fxml", "Alunos", event); }

@@ -10,19 +10,14 @@ public class Correcao {
     private String status;
     private String conteudo;
 
-    // Chave Estrangeira Composta (da Secao)
     private LocalDateTime dataSecao;
     private String emailAluno;
     private String emailOrientador;
 
-    // --- CAMPO NOVO (Para exibição na tabela) ---
-    private String tituloSecao; // Ex: "TG 1 - Seção 2"
+    private String tituloSecao;
 
-    // Construtor
     public Correcao() {
     }
-
-    // Getters e Setters
 
     public int getIdCorrecao() { return idCorrecao; }
     public void setIdCorrecao(int idCorrecao) { this.idCorrecao = idCorrecao; }
@@ -45,7 +40,6 @@ public class Correcao {
     public String getEmailOrientador() { return emailOrientador; }
     public void setEmailOrientador(String emailOrientador) { this.emailOrientador = emailOrientador; }
 
-    // --- Getters e Setters do Novo Campo ---
     public String getTituloSecao() { return tituloSecao; }
     public void setTituloSecao(String tituloSecao) { this.tituloSecao = tituloSecao; }
 }

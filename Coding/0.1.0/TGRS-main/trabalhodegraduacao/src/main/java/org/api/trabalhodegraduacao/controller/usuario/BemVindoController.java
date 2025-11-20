@@ -9,7 +9,6 @@ import javafx.scene.control.Alert;
 
 import org.api.trabalhodegraduacao.Application;
 import org.api.trabalhodegraduacao.utils.SessaoUsuario;
-// --- CORREÇÃO 1: Importar o DAO correto ---
 import org.api.trabalhodegraduacao.dao.UsuarioDAO;
 import org.api.trabalhodegraduacao.entities.Usuario;
 

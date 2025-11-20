@@ -33,7 +33,6 @@ public class AutenticacaoController {
         this.usuarioDAO = new UsuarioDAO();
         SessaoUsuario sessao = SessaoUsuario.getInstance();
 
-        // Caminho da imagem padrão (caso tudo dê errado)
         String caminhoPadrao = "/org/api/trabalhodegraduacao/images/imgFotoPerfil.png";
 
         if (sessao.isLogado()) {
@@ -45,11 +44,9 @@ public class AutenticacaoController {
                         lblNomeUsuario.setText(this.usuarioAutenticando.getNomeCompleto());
                     }
 
-                    // --- LÓGICA DE CARREGAMENTO DE IMAGEM BLINDADA ---
                     Image imagemFinal = null;
                     String caminhoFoto = this.usuarioAutenticando.getFotoPerfil();
 
-                    // 1. Tenta carregar a foto do usuário se existir
                     if (caminhoFoto != null && !caminhoFoto.isEmpty()) {
                         try {
                             if (caminhoFoto.startsWith("file:") || caminhoFoto.startsWith("http")) {
@@ -65,40 +62,30 @@ public class AutenticacaoController {
                         }
                     }
 
-                    // 2. Se a imagem do usuário falhou ou não existe, carrega a padrão
                     if (imagemFinal == null || imagemFinal.isError()) {
                         System.out.println("Usando imagem padrão.");
                         imagemFinal = new Image(getClass().getResourceAsStream(caminhoPadrao));
                     }
-
-                    // 3. Aplica o recorte redondo
                     configurarImagemRedonda(imgFotoPerfil, imagemFinal);
-                    // -------------------------------------------------
 
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         } else {
-            // Se não estiver logado, carrega padrão
             Image padrao = new Image(getClass().getResourceAsStream(caminhoPadrao));
             configurarImagemRedonda(imgFotoPerfil, padrao);
         }
     }
 
-    /**
-     * Ajusta e recorta a imagem para ficar perfeitamente redonda.
-     */
     private void configurarImagemRedonda(ImageView imageView, Image imagem) {
         if (imagem == null) return;
 
         imageView.setImage(imagem);
 
-        // Cálculos para o Center Crop (Recorte Centralizado)
         double w = imagem.getWidth();
         double h = imagem.getHeight();
 
-        // Evita divisão por zero se a imagem não carregou dimensões ainda
         if (w <= 0 || h <= 0) return;
 
         double tamanhoQuadrado = Math.min(w, h);
@@ -109,7 +96,6 @@ public class AutenticacaoController {
         imageView.setPreserveRatio(true);
         imageView.setSmooth(true);
 
-        // O raio deve ser metade da largura definida no FXML (ex: 150 / 2 = 75)
         double raio = imageView.getFitWidth() / 2;
         Circle clip = new Circle(raio, raio, raio);
         imageView.setClip(clip);
@@ -119,8 +105,6 @@ public class AutenticacaoController {
     void btEntrar(ActionEvent event) {
         if (usuarioAutenticando != null) {
             String senhaDigitada = txt_Senha.getText();
-            // ATENÇÃO: Se sua senha no banco tem espaços, use .trim()
-            // if (senhaDigitada.equals(usuarioAutenticando.getSenha().trim())) { ... }
             if (senhaDigitada.equals(usuarioAutenticando.getSenha())) {
                 System.out.println("Login com sucesso: " + usuarioAutenticando.getEmailCadastrado());
 
@@ -133,7 +117,6 @@ public class AutenticacaoController {
                 }
             } else {
                 System.out.println("Senha incorreta.");
-                // Adicione um Label de erro na tela se quiser feedback visual
             }
         }
     }

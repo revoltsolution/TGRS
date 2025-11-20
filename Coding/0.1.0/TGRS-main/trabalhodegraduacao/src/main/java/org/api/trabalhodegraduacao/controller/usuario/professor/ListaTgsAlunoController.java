@@ -38,8 +38,6 @@ public class ListaTgsAlunoController {
     private void carregarProgresso() {
         try {
             String emailAluno = alunoSelecionado.getEmailCadastrado();
-            // O orientador é o professor logado, que está gravado no objeto 'alunoSelecionado'
-            // (Pois buscamos o aluno filtrado por orientador)
             String emailOrientador = alunoSelecionado.getEmailOrientador();
 
             pbSecao1.setProgress(secaoDAO.buscarProgressoSecao(1, emailAluno, emailOrientador));
@@ -53,7 +51,6 @@ public class ListaTgsAlunoController {
         }
     }
 
-    // --- Ações dos Botões "Corrigir" ---
     @FXML void corrigirSecao1(ActionEvent event) { abrirCorrecao(1, event); }
     @FXML void corrigirSecao2(ActionEvent event) { abrirCorrecao(2, event); }
     @FXML void corrigirSecao3(ActionEvent event) { abrirCorrecao(3, event); }
@@ -62,10 +59,8 @@ public class ListaTgsAlunoController {
     @FXML void corrigirSecao6(ActionEvent event) { abrirCorrecao(6, event); }
 
     private void abrirCorrecao(int idTg, ActionEvent event) {
-        // Define qual TG o professor quer corrigir
         SessaoTG.getInstance().setIdTgAtual(idTg);
 
-        // Abre a tela de correção
         Application.carregarNovaCena(
                 "/org/api/trabalhodegraduacao/view/usuario/professor/CorrecaoSecao.fxml",
                 "Corrigir Seção",
@@ -73,7 +68,6 @@ public class ListaTgsAlunoController {
         );
     }
 
-    // --- Navegação Lateral (Professor) ---
     @FXML void sair(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/BemVindo.fxml", "Bem-vindo", event); }
     @FXML void perfilProfessor(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/professor/PerfilProfessor.fxml", "Perfil", event); }
     @FXML void alunos(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/professor/Alunos.fxml", "Alunos", event); }

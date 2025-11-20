@@ -1,17 +1,12 @@
 package org.api.trabalhodegraduacao.entities;
 
-// 1. Importação de Date removida
-import java.time.LocalDateTime; // 2. Importação correta para DATETIME
+import java.time.LocalDateTime;
 
 public class Secao {
 
-    // 3. idSecao REMOVIDO (não existe no seu banco)
-
-    // --- Chave Primária Composta ---
-    private LocalDateTime data; // 4. Tipo CORRIGIDO
+    private LocalDateTime data;
     private String emailAluno;
     private String emailOrientador;
-    // --------------------------------
 
     private String identificacaoProjeto;
     private String empresaParceira;
@@ -45,7 +40,6 @@ public class Secao {
     private boolean isPeriodoOk;
     private boolean isSemestreOk;
 
-    // Construtor vazio (usado pelo DAO)
     public Secao() {
     }
 
@@ -169,7 +163,6 @@ public class Secao {
         isSemestreOk = semestreOk;
     }
 
-    // 5. Construtor longo CORRIGIDO (sem idSecao, com LocalDateTime)
     public Secao(String identificacaoProjeto, String empresaParceira, String problema, String solucao, String linkRepositorio, String tecnologiasUtilizadas, String contribuicoesPessoais, String descricaoSoft, String descricaoHard, String historicoProfissional, String historicoAcademico, String motivacao, int ano, char periodo, char semestre, LocalDateTime data, int idTG, String emailAluno, String emailOrientador) {
         this.identificacaoProjeto = identificacaoProjeto;
         this.empresaParceira = empresaParceira;
@@ -192,11 +185,6 @@ public class Secao {
         this.emailOrientador = emailOrientador;
     }
 
-    // --- Getters e Setters ---
-
-    // 6. Get/Set de idSecao REMOVIDOS
-
-    // 7. Get/Set de Data CORRIGIDOS
     public LocalDateTime getData() {
         return data;
     }
@@ -204,8 +192,6 @@ public class Secao {
     public void setData(LocalDateTime data) {
         this.data = data;
     }
-
-    // (O resto dos seus Getters e Setters está correto)
 
     public String getIdentificacaoProjeto() {
         return identificacaoProjeto;
@@ -354,7 +340,6 @@ public class Secao {
     @Override
     public String toString() {
         return "Secao{" +
-                // "idSecao=" + idSecao + // REMOVIDO
                 "identificacaoProjeto='" + identificacaoProjeto + '\'' +
                 ", empresaParceira='" + empresaParceira + '\'' +
                 ", problema='" + problema + '\'' +

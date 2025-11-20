@@ -12,9 +12,6 @@ import java.time.LocalDateTime;
 
 public class SecaoDAO {
 
-    /**
-     * Busca a seção MAIS RECENTE de um aluno (independente do ID).
-     */
     public Secao buscarSecaoMaisRecente(String emailAluno, String emailOrientador) throws SQLException {
         String sql = "SELECT * FROM Secao " +
                 "WHERE Email_Aluno = ? AND Email_Orientador = ? " +
@@ -35,11 +32,7 @@ public class SecaoDAO {
         }
         return null;
     }
-
-    /**
-     * Busca a versão mais recente de uma seção ESPECÍFICA (pelo ID_TG).
-     */
-    public Secao buscarUltimaVersaoPorIdTg(String emailAluno, String emailOrientador, int idTg) throws SQLException {
+   public Secao buscarUltimaVersaoPorIdTg(String emailAluno, String emailOrientador, int idTg) throws SQLException {
         String sql = "SELECT * FROM Secao " +
                 "WHERE Email_Aluno = ? AND Email_Orientador = ? AND ID_TG = ? " +
                 "ORDER BY Data DESC " +
@@ -61,33 +54,23 @@ public class SecaoDAO {
         return null;
     }
 
-    /**
-     * Insere uma NOVA seção no banco de dados.
-     * Salva texto, status de aprovação e chaves.
-     */
     public void inserirSecao(Secao secao) throws SQLException {
 
-        // 16 campos de texto + 15 campos booleanos + 3 campos de chave = 34 colunas
         String sqlInsert = "INSERT INTO Secao (Identificacao_Projeto, Empresa_Parceira, Problema, Solucao, " +
                 "Link_Repositorio, Tecnologias_Utilizadas, Contribuicoes_Pessoais, Descricao_Soft, " +
                 "Descricao_Hard, Historico_Profissional, Historico_Academico, Motivacao, Ano, Periodo, " +
                 "Semestre, ID_TG, " +
-                // 15 campos de status
                 "is_identificacao_ok, is_empresa_ok, is_problema_ok, is_solucao_ok, is_link_ok, is_tecnologias_ok, " +
                 "is_contribuicoes_ok, is_softskills_ok, is_hardskills_ok, is_hist_prof_ok, is_hist_acad_ok, " +
                 "is_motivacao_ok, is_ano_ok, is_periodo_ok, is_semestre_ok, " +
-                // 3 chaves
                 "Data, Email_Aluno, Email_Orientador) " +
-                // Exatamente 34 interrogações abaixo:
                 "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?, ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?, ?,?,?)";
 
         try (Connection conn = ConexaoDB.getConexao()) {
             try (PreparedStatement pstmt = conn.prepareStatement(sqlInsert)) {
 
-                // 1. Preenche os 16 campos de texto (Indices 1 a 16)
                 preencherStatement(pstmt, secao);
 
-                // 2. Preenche os 15 campos de status (Indices 17 a 31)
                 pstmt.setBoolean(17, secao.isIdentificacaoOk());
                 pstmt.setBoolean(18, secao.isEmpresaOk());
                 pstmt.setBoolean(19, secao.isProblemaOk());
@@ -104,7 +87,6 @@ public class SecaoDAO {
                 pstmt.setBoolean(30, secao.isPeriodoOk());
                 pstmt.setBoolean(31, secao.isSemestreOk());
 
-                // 3. Preenche as 3 chaves (Indices 32 a 34)
                 pstmt.setTimestamp(32, Timestamp.valueOf(secao.getData()));
                 pstmt.setString(33, secao.getEmailAluno());
                 pstmt.setString(34, secao.getEmailOrientador());
@@ -115,9 +97,6 @@ public class SecaoDAO {
         }
     }
 
-    /**
-     * Atualiza apenas os status de uma seção existente (Professor).
-     */
     public void atualizarStatusSecao(Secao secao) throws SQLException {
         String sqlUpdate = "UPDATE Secao SET " +
                 "is_identificacao_ok = ?, is_empresa_ok = ?, is_problema_ok = ?, is_solucao_ok = ?, is_link_ok = ?, " +
@@ -153,9 +132,6 @@ public class SecaoDAO {
         }
     }
 
-    /**
-     * Método auxiliar para preencher os 16 campos de texto.
-     */
     private void preencherStatement(PreparedStatement pstmt, Secao secao) throws SQLException {
         pstmt.setString(1, secao.getIdentificacaoProjeto());
         pstmt.setString(2, secao.getEmpresaParceira());
@@ -175,9 +151,6 @@ public class SecaoDAO {
         pstmt.setInt(16, secao.getIdTG());
     }
 
-    /**
-     * Método auxiliar para criar um objeto Secao a partir de um ResultSet.
-     */
     private Secao construirSecao(ResultSet rs) throws SQLException {
         Secao secao = new Secao();
 
@@ -222,9 +195,6 @@ public class SecaoDAO {
         return secao;
     }
 
-    /**
-     * Busca o progresso de uma seção específica.
-     */
     public double buscarProgressoSecao(int idTg, String emailAluno, String emailOrientador) throws SQLException {
         String sql = "SELECT ( " +
                 "    (is_identificacao_ok + is_empresa_ok + is_problema_ok + is_solucao_ok + is_link_ok + " +

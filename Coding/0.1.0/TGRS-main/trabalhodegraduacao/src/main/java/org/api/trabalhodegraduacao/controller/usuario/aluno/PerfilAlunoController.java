@@ -1,11 +1,11 @@
 package org.api.trabalhodegraduacao.controller.usuario.aluno;
 
-import java.io.File; // Import necessário
+import java.io.File;
 import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Rectangle2D; // Import necessário
+import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -13,8 +13,8 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.shape.Circle; // Import necessário
-import javafx.stage.FileChooser; // Import necessário
+import javafx.scene.shape.Circle;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.api.trabalhodegraduacao.Application;
 import org.api.trabalhodegraduacao.dao.UsuarioDAO;
@@ -61,28 +61,21 @@ public class PerfilAlunoController {
                 if (this.usuarioLogado != null) {
                     preencherLabelsComDados();
 
-                    // Carrega a imagem (do banco ou padrão) com o recorte redondo
                     Image imagem = null;
                     String caminhoFoto = usuarioLogado.getFotoPerfil();
 
                     if (caminhoFoto != null && !caminhoFoto.isEmpty()) {
-                        // --- CORREÇÃO AQUI ---
-                        // Verifica se o caminho já é uma URL válida (começa com "file:" ou "http")
                         if (caminhoFoto.startsWith("file:") || caminhoFoto.startsWith("http")) {
                             imagem = new Image(caminhoFoto);
                         } else {
-                            // Se for um caminho de arquivo puro do Windows (ex: "C:\Users..."), converte para file URI
                             File arquivoImagem = new File(caminhoFoto);
                             if (arquivoImagem.exists()) {
                                 imagem = new Image(arquivoImagem.toURI().toString());
                             } else {
-                                // Se o arquivo não existir, carrega a padrão
                                 imagem = new Image(getClass().getResourceAsStream("/org/api/trabalhodegraduacao/images/imgFotoPerfil.png"));
                             }
                         }
-                        // ---------------------
-                    } else {
-                        // Se não tiver foto no banco, carrega a padrão
+                     } else {
                         imagem = new Image(getClass().getResourceAsStream("/org/api/trabalhodegraduacao/images/imgFotoPerfil.png"));
                     }
 
@@ -150,7 +143,7 @@ public class PerfilAlunoController {
 
     @FXML
     void onToggleEditSave(ActionEvent event) {
-        if (isEditMode) { // Clicou em Salvar
+        if (isEditMode) {
             try {
                 usuarioLogado.setCurso(txtCurso.getText());
                 usuarioLogado.setLinkedin(txtLinkedin.getText());
@@ -173,7 +166,7 @@ public class PerfilAlunoController {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        } else { // Clicou em Editar
+        } else {
             txtCurso.setText(usuarioLogado.getCurso());
             txtLinkedin.setText(usuarioLogado.getLinkedin());
             txtGitHub.setText(usuarioLogado.getGitHub());
@@ -192,27 +185,19 @@ public class PerfilAlunoController {
         System.out.println("Botão Trocar Foto clicado.");
         Stage stage = (Stage) bt_TrocarFotoPerfil.getScene().getWindow();
 
-        // Gera um nome de arquivo seguro baseado no email do usuário
         String nomeSeguro = usuarioLogado.getEmailCadastrado().replaceAll("[^a-zA-Z0-9.-]", "_");
 
-        // Chama o gerenciador para selecionar e salvar a nova foto
         String novoCaminho = GerenciadorImagens.selecionarESalvarNovaFoto(stage, nomeSeguro);
 
         if (novoCaminho != null) {
-            // Salva o caminho no objeto usuário
             usuarioLogado.setFotoPerfil(novoCaminho);
 
-            // --- CORREÇÃO AQUI ---
-            // Converte o caminho do arquivo (String) para um objeto File e depois para uma URI válida
             File arquivoImagem = new File(novoCaminho);
             Image novaImagem = new Image(arquivoImagem.toURI().toString());
-            // ---------------------
 
-            // Configura a imagem redonda na tela
             configurarImagemRedonda(imgVwFotoPerfil, novaImagem);
 
             try {
-                // Atualiza no banco de dados
                 usuarioDAO.atualizar(usuarioLogado);
                 System.out.println("Foto atualizada no banco!");
             } catch (SQLException e) {
@@ -221,9 +206,6 @@ public class PerfilAlunoController {
         }
     }
 
-    /**
-     * Ajusta uma imagem para caber perfeitamente em um ImageView circular (Center Crop).
-     */
     private void configurarImagemRedonda(ImageView imageView, Image imagem) {
         if (imagem == null) return;
 
@@ -244,7 +226,6 @@ public class PerfilAlunoController {
         imageView.setClip(clip);
     }
 
-    // --- Navegação ---
     @FXML public void sair(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/BemVindo.fxml", "Bem-vindo", event); }
     @FXML public void perfilAluno(ActionEvent event) { System.out.println("Já está na tela."); }
     @FXML public void secaoGeral(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/aluno/SecaoAluno.fxml", "Secao Geral", event); }

@@ -4,8 +4,8 @@ import org.api.trabalhodegraduacao.bancoDeDados.ConexaoDB;
 import org.api.trabalhodegraduacao.entities.Usuario;
 
 import java.sql.*;
-import java.util.ArrayList; // Importa o ArrayList
-import java.util.List; // Importa o List
+import java.util.ArrayList;
+import java.util.List;
 
 public class UsuarioDAO {
 
@@ -74,10 +74,6 @@ public class UsuarioDAO {
         }
     }
 
-    /**
-     * MÉTODO ATUALIZADO
-     * Agora inclui o cálculo de progresso.
-     */
     private Usuario construirUsuario(ResultSet rs) throws SQLException {
         Usuario usuario = new Usuario();
 
@@ -98,26 +94,23 @@ public class UsuarioDAO {
         usuario.setSenha(rs.getString("Senha"));
         usuario.setNomeOrientador(rs.getString("Nome_Orientador"));
 
-        // --- Progresso (Tenta ler, ignora se não existir) ---
         try {
             usuario.setProgresso(rs.getDouble("progresso_decimal"));
         } catch (SQLException e) {
             usuario.setProgresso(0.0);
         }
 
-        // --- Lógica de Mapeamento TG/Seção (Tenta ler, ignora se não existir) ---
         int idTg = 0;
         try {
-            idTg = rs.getInt("ultimo_id_tg"); // <-- O PONTO DO ERRO ERA AQUI
+            idTg = rs.getInt("ultimo_id_tg");
         } catch (SQLException e) {
-            idTg = 0; // Se a coluna não existir, assume 0
+            idTg = 0;
         }
 
         if (idTg == 0) {
             usuario.setDisplayTG("-");
             usuario.setDisplaySecao("-");
         } else {
-            // Mapeamento manual dos IDs para os textos
             switch (idTg) {
                 case 1: usuario.setDisplayTG("TG 1"); usuario.setDisplaySecao("Seção 1"); break;
                 case 2: usuario.setDisplayTG("TG 1"); usuario.setDisplaySecao("Seção 2"); break;
@@ -132,15 +125,10 @@ public class UsuarioDAO {
         return usuario;
     }
 
-    /**
-     * MÉTODO ATUALIZADO
-     * Agora calcula o progresso da seção mais recente do aluno.
-     */
     public java.util.List<Usuario> buscarAlunosPorOrientador(String emailOrientador) throws SQLException {
 
         List<Usuario> alunos = new ArrayList<>();
 
-        // Query atualizada: Agora busca também o 'ultimo_id_tg'
         String sql = "SELECT " +
                 "    u.*, " +
                 "    o.Nome_Completo AS Nome_Orientador, " +
@@ -155,7 +143,7 @@ public class UsuarioDAO {
                 "        ORDER BY s.Data DESC LIMIT 1 " +
                 "    ) AS progresso_decimal, " +
                 "    ( " +
-                "        SELECT s.ID_TG " +  // <--- NOVA SUBQUERY: Pega o último ID_TG
+                "        SELECT s.ID_TG " +
                 "        FROM Secao s " +
                 "        WHERE s.Email_Aluno = u.Email AND s.Email_Orientador = u.Email_Orientador " +
                 "        ORDER BY s.Data DESC LIMIT 1 " +

@@ -2,30 +2,27 @@ package org.api.trabalhodegraduacao.controller.usuario.professor;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Rectangle2D; // Importe
+import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image; // Importe
-import javafx.scene.image.ImageView; // Importe
-import javafx.scene.shape.Circle; // Importe
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.shape.Circle;
 import org.api.trabalhodegraduacao.Application;
 import org.api.trabalhodegraduacao.entities.Usuario;
 import org.api.trabalhodegraduacao.utils.AlunoSelecionado;
 import org.api.trabalhodegraduacao.utils.SessaoTG;
 
-import java.io.File; // Importe
+import java.io.File;
 import java.time.format.DateTimeFormatter;
 
 public class InteracaoProfessorAlunoController {
 
-    // --- FXML Barra Lateral ---
     @FXML private Button bt_perfil_geral, bt_alunos_geral, bt_tela_inicial, bt_Sair;
 
-    // --- FXML Conteúdo Principal ---
     @FXML private Label lblNomeAlunoHeader;
     @FXML private ImageView imgVwFotoPerfil;
 
-    // FXML do GridPane
     @FXML private Label lblNome;
     @FXML private Label lblEmail;
     @FXML private Label lblCurso;
@@ -34,7 +31,6 @@ public class InteracaoProfessorAlunoController {
     @FXML private Label lblGitHub;
     @FXML private Label lblOrientador;
 
-    // Botões de Ação
     @FXML private Button bt_professor_secao_aluno;
     @FXML private Button bt_professor_tg_aluno;
 
@@ -53,13 +49,9 @@ public class InteracaoProfessorAlunoController {
 
         preencherDadosAluno();
 
-        // --- ADICIONADO: Carrega a foto do aluno ---
         carregarFotoAluno();
     }
 
-    /**
-     * Carrega a foto de perfil do aluno selecionado e aplica o recorte.
-     */
     private void carregarFotoAluno() {
         if (imgVwFotoPerfil == null) return;
 
@@ -81,7 +73,6 @@ public class InteracaoProfessorAlunoController {
             }
         }
 
-        // Se falhar ou não tiver foto, usa a padrão
         if (imagem == null || imagem.isError()) {
             imagem = new Image(getClass().getResourceAsStream("/org/api/trabalhodegraduacao/images/imgFotoPerfil.png"));
         }
@@ -89,9 +80,6 @@ public class InteracaoProfessorAlunoController {
         configurarImagemRedonda(imgVwFotoPerfil, imagem);
     }
 
-    /**
-     * Ajusta a imagem para caber no círculo (Center Crop).
-     */
     private void configurarImagemRedonda(ImageView imageView, Image imagem) {
         if (imagem == null || imageView == null) return;
 
@@ -100,7 +88,6 @@ public class InteracaoProfessorAlunoController {
         double w = imagem.getWidth();
         double h = imagem.getHeight();
 
-        // Evita divisão por zero
         if (w <= 0 || h <= 0) return;
 
         double tamanhoQuadrado = Math.min(w, h);
@@ -119,7 +106,6 @@ public class InteracaoProfessorAlunoController {
     private void preencherDadosAluno() {
         lblNomeAlunoHeader.setText(alunoSelecionado.getNomeCompleto());
 
-        // Preenche os labels do GridPane
         lblNome.setText(getTextoOuPadrao(alunoSelecionado.getNomeCompleto()));
         lblEmail.setText(getTextoOuPadrao(alunoSelecionado.getEmailCadastrado()));
         lblCurso.setText(getTextoOuPadrao(alunoSelecionado.getCurso()));
@@ -127,7 +113,6 @@ public class InteracaoProfessorAlunoController {
         lblGitHub.setText(getTextoOuPadrao(alunoSelecionado.getGitHub()));
         lblOrientador.setText(getTextoOuPadrao(alunoSelecionado.getNomeOrientador()));
 
-        // Formata a data
         if (alunoSelecionado.getDataNascimento() != null) {
             lblDataNascimento.setText(alunoSelecionado.getDataNascimento().format(dateFormatter));
         } else {
@@ -146,7 +131,6 @@ public class InteracaoProfessorAlunoController {
             return;
         }
 
-        // Reseta o ID para 0 -> Indica "buscar mais recente por data"
         SessaoTG.getInstance().setIdTgAtual(0);
 
         Application.carregarNovaCena(
@@ -167,7 +151,6 @@ public class InteracaoProfessorAlunoController {
         );
     }
 
-    // --- Métodos de Navegação (Barra Lateral do Professor) ---
 
     @FXML
     void sair(ActionEvent event) {

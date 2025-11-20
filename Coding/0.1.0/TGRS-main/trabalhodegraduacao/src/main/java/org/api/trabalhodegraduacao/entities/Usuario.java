@@ -19,10 +19,7 @@ public class Usuario {
     private String displayTG;
     private String displaySecao;
 
-    // --- CAMPO ADICIONADO ---
-    // Este campo não está no banco, será calculado pelo DAO
     private double progresso;
-    // ------------------------
 
     public Usuario(String tipo, String senha, String emailCadastrado, String nome) {
         this.funcao = tipo;
@@ -34,20 +31,18 @@ public class Usuario {
     public Usuario() {
     }
 
-    // --- CONSTRUTOR CORRIGIDO ---
     public Usuario(String nomeDB, String emailDB, String cursoDB, Date dataNascDB, String linkedinDB, String gitHubDB, String emailOrientador, String senhaDB) {
         this.nomeCompleto = nomeDB;
         this.emailCadastrado = emailDB;
         this.curso = cursoDB;
         if (dataNascDB != null) {
-            this.dataNascimento = dataNascDB.toLocalDate(); // Corrigido
+            this.dataNascimento = dataNascDB.toLocalDate();
         }
         this.linkedin = linkedinDB;
         this.gitHub = gitHubDB;
         this.emailOrientador = emailOrientador;
-        this.senha = senhaDB; // Corrigido
+        this.senha = senhaDB;
     }
-    // --------------------------
 
     public void nomeProfessor(String nome) {
         this.nomeCompleto = nome;
@@ -147,7 +142,6 @@ public class Usuario {
         this.nomeOrientador = nomeOrientador;
     }
 
-    // --- GETTER/SETTER ADICIONADOS ---
     public double getProgresso() {
         return progresso;
     }
@@ -160,7 +154,6 @@ public class Usuario {
 
     public String getDisplaySecao() { return displaySecao; }
     public void setDisplaySecao(String displaySecao) { this.displaySecao = displaySecao; }
-    // -------------------------------
 
 
     @Override

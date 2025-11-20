@@ -22,21 +22,17 @@ import java.util.List;
 
 public class AlunosController {
 
-    // --- Componentes FXML da Barra Lateral ---
     @FXML private Button bt_Sair;
     @FXML private Button bt_alunos_geral;
     @FXML private Button bt_perfil_geral;
     @FXML private Button bt_tela_inicial;
 
-    // --- Componentes FXML da Tabela ---
     @FXML private TableView<Usuario> tabelaAlunos;
     @FXML private TableColumn<Usuario, String> colNome;
     @FXML private TableColumn<Usuario, Double> colProgresso;
 
-    // --- CORREÇÃO: Adicionadas as colunas que faltavam ---
     @FXML private TableColumn<Usuario, String> colTG;
     @FXML private TableColumn<Usuario, String> colSecao;
-    // ----------------------------------------------------
 
     private UsuarioDAO usuarioDAO;
 
@@ -44,16 +40,12 @@ public class AlunosController {
     void initialize() {
         this.usuarioDAO = new UsuarioDAO();
 
-        // 1. Configura coluna NOME
         colNome.setCellValueFactory(new PropertyValueFactory<>("nomeCompleto"));
 
-        // 2. Configura coluna TG
         colTG.setCellValueFactory(new PropertyValueFactory<>("displayTG"));
 
-        // 3. Configura coluna SEÇÃO
         colSecao.setCellValueFactory(new PropertyValueFactory<>("displaySecao"));
 
-        // 4. Configura coluna PROGRESSO
         colProgresso.setCellValueFactory(new PropertyValueFactory<>("progresso"));
         colProgresso.setCellFactory(column -> {
             return new TableCell<Usuario, Double>() {
@@ -75,7 +67,6 @@ public class AlunosController {
 
         carregarAlunosDaTabela();
 
-        // Ativa o clique duplo
         tabelaAlunos.setOnMouseClicked(this::handleRowClick);
     }
 
@@ -115,7 +106,6 @@ public class AlunosController {
         }
     }
 
-    // --- Métodos de Navegação ---
     @FXML void alunos(ActionEvent event) { System.out.println("Já está na tela de Alunos."); }
     @FXML void perfilProfessor(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/professor/PerfilProfessor.fxml", "Perfil", event); }
     @FXML void sair(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/BemVindo.fxml", "Bem-vindo", event); }
