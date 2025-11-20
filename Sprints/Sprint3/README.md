@@ -12,7 +12,7 @@
 | US | Prioridade | User Stories | Story Points | Sprint | Requisito do Cliente | Status |
 | :---: | :--------: | :--------------------------------------------- | :-----------: | :----------: | :----: | :----: | 
 | **US05** | Alta | Como orientador, quero corrigir e registrar feedback em cada seção enviada pelo aluno para acompanhar sua evolução. | 21 | 3 | RF05 RF06 | Concluído |
-| **US02** | Média | Como administrador, quero atualizar automaticamente as relações entre alunos e professores ao importar um novo CSV, garantindo que o sistema reflita sempre a situação mais recente da turma. | 13 | 3 | RF03 RF06 | Não iniciado |
+| **US02** | Média | Como administrador, quero atualizar automaticamente as relações entre alunos e professores ao importar um novo CSV, garantindo que o sistema reflita sempre a situação mais recente da turma. | 13 | 3 | RF03 RF06 | Concluído |
 | **US06** | Média | Como professor-orientador, quero visualizar o histórico de revisões de cada seção para acompanhar a evolução do trabalho, evitando desperdício de tempo e garantindo melhor eficácia. | 5 | 3 | RF07 RF08| Não iniciado |
 | **US08** | Baixa | Como aluno, quero gerar automaticamente o TG final em formato Markdown (MD) para entregar de acordo com o padrão exigido pela instituição, economizando tempo e custos com formatação manual. | 21 | 3 | RF11 RF12 | Não iniciado |
 | **US04** | Alta | Como aluno, quero enviar uma seção do meu TG para o orientador para que ele possa revisar e dar feedback, economizando tempo e reduzindo custos com correções. | 34 | 3 | RF04 RF06 | Não iniciada |
