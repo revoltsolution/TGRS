@@ -68,6 +68,7 @@ public class Application extends javafx.application.Application {
             org.api.trabalhodegraduacao.bancoDeDados.GerenciadorDB gbd = new org.api.trabalhodegraduacao.bancoDeDados.GerenciadorDB();
             gbd.criarBancoDeDados("TGRSDB");
             gbd.criarTodasAsTabelas();
+            gbd.popularUsuariosDoCSV("usuarios.csv");
         } catch (Exception e) {
             e.printStackTrace();
         }

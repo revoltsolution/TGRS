@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -14,15 +15,15 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Circle;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import org.api.trabalhodegraduacao.Application;
 import org.api.trabalhodegraduacao.dao.UsuarioDAO;
 import org.api.trabalhodegraduacao.entities.Usuario;
 import org.api.trabalhodegraduacao.utils.SessaoUsuario;
-import org.api.trabalhodegraduacao.utils.GerenciadorImagens;
+import org.api.trabalhodegraduacao.dao.CursoDAO;
+import org.api.trabalhodegraduacao.entities.Curso;
 
 public class PerfilAlunoController {
+
 
     private boolean isEditMode = false;
     private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -30,29 +31,43 @@ public class PerfilAlunoController {
     private Usuario usuarioLogado;
     private UsuarioDAO usuarioDAO;
 
+    @FXML private Button bt_Sair, bt_devolutivas_geral, bt_perfil_geral, bt_secao_geral, bt_tela_inicial, bt_tg_geral;
+
     @FXML private Button bt_EditarSalvar;
-    @FXML private Button bt_Sair;
     @FXML private Button bt_TrocarFotoPerfil;
     @FXML private ImageView imgVwFotoPerfil;
 
-    @FXML private Label lbl_NomeUsuario;
     @FXML private Label lblEmailCadastrado;
-    @FXML private Label lblOrientador;
     @FXML private Label lblCurso;
     @FXML private Label lblDataNascimento;
     @FXML private Label lblLinkedin;
     @FXML private Label lblGitHub;
     @FXML private Label lblSenha;
+    @FXML private Label lbl_NomeUsuario;
+    @FXML private Label lblOrientador;
 
-    @FXML private TextField txtCurso;
+    @FXML private ComboBox<String> cbCurso;
+
     @FXML private DatePicker dpDataNascimento;
     @FXML private TextField txtLinkedin;
     @FXML private TextField txtGitHub;
     @FXML private PasswordField txtSenha;
 
     @FXML
-    void initialize() {
+    public void initialize() {
         this.usuarioDAO = new UsuarioDAO();
+        CursoDAO cursoDAO = new CursoDAO();
+
+        if (cbCurso != null) {
+            java.util.List<Curso> cursosDoBanco = cursoDAO.listarTodos();
+
+            javafx.collections.ObservableList<String> nomes = javafx.collections.FXCollections.observableArrayList();
+            for (Curso c : cursosDoBanco) {
+                nomes.add(c.getNome());
+            }
+            cbCurso.setItems(nomes);
+        }
+
         SessaoUsuario sessao = SessaoUsuario.getInstance();
 
         if (sessao.isLogado()) {
@@ -60,45 +75,25 @@ public class PerfilAlunoController {
                 this.usuarioLogado = usuarioDAO.exibirPerfil(sessao.getEmail());
                 if (this.usuarioLogado != null) {
                     preencherLabelsComDados();
-
-                    Image imagem = null;
-                    String caminhoFoto = usuarioLogado.getFotoPerfil();
-
-                    if (caminhoFoto != null && !caminhoFoto.isEmpty()) {
-                        if (caminhoFoto.startsWith("file:") || caminhoFoto.startsWith("http")) {
-                            imagem = new Image(caminhoFoto);
-                        } else {
-                            File arquivoImagem = new File(caminhoFoto);
-                            if (arquivoImagem.exists()) {
-                                imagem = new Image(arquivoImagem.toURI().toString());
-                            } else {
-                                imagem = new Image(getClass().getResourceAsStream("/org/api/trabalhodegraduacao/images/imgFotoPerfil.png"));
-                            }
-                        }
-                     } else {
-                        imagem = new Image(getClass().getResourceAsStream("/org/api/trabalhodegraduacao/images/imgFotoPerfil.png"));
-                    }
-
-                    configurarImagemRedonda(imgVwFotoPerfil, imagem);
-
+                    carregarFotoPerfil();
                 }
             } catch (SQLException e) {
-                System.err.println("Erro ao carregar perfil: " + e.getMessage());
                 e.printStackTrace();
             }
         }
         setViewMode(true);
     }
+
     private void preencherLabelsComDados() {
         lbl_NomeUsuario.setText(usuarioLogado.getNomeCompleto());
         lblEmailCadastrado.setText(usuarioLogado.getEmailCadastrado());
+        lblOrientador.setText(usuarioLogado.getNomeOrientador() != null ? usuarioLogado.getNomeOrientador() : "Não vinculado");
 
-        String nomeOrientador = usuarioLogado.getNomeOrientador();
-        lblOrientador.setText((nomeOrientador != null && !nomeOrientador.isEmpty()) ? nomeOrientador : "(Não definido)");
+        String curso = usuarioLogado.getCurso();
+        lblCurso.setText((curso != null && !curso.isEmpty()) ? curso : "(Não informado)");
 
-        lblCurso.setText(getTextoOuPadrao(usuarioLogado.getCurso()));
-        lblLinkedin.setText(getTextoOuPadrao(usuarioLogado.getLinkedin()));
-        lblGitHub.setText(getTextoOuPadrao(usuarioLogado.getGitHub()));
+        lblLinkedin.setText((usuarioLogado.getLinkedin() != null) ? usuarioLogado.getLinkedin() : "");
+        lblGitHub.setText((usuarioLogado.getGitHub() != null) ? usuarioLogado.getGitHub() : "");
         lblSenha.setText("**********");
 
         if (usuarioLogado.getDataNascimento() != null) {
@@ -106,10 +101,6 @@ public class PerfilAlunoController {
         } else {
             lblDataNascimento.setText("(Não informado)");
         }
-    }
-
-    private String getTextoOuPadrao(String texto) {
-        return (texto != null && !texto.trim().isEmpty()) ? texto : "(Não informado)";
     }
 
     private void setViewMode(boolean viewMode) {
@@ -125,13 +116,16 @@ public class PerfilAlunoController {
         lblGitHub.setManaged(viewMode);
         lblSenha.setManaged(viewMode);
 
-        txtCurso.setVisible(!viewMode);
+        if(cbCurso != null) {
+            cbCurso.setVisible(!viewMode);
+            cbCurso.setManaged(!viewMode);
+        }
+
         dpDataNascimento.setVisible(!viewMode);
         txtLinkedin.setVisible(!viewMode);
         txtGitHub.setVisible(!viewMode);
         txtSenha.setVisible(!viewMode);
 
-        txtCurso.setManaged(!viewMode);
         dpDataNascimento.setManaged(!viewMode);
         txtLinkedin.setManaged(!viewMode);
         txtGitHub.setManaged(!viewMode);
@@ -145,10 +139,13 @@ public class PerfilAlunoController {
     void onToggleEditSave(ActionEvent event) {
         if (isEditMode) {
             try {
-                usuarioLogado.setCurso(txtCurso.getText());
+                if (cbCurso != null && cbCurso.getValue() != null) {
+                    usuarioLogado.setCurso(cbCurso.getValue());
+                }
+
+                usuarioLogado.setDataNascimento(dpDataNascimento.getValue());
                 usuarioLogado.setLinkedin(txtLinkedin.getText());
                 usuarioLogado.setGitHub(txtGitHub.getText());
-                usuarioLogado.setDataNascimento(dpDataNascimento.getValue());
 
                 String novaSenha = txtSenha.getText();
                 if (novaSenha != null && !novaSenha.trim().isEmpty()) {
@@ -166,12 +163,16 @@ public class PerfilAlunoController {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+
         } else {
-            txtCurso.setText(usuarioLogado.getCurso());
+            if (cbCurso != null) {
+                cbCurso.setValue(usuarioLogado.getCurso());
+            }
+
             txtLinkedin.setText(usuarioLogado.getLinkedin());
             txtGitHub.setText(usuarioLogado.getGitHub());
-            dpDataNascimento.setValue(usuarioLogado.getDataNascimento());
             txtSenha.clear();
+            dpDataNascimento.setValue(usuarioLogado.getDataNascimento());
 
             setViewMode(false);
             bt_EditarSalvar.setText("Salvar");
@@ -180,56 +181,42 @@ public class PerfilAlunoController {
         }
     }
 
-    @FXML
-    void trocarFotoPerfil(ActionEvent event) {
-        System.out.println("Botão Trocar Foto clicado.");
-        Stage stage = (Stage) bt_TrocarFotoPerfil.getScene().getWindow();
-
-        String nomeSeguro = usuarioLogado.getEmailCadastrado().replaceAll("[^a-zA-Z0-9.-]", "_");
-
-        String novoCaminho = GerenciadorImagens.selecionarESalvarNovaFoto(stage, nomeSeguro);
-
-        if (novoCaminho != null) {
-            usuarioLogado.setFotoPerfil(novoCaminho);
-
-            File arquivoImagem = new File(novoCaminho);
-            Image novaImagem = new Image(arquivoImagem.toURI().toString());
-
-            configurarImagemRedonda(imgVwFotoPerfil, novaImagem);
-
+    private void carregarFotoPerfil() {
+        if (imgVwFotoPerfil == null) return;
+        Image imagem = null;
+        String caminho = usuarioLogado.getFotoPerfil();
+        if (caminho != null && !caminho.isEmpty()) {
             try {
-                usuarioDAO.atualizar(usuarioLogado);
-                System.out.println("Foto atualizada no banco!");
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+                if (caminho.startsWith("file:") || caminho.startsWith("http")) {
+                    imagem = new Image(caminho);
+                } else {
+                    File arquivo = new File(caminho);
+                    if (arquivo.exists()) imagem = new Image(arquivo.toURI().toString());
+                }
+            } catch (Exception e) { }
         }
+        if (imagem == null) imagem = new Image(getClass().getResourceAsStream("/org/api/trabalhodegraduacao/images/imgFotoPerfil.png"));
+        configurarImagemRedonda(imgVwFotoPerfil, imagem);
     }
 
     private void configurarImagemRedonda(ImageView imageView, Image imagem) {
-        if (imagem == null) return;
-
+        if (imagem == null || imageView == null) return;
         imageView.setImage(imagem);
-
-        double w = imagem.getWidth();
-        double h = imagem.getHeight();
-        double tamanhoQuadrado = Math.min(w, h);
-        double x = (w - tamanhoQuadrado) / 2;
-        double y = (h - tamanhoQuadrado) / 2;
-
-        imageView.setViewport(new Rectangle2D(x, y, tamanhoQuadrado, tamanhoQuadrado));
-        imageView.setPreserveRatio(true);
-        imageView.setSmooth(true);
-
+        double w = imagem.getWidth(); double h = imagem.getHeight();
+        if (w <= 0 || h <= 0) return;
+        double tamanho = Math.min(w, h);
+        double x = (w - tamanho) / 2; double y = (h - tamanho) / 2;
+        imageView.setViewport(new Rectangle2D(x, y, tamanho, tamanho));
+        imageView.setPreserveRatio(true); imageView.setSmooth(true);
         double raio = imageView.getFitWidth() / 2;
-        Circle clip = new Circle(raio, raio, raio);
-        imageView.setClip(clip);
+        imageView.setClip(new Circle(raio, raio, raio));
     }
 
-    @FXML public void sair(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/BemVindo.fxml", "Bem-vindo", event); }
-    @FXML public void perfilAluno(ActionEvent event) { System.out.println("Já está na tela."); }
-    @FXML public void secaoGeral(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/aluno/SecaoAluno.fxml", "Secao Geral", event); }
-    @FXML public void tgGeral(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/aluno/TGAluno.fxml", "TG Aluno", event); }
-    @FXML public void telaInicial(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/aluno/AtualizacoesAluno.fxml", "Tela Inicial", event); }
+    @FXML void trocarFotoPerfil(ActionEvent event) { System.out.println("Funcionalidade de trocar foto aqui."); }
+    @FXML void sair(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/BemVindo.fxml", "Bem-vindo", event); }
+    @FXML void perfilAluno (ActionEvent event) { System.out.println("Já está no Perfil."); }
+    @FXML void secaoGeral(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/aluno/SecaoAluno.fxml", "Seção", event); }
+    @FXML void tgGeral(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/aluno/TGAluno.fxml", "TG Aluno", event); }
+    @FXML void telaInicial(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/aluno/AtualizacoesAluno.fxml", "Tela Inicial", event); }
     @FXML void devolutivasGeral(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/aluno/DevolutivasAluno.fxml", "TGRS - Devolutivas", event); }
 }

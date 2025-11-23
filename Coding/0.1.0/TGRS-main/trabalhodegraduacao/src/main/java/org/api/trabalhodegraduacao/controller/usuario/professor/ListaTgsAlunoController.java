@@ -10,6 +10,7 @@ import org.api.trabalhodegraduacao.dao.SecaoDAO;
 import org.api.trabalhodegraduacao.entities.Usuario;
 import org.api.trabalhodegraduacao.utils.AlunoSelecionado;
 import org.api.trabalhodegraduacao.utils.SessaoTG;
+import org.api.trabalhodegraduacao.utils.SessaoUsuario;
 
 import java.sql.SQLException;
 
@@ -17,7 +18,8 @@ public class ListaTgsAlunoController {
 
     @FXML private Label lblTitulo;
     @FXML private ProgressBar pbSecao1, pbSecao2, pbSecao3, pbSecao4, pbSecao5, pbSecao6;
-    @FXML private Button bt_Sair, bt_alunos_geral, bt_perfil_geral, bt_tela_inicial;
+
+    @FXML private Button btnAcao1, btnAcao2, btnAcao3, btnAcao4, btnAcao5, btnAcao6;
 
     private SecaoDAO secaoDAO;
     private Usuario alunoSelecionado;
@@ -29,13 +31,32 @@ public class ListaTgsAlunoController {
 
         if (alunoSelecionado != null) {
             lblTitulo.setText("TGs DE " + alunoSelecionado.getNomeCompleto().toUpperCase());
+
             carregarProgresso();
-        } else {
-            lblTitulo.setText("ERRO: NENHUM ALUNO SELECIONADO");
+
+            configurarBotoes();
         }
     }
 
+    private void configurarBotoes() {
+        SessaoUsuario sessao = SessaoUsuario.getInstance();
+        String emailLogado = sessao.getEmail();
+        String emailOrientadorReal = alunoSelecionado.getEmailOrientador();
+
+        boolean isApenasVisualizacao = emailOrientadorReal != null && !emailOrientadorReal.equalsIgnoreCase(emailLogado);
+
+        String texto = isApenasVisualizacao ? "Visualizar" : "Corrigir";
+
+        if (btnAcao1 != null) btnAcao1.setText(texto);
+        if (btnAcao2 != null) btnAcao2.setText(texto);
+        if (btnAcao3 != null) btnAcao3.setText(texto);
+        if (btnAcao4 != null) btnAcao4.setText(texto);
+        if (btnAcao5 != null) btnAcao5.setText(texto);
+        if (btnAcao6 != null) btnAcao6.setText(texto);
+    }
+
     private void carregarProgresso() {
+        if (alunoSelecionado == null) return;
         try {
             String emailAluno = alunoSelecionado.getEmailCadastrado();
             String emailOrientador = alunoSelecionado.getEmailOrientador();
@@ -60,10 +81,9 @@ public class ListaTgsAlunoController {
 
     private void abrirCorrecao(int idTg, ActionEvent event) {
         SessaoTG.getInstance().setIdTgAtual(idTg);
-
         Application.carregarNovaCena(
                 "/org/api/trabalhodegraduacao/view/usuario/professor/CorrecaoSecao.fxml",
-                "Corrigir Seção",
+                "Detalhes da Seção",
                 event
         );
     }
@@ -71,5 +91,4 @@ public class ListaTgsAlunoController {
     @FXML void sair(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/BemVindo.fxml", "Bem-vindo", event); }
     @FXML void perfilProfessor(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/professor/PerfilProfessor.fxml", "Perfil", event); }
     @FXML void alunos(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/professor/Alunos.fxml", "Alunos", event); }
-    @FXML void telaInicial(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/professor/AtualizacoesProfessor.fxml", "Tela Inicial", event); }
-}
+    @FXML void telaInicial(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/professor/AtualizacoesProfessor.fxml", "Tela Inicial", event); }}

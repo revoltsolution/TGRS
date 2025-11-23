@@ -22,11 +22,6 @@ import java.util.List;
 
 public class AlunosController {
 
-    @FXML private Button bt_Sair;
-    @FXML private Button bt_alunos_geral;
-    @FXML private Button bt_perfil_geral;
-    @FXML private Button bt_tela_inicial;
-
     @FXML private TableView<Usuario> tabelaAlunos;
     @FXML private TableColumn<Usuario, String> colNome;
     @FXML private TableColumn<Usuario, Double> colProgresso;
@@ -96,7 +91,7 @@ public class AlunosController {
 
         try {
             String emailProfessor = sessao.getEmail();
-            List<Usuario> alunos = usuarioDAO.buscarAlunosPorOrientador(emailProfessor);
+            List<Usuario> alunos = usuarioDAO.buscarAlunosParaDashboard(emailProfessor);
             ObservableList<Usuario> listaObservavel = FXCollections.observableArrayList(alunos);
             tabelaAlunos.setItems(listaObservavel);
 

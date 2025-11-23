@@ -120,7 +120,7 @@
                                 <StackPane alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="4">
                                     <children>
                                         <Label fx:id="lblCurso" text="..." styleClass="profile-data-label" />
-                                        <TextField fx:id="txtCurso" styleClass="profile-text-input" visible="false" managed="false" />
+                                        <javafx.scene.control.ComboBox fx:id="cbCurso" styleClass="profile-text-input" visible="false" managed="false" maxWidth="Infinity" promptText="Selecione o curso" />
                                     </children>
                                 </StackPane>
 

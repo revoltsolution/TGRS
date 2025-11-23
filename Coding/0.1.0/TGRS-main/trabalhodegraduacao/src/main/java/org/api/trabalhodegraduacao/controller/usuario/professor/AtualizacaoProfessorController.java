@@ -23,7 +23,7 @@ import java.util.List;
 
 public class AtualizacaoProfessorController {
 
-    @FXML private Button bt_Sair, bt_alunos_geral, bt_devolutivas_geral, bt_perfil_geral, bt_tela_inicial;
+    @FXML private Button bt_Gestao;
     @FXML private ListView<Notificacao> listaNotificacoes;
     @FXML private ImageView imgVwFotoPerfil;
 
@@ -35,7 +35,6 @@ public class AtualizacaoProfessorController {
         this.notificacaoDAO = new NotificacaoDAO();
         this.usuarioDAO = new UsuarioDAO();
 
-        System.out.println("--- INICIANDO DASHBOARD PROFESSOR ---");
 
         Usuario professorLogado = carregarDadosProfessor();
 
@@ -46,6 +45,24 @@ public class AtualizacaoProfessorController {
         }
 
         carregarAtualizacoes(professorLogado);
+        verificarPermissaoAdmin();
+    }
+
+    private void verificarPermissaoAdmin() {
+        SessaoUsuario sessao = SessaoUsuario.getInstance();
+        UsuarioDAO dao = new UsuarioDAO();
+        var funcao = dao.buscarFuncaoProfessor(sessao.getEmail());
+
+        if (funcao.gerenciador) {
+            bt_Gestao.setVisible(true);
+            bt_Gestao.setManaged(true);
+            bt_Gestao.setStyle("-fx-text-fill: #a7d1ed;");
+        }
+    }
+
+    @FXML
+    void acessarGestao(ActionEvent event) {
+        Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/professor/GestaoCursos.fxml", "Gestão Administrativa", event);
     }
 
     private Usuario carregarDadosProfessor() {
@@ -80,10 +97,6 @@ public class AtualizacaoProfessorController {
 
         if (imagem == null) imagem = new Image(getClass().getResourceAsStream("/org/api/trabalhodegraduacao/images/imgFotoPerfil.png"));
 
-        configurarImagemRedonda(imageView, imagem);
-    }
-
-    private void configuringImagemRedonda(ImageView imageView, Image imagem) {
         configurarImagemRedonda(imageView, imagem);
     }
 
@@ -139,8 +152,5 @@ public class AtualizacaoProfessorController {
     @FXML void sair(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/BemVindo.fxml", "Bem-vindo", event); }
     @FXML void perfilProfessor(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/professor/PerfilProfessor.fxml", "Perfil", event); }
     @FXML void alunos(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/professor/Alunos.fxml", "Alunos", event); }
-    @FXML void devolutivas(ActionEvent event) {
-        Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/professor/Historico.fxml", "Devolutivas", event);
-    }
     @FXML void telaInicial(ActionEvent event) { System.out.println("Já está na tela inicial."); }
 }
