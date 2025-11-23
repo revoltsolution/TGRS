@@ -51,6 +51,7 @@
 
                 <Button fx:id="bt_perfil_geral" onAction="#perfilProfessor" text="PERFIL" styleClass="sidebar-button" maxWidth="Infinity"/>
                 <Button fx:id="bt_alunos_geral" onAction="#alunos" text="ALUNOS" styleClass="sidebar-button" maxWidth="Infinity"/>
+                <Button fx:id="bt_Gestao" onAction="#acessarGestao" text="GESTÃO TG" styleClass="sidebar-button" maxWidth="Infinity" visible="false" managed="false"/>
                 <Region VBox.vgrow="ALWAYS" />
                 <Button fx:id="bt_tela_inicial" onAction="#telaInicial" text="TELA INICIAL" styleClass="sidebar-button-secondary" maxWidth="Infinity"/>
                 <Button fx:id="bt_Sair" onAction="#sair" text="SAIR" styleClass="sidebar-button-secondary" maxWidth="Infinity"/>
@@ -79,7 +80,18 @@
                         <Insets top="10.0" bottom="30.0" />
                     </VBox.margin>
                 </Region>
+                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                    <children>
+                        <Button fx:id="btVoltar" onAction="#onVoltar" text="Voltar" styleClass="profile-button-secondary"/>
 
+                        <ImageView fitHeight="30.0" fitWidth="30.0" preserveRatio="true">
+                            <image>
+                                <Image url="@../../../images/aprovar.png" />
+                            </image>
+                        </ImageView>
+                        <Label fx:id="lblTituloAluno" text="CORREÇÃO DA SEÇÃO" styleClass="main-header-label" />
+                    </children>
+                </HBox>
                 <HBox spacing="40.0" VBox.vgrow="ALWAYS">
                     <ScrollPane fitToWidth="true" HBox.hgrow="ALWAYS" styleClass="scroll-pane-custom">
                         <content>

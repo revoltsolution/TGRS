@@ -39,6 +39,7 @@ public class SecaoAlunoController {
     @FXML private TextArea txtFeedbackProfessor;
     @FXML private VBox painelSucesso;
     @FXML private Button btEnviar;
+    @FXML private Button btVoltar;
 
     private SecaoDAO secaoDAO;
     private UsuarioDAO usuarioDAO;
@@ -138,12 +139,62 @@ public class SecaoAlunoController {
         }
     }
 
+    private void carregarModoHistorico(SessaoVisualizacao sessaoVis) {
+        this.secaoAtual = sessaoVis.getSecaoHistorica();
+        this.correcaoAtual = sessaoVis.getCorrecaoHistorica();
+
+        preencherCampos(this.secaoAtual);
+
+        String relatorio = gerarRelatorioDetalhado(this.correcaoAtual, this.secaoAtual);
+        txtFeedbackProfessor.setText(relatorio);
+
+        bloquearTodosOsCampos();
+
+        if (btEnviar != null) btEnviar.setVisible(false);
+
+        sessaoVis.limpar();
+    }
+
+    private String gerarRelatorioDetalhado(Correcao c, Secao s) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("==================================================\n");
+        sb.append("📅 DEVOLUTIVA DE: ").append(c.getDataCorrecoes()).append("\n");
+        sb.append("📝 Status Geral: ").append(c.getStatus()).append("\n");
+        sb.append("💬 Mensagem do Orientador: \"").append(c.getConteudo()).append("\"\n");
+
+        if (s != null) {
+            sb.append("\n--- 📋 STATUS DA APROVAÇÃO NESTA VERSÃO ---\n");
+            adicionarDetalheCampo(sb, "Identificação", s.getIdentificacaoProjeto(), s.isIdentificacaoOk());
+            adicionarDetalheCampo(sb, "Empresa", s.getEmpresaParceira(), s.isEmpresaOk());
+            adicionarDetalheCampo(sb, "Problema", s.getProblema(), s.isProblemaOk());
+            adicionarDetalheCampo(sb, "Solução", s.getSolucao(), s.isSolucaoOk());
+            adicionarDetalheCampo(sb, "Link Repo", s.getLinkRepositorio(), s.isLinkOk());
+            adicionarDetalheCampo(sb, "Tecnologias", s.getTecnologiasUtilizadas(), s.isTecnologiasOk());
+            adicionarDetalheCampo(sb, "Contribuições", s.getContribuicoesPessoais(), s.isContribuicoesOk());
+            adicionarDetalheCampo(sb, "Hard Skills", s.getDescricaoHard(), s.isHardskillsOk());
+            adicionarDetalheCampo(sb, "Soft Skills", s.getDescricaoSoft(), s.isSoftskillsOk());
+            adicionarDetalheCampo(sb, "Hist. Profissional", s.getHistoricoProfissional(), s.isHistProfOk());
+            adicionarDetalheCampo(sb, "Hist. Acadêmico", s.getHistoricoAcademico(), s.isHistAcadOk());
+            adicionarDetalheCampo(sb, "Motivação", s.getMotivacao(), s.isMotivacaoOk());
+        }
+        return sb.toString();
+    }
+
+    private void adicionarDetalheCampo(StringBuilder sb, String nomeCampo, String conteudo, boolean aprovado) {
+        String statusIcon = aprovado ? "[OK]" : "[PENDENTE]";
+        String textoResumido = (conteudo != null && !conteudo.trim().isEmpty())
+                ? conteudo.replace("\n", " ").trim()
+                : "(Vazio)";
+
+        if (textoResumido.length() > 80) textoResumido = textoResumido.substring(0, 80) + "...";
+
+        sb.append(statusIcon).append(" ").append(nomeCampo).append(": ").append(textoResumido).append("\n");
+    }
+
     private void carregarFotoPerfil() {
         if (imgVwFotoPerfil == null) return;
-
         Image imagem = null;
         String caminhoFoto = (usuarioLogado != null) ? usuarioLogado.getFotoPerfil() : null;
-
         if (caminhoFoto != null && !caminhoFoto.isEmpty()) {
             try {
                 if (caminhoFoto.startsWith("file:") || caminhoFoto.startsWith("http")) {
@@ -154,58 +205,28 @@ public class SecaoAlunoController {
                         imagem = new Image(arquivo.toURI().toString());
                     }
                 }
-            } catch (Exception e) {
-                System.err.println("Erro ao carregar foto do usuário (" + caminhoFoto + "): " + e.getMessage());
-            }
+            } catch (Exception e) {}
         }
-
         if (imagem == null || imagem.isError()) {
-            System.out.println("Usando imagem padrão para o perfil.");
             imagem = new Image(getClass().getResourceAsStream("/org/api/trabalhodegraduacao/images/imgFotoPerfil.png"));
         }
-
         configurarImagemRedonda(imgVwFotoPerfil, imagem);
     }
 
     private void configurarImagemRedonda(ImageView imageView, Image imagem) {
         if (imagem == null || imageView == null) return;
-
         imageView.setImage(imagem);
-
         double w = imagem.getWidth();
         double h = imagem.getHeight();
-
-        if (w <= 0 || h <= 0) return;
-
         double tamanhoQuadrado = Math.min(w, h);
-
         double x = (w - tamanhoQuadrado) / 2;
         double y = (h - tamanhoQuadrado) / 2;
-
         imageView.setViewport(new Rectangle2D(x, y, tamanhoQuadrado, tamanhoQuadrado));
         imageView.setPreserveRatio(true);
         imageView.setSmooth(true);
-
         double raio = imageView.getFitWidth() / 2;
         Circle clip = new Circle(raio, raio, raio);
         imageView.setClip(clip);
-    }
-
-    private void carregarModoHistorico(SessaoVisualizacao sessaoVis) {
-        this.secaoAtual = sessaoVis.getSecaoHistorica();
-        this.correcaoAtual = sessaoVis.getCorrecaoHistorica();
-
-        preencherCampos(this.secaoAtual);
-
-        String dataFormatada = this.correcaoAtual.getDataCorrecoes() != null ? this.correcaoAtual.getDataCorrecoes().toString() : "N/A";
-        txtFeedbackProfessor.setText("VISUALIZAÇÃO DE HISTÓRICO (" + dataFormatada + "):\n" + this.correcaoAtual.getConteudo());
-
-        aplicarStatusDaCorrecao(this.secaoAtual);
-
-        bloquearTodosOsCampos();
-        if (btEnviar != null) btEnviar.setVisible(false);
-
-        sessaoVis.limpar();
     }
 
     private void bloquearTodosOsCampos() {
@@ -228,7 +249,6 @@ public class SecaoAlunoController {
 
     private void aplicarStatusDaCorrecao(Secao secao) {
         boolean isNova = (secao == null);
-
         txtIdentificacaoProjeto.setDisable(isNova ? false : secao.isIdentificacaoOk());
         txtEmpresaParceira.setDisable(isNova ? false : secao.isEmpresaOk());
         txtProblema.setDisable(isNova ? false : secao.isProblemaOk());
@@ -252,11 +272,9 @@ public class SecaoAlunoController {
             exibirAlerta("Erro", "Usuário não logado.", Alert.AlertType.ERROR);
             return;
         }
-
         try {
             Secao novaSecao = new Secao();
             puxarDadosDosCampos(novaSecao);
-
             novaSecao.setData(LocalDateTime.now());
             novaSecao.setEmailAluno(usuarioLogado.getEmailCadastrado());
             novaSecao.setEmailOrientador(usuarioLogado.getEmailOrientador());
@@ -265,16 +283,11 @@ public class SecaoAlunoController {
             if (this.secaoAtual != null) {
                 copiarStatus(this.secaoAtual, novaSecao);
             }
-
             secaoDAO.inserirSecao(novaSecao);
-
             this.secaoAtual = novaSecao;
             this.correcaoAtual = null;
-
             exibirAlerta("Sucesso", "Seção enviada com sucesso!", Alert.AlertType.INFORMATION);
-
             initialize();
-
         } catch (NumberFormatException e) {
             exibirAlerta("Erro de Formato", "O campo 'Ano' deve ser um número válido (ex: 2024).", Alert.AlertType.WARNING);
         } catch (Exception e) {
@@ -387,6 +400,14 @@ public class SecaoAlunoController {
         alert.setHeaderText(null);
         alert.setContentText(msg);
         alert.showAndWait();
+    }
+    @FXML
+    void onVoltar(ActionEvent event) {
+        Application.carregarNovaCena(
+                "/org/api/trabalhodegraduacao/view/usuario/aluno/TGAluno.fxml",
+                "TG Aluno",
+                event
+        );
     }
 
     @FXML void sair(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/BemVindo.fxml", "Bem-vindo", event); }

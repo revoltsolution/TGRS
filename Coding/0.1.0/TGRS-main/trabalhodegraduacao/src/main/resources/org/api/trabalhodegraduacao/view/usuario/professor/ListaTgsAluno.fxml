@@ -50,6 +50,7 @@
                 </ImageView>
                 <Button fx:id="bt_perfil_geral" onAction="#perfilProfessor" text="PERFIL" styleClass="sidebar-button" maxWidth="Infinity"/>
                 <Button fx:id="bt_alunos_geral" onAction="#alunos" text="ALUNOS" styleClass="sidebar-button" maxWidth="Infinity"/>
+                <Button fx:id="bt_Gestao" onAction="#acessarGestao" text="GESTÃO TG" styleClass="sidebar-button" maxWidth="Infinity" visible="false" managed="false"/>
                 <Region VBox.vgrow="ALWAYS" />
                 <Button fx:id="bt_tela_inicial" onAction="#telaInicial" text="TELA INICIAL" styleClass="sidebar-button-secondary" maxWidth="Infinity"/>
                 <Button fx:id="bt_Sair" onAction="#sair" text="SAIR" styleClass="sidebar-button-secondary" maxWidth="Infinity"/>
@@ -63,6 +64,7 @@
                 <Insets top="20.0" right="40.0" bottom="40.0" left="40.0" />
             </padding>
             <children>
+                <Button fx:id="btVoltar" onAction="#onVoltar" text="Voltar" styleClass="profile-button-secondary"/>
                 <Label fx:id="lblTitulo" text="TGS DO ALUNO" styleClass="main-header-label" />
                 <Region styleClass="header-separator">
                     <VBox.margin>
@@ -91,27 +93,27 @@
 
                         <Label text="TG 1 - SEÇÃO 1" styleClass="content-subtitle-label" GridPane.rowIndex="1" />
                         <ProgressBar fx:id="pbSecao1" progress="0.0" maxWidth="Infinity" styleClass="progress-bar-custom" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <Button onAction="#corrigirSecao1" text="Corrigir" styleClass="profile-button-secondary" maxWidth="Infinity" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                        <Button onAction="#corrigirSecao1" text="Visualizar" styleClass="profile-button-secondary" maxWidth="Infinity" GridPane.columnIndex="2" GridPane.rowIndex="1" />
 
                         <Label text="TG 1 - SEÇÃO 2" styleClass="content-subtitle-label" GridPane.rowIndex="2" />
                         <ProgressBar fx:id="pbSecao2" progress="0.0" maxWidth="Infinity" styleClass="progress-bar-custom" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <Button onAction="#corrigirSecao2" text="Corrigir" styleClass="profile-button-secondary" maxWidth="Infinity" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                        <Button onAction="#corrigirSecao2" text="Visualizar" styleClass="profile-button-secondary" maxWidth="Infinity" GridPane.columnIndex="2" GridPane.rowIndex="2" />
 
                         <Label text="TG 2 - SEÇÃO 1" styleClass="content-subtitle-label" GridPane.rowIndex="3" />
                         <ProgressBar fx:id="pbSecao3" progress="0.0" maxWidth="Infinity" styleClass="progress-bar-custom" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                        <Button onAction="#corrigirSecao3" text="Corrigir" styleClass="profile-button-secondary" maxWidth="Infinity" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                        <Button onAction="#corrigirSecao3" text="Visualizar" styleClass="profile-button-secondary" maxWidth="Infinity" GridPane.columnIndex="2" GridPane.rowIndex="3" />
 
                         <Label text="TG 2 - SEÇÃO 2" styleClass="content-subtitle-label" GridPane.rowIndex="4" />
                         <ProgressBar fx:id="pbSecao4" progress="0.0" maxWidth="Infinity" styleClass="progress-bar-custom" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                        <Button onAction="#corrigirSecao4" text="Corrigir" styleClass="profile-button-secondary" maxWidth="Infinity" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                        <Button onAction="#corrigirSecao4" text="Visualizar" styleClass="profile-button-secondary" maxWidth="Infinity" GridPane.columnIndex="2" GridPane.rowIndex="4" />
 
                         <Label text="TG 2 - SEÇÃO 3" styleClass="content-subtitle-label" GridPane.rowIndex="5" />
                         <ProgressBar fx:id="pbSecao5" progress="0.0" maxWidth="Infinity" styleClass="progress-bar-custom" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                        <Button onAction="#corrigirSecao5" text="Corrigir" styleClass="profile-button-secondary" maxWidth="Infinity" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                        <Button onAction="#corrigirSecao5" text="Visualizar" styleClass="profile-button-secondary" maxWidth="Infinity" GridPane.columnIndex="2" GridPane.rowIndex="5" />
 
                         <Label text="TG 2 - SEÇÃO 4" styleClass="content-subtitle-label" GridPane.rowIndex="6" />
                         <ProgressBar fx:id="pbSecao6" progress="0.0" maxWidth="Infinity" styleClass="progress-bar-custom" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                        <Button onAction="#corrigirSecao6" text="Corrigir" styleClass="profile-button-secondary" maxWidth="Infinity" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+                        <Button onAction="#corrigirSecao6" text="Visualizar" styleClass="profile-button-secondary" maxWidth="Infinity" GridPane.columnIndex="2" GridPane.rowIndex="6" />
 
                     </children>
                     <VBox.margin>

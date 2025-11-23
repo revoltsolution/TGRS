@@ -261,6 +261,7 @@ public class GestaoCursosController {
         }
 
         AlunoSelecionado.getInstance().setAluno(alunoSelecionado);
+        org.api.trabalhodegraduacao.utils.SessaoTG.getInstance().setModoApenasLeitura(true);
 
         Application.carregarNovaCena(
                 "/org/api/trabalhodegraduacao/view/usuario/professor/ListaTgsAluno.fxml",

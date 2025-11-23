@@ -3,6 +3,7 @@ package org.api.trabalhodegraduacao.utils;
 public class SessaoTG {
     private static SessaoTG instance;
     private int idTgAtual;
+    private boolean modoApenasLeitura = false;
 
     private SessaoTG() {}
 
@@ -19,5 +20,13 @@ public class SessaoTG {
 
     public int getIdTgAtual() {
         return idTgAtual;
+    }
+
+    public boolean isModoApenasLeitura() {
+        return modoApenasLeitura;
+    }
+
+    public void setModoApenasLeitura(boolean modoApenasLeitura) {
+        this.modoApenasLeitura = modoApenasLeitura;
     }
 }

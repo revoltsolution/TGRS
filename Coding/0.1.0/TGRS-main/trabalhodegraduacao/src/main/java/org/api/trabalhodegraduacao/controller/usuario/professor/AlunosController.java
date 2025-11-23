@@ -25,9 +25,9 @@ public class AlunosController {
     @FXML private TableView<Usuario> tabelaAlunos;
     @FXML private TableColumn<Usuario, String> colNome;
     @FXML private TableColumn<Usuario, Double> colProgresso;
-
     @FXML private TableColumn<Usuario, String> colTG;
     @FXML private TableColumn<Usuario, String> colSecao;
+    @FXML private Button bt_Gestao;
 
     private UsuarioDAO usuarioDAO;
 
@@ -61,7 +61,7 @@ public class AlunosController {
         });
 
         carregarAlunosDaTabela();
-
+        verificarPermissaoAdmin();
         tabelaAlunos.setOnMouseClicked(this::handleRowClick);
     }
 
@@ -71,6 +71,7 @@ public class AlunosController {
 
             if (alunoSelecionado != null) {
                 AlunoSelecionado.getInstance().setAluno(alunoSelecionado);
+                org.api.trabalhodegraduacao.utils.SessaoTG.getInstance().setModoApenasLeitura(false);
 
                 System.out.println("Abrindo perfil do aluno: " + alunoSelecionado.getNomeCompleto());
                 Application.carregarNovaCena(
@@ -100,6 +101,27 @@ public class AlunosController {
             e.printStackTrace();
         }
     }
+    private void verificarPermissaoAdmin() {
+        SessaoUsuario sessao = SessaoUsuario.getInstance();
+        if (sessao.isLogado()) {
+            UsuarioDAO dao = new UsuarioDAO();
+            var funcao = dao.buscarFuncaoProfessor(sessao.getEmail());
+
+            if (funcao.gerenciador) {
+                if (bt_Gestao != null) {
+                    bt_Gestao.setVisible(true);
+                    bt_Gestao.setManaged(true);
+                    bt_Gestao.setStyle("-fx-text-fill: #a7d1ed;"); // Opcional: cor de destaque
+                }
+            }
+        }
+    }
+
+    @FXML
+    void acessarGestao(ActionEvent event) {
+        Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/professor/GestaoCursos.fxml", "Gestão Administrativa", event);
+    }
+
 
     @FXML void alunos(ActionEvent event) { System.out.println("Já está na tela de Alunos."); }
     @FXML void perfilProfessor(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/professor/PerfilProfessor.fxml", "Perfil", event); }

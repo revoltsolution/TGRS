@@ -11,6 +11,7 @@ import org.api.trabalhodegraduacao.entities.Usuario;
 import org.api.trabalhodegraduacao.utils.AlunoSelecionado;
 import org.api.trabalhodegraduacao.utils.SessaoTG;
 import org.api.trabalhodegraduacao.utils.SessaoUsuario;
+import org.api.trabalhodegraduacao.dao.UsuarioDAO;
 
 import java.sql.SQLException;
 
@@ -20,6 +21,8 @@ public class ListaTgsAlunoController {
     @FXML private ProgressBar pbSecao1, pbSecao2, pbSecao3, pbSecao4, pbSecao5, pbSecao6;
 
     @FXML private Button btnAcao1, btnAcao2, btnAcao3, btnAcao4, btnAcao5, btnAcao6;
+    @FXML private Button bt_Gestao;
+    @FXML private Button btVoltar;
 
     private SecaoDAO secaoDAO;
     private Usuario alunoSelecionado;
@@ -33,8 +36,8 @@ public class ListaTgsAlunoController {
             lblTitulo.setText("TGs DE " + alunoSelecionado.getNomeCompleto().toUpperCase());
 
             carregarProgresso();
-
             configurarBotoes();
+            verificarPermissaoAdmin();
         }
     }
 
@@ -84,6 +87,34 @@ public class ListaTgsAlunoController {
         Application.carregarNovaCena(
                 "/org/api/trabalhodegraduacao/view/usuario/professor/CorrecaoSecao.fxml",
                 "Detalhes da Seção",
+                event
+        );
+    }
+    private void verificarPermissaoAdmin() {
+        SessaoUsuario sessao = SessaoUsuario.getInstance();
+        if (sessao.isLogado()) {
+            UsuarioDAO dao = new UsuarioDAO();
+            var funcao = dao.buscarFuncaoProfessor(sessao.getEmail());
+
+            if (funcao.gerenciador) {
+                if (bt_Gestao != null) {
+                    bt_Gestao.setVisible(true);
+                    bt_Gestao.setManaged(true);
+                    bt_Gestao.setStyle("-fx-text-fill: #a7d1ed;"); // Opcional: cor de destaque
+                }
+            }
+        }
+    }
+
+    @FXML
+    void acessarGestao(ActionEvent event) {
+        Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/professor/GestaoCursos.fxml", "Gestão Administrativa", event);
+    }
+    @FXML
+    void onVoltar(ActionEvent event) {
+        Application.carregarNovaCena(
+                "/org/api/trabalhodegraduacao/view/usuario/professor/InteracaoProfessorAluno.fxml",
+                "Perfil do Aluno",
                 event
         );
     }

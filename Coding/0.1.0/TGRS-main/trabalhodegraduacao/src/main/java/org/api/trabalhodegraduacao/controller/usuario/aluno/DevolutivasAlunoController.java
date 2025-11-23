@@ -76,6 +76,7 @@ public class DevolutivasAlunoController {
             }
         });
     }
+
     private void carregarFotoPerfil() {
         if (imgVwFotoPerfil == null) return;
 
@@ -129,6 +130,7 @@ public class DevolutivasAlunoController {
         colunaData.setCellValueFactory(new PropertyValueFactory<>("dataCorrecoes"));
         colunaTitulo.setCellValueFactory(new PropertyValueFactory<>("tituloSecao"));
         colunaDevolutivas.setCellValueFactory(new PropertyValueFactory<>("conteudo"));
+
         colunaDevolutivas.setCellFactory(tc -> new TableCell<>() {
             private final TextArea textArea = new TextArea();
             {
@@ -179,12 +181,10 @@ public class DevolutivasAlunoController {
                 SessaoVisualizacao.getInstance().setDados(secaoAntiga, correcaoSelecionada);
                 System.out.println("Abrindo histórico: " + correcaoSelecionada.getTituloSecao());
 
-                ActionEvent eventoFalso = new ActionEvent(devolutivasTableView, null);
-
                 Application.carregarNovaCena(
                         "/org/api/trabalhodegraduacao/view/usuario/aluno/SecaoAluno.fxml",
                         "Histórico: " + correcaoSelecionada.getTituloSecao(),
-                        eventoFalso
+                        new ActionEvent(devolutivasTableView, null)
                 );
             } else {
                 System.err.println("Erro: A versão histórica da seção não foi encontrada no banco.");
@@ -195,10 +195,38 @@ public class DevolutivasAlunoController {
         }
     }
 
-    @FXML void sair(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/BemVindo.fxml", "Bem-vindo", event); }
-    @FXML void perfilAluno (ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/aluno/PerfilAluno.fxml", "Perfil Aluno", event); }
-    @FXML void secaoGeral(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/aluno/SecaoAluno.fxml", "Seção", event); }
-    @FXML void tgGeral(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/aluno/TGAluno.fxml", "TG Aluno", event); }
-    @FXML void telaInicial(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/aluno/AtualizacoesAluno.fxml", "Tela Inicial", event); }
-    @FXML void devolutivasGeral(ActionEvent event) { System.out.println("Já está na tela de Devolutivas."); }
+    @FXML
+    void sair(ActionEvent event) {
+        SessaoVisualizacao.getInstance().limpar();
+        Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/BemVindo.fxml", "Bem-vindo", event);
+    }
+
+    @FXML
+    void perfilAluno(ActionEvent event) {
+        SessaoVisualizacao.getInstance().limpar();
+        Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/aluno/PerfilAluno.fxml", "Perfil Aluno", event);
+    }
+
+    @FXML
+    void secaoGeral(ActionEvent event) {
+        SessaoVisualizacao.getInstance().limpar();
+        Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/aluno/SecaoAluno.fxml", "Seção", event);
+    }
+
+    @FXML
+    void tgGeral(ActionEvent event) {
+        SessaoVisualizacao.getInstance().limpar();
+        Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/aluno/TGAluno.fxml", "TG Aluno", event);
+    }
+
+    @FXML
+    void telaInicial(ActionEvent event) {
+        SessaoVisualizacao.getInstance().limpar();
+        Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/aluno/AtualizacoesAluno.fxml", "Tela Inicial", event);
+    }
+
+    @FXML
+    void devolutivasGeral(ActionEvent event) {
+        System.out.println("Já está na tela de Devolutivas.");
+    }
 }

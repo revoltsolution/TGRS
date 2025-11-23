@@ -115,6 +115,7 @@
                         <padding><Insets top="50" bottom="50"/></padding>
                         <Label text="Cadastrar em Massa via CSV" styleClass="content-subtitle-label"/>
                         <Label text="Selecione um arquivo .csv do seu computador para cadastrar alunos e professores." textFill="#cccccc"/>
+                        <Label text="Exemplo: Nome_Completo,Email,Senha,Funcao,Email_Orientador,Curso_Aluno,Orientador,Gerenciador,Curso_Coordenacao" textFill="#cccccc"/>
 
                         <Button text="Selecionar Arquivo CSV" onAction="#importarCSV" styleClass="action-panel-button"/>
 

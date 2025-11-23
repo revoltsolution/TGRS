@@ -49,6 +49,7 @@
 
                 <Button fx:id="bt_perfil_geral" onAction="#perfilProfessor" text="PERFIL" styleClass="sidebar-button" maxWidth="Infinity"/>
                 <Button fx:id="bt_alunos_geral" onAction="#alunos" text="ALUNOS" styleClass="sidebar-button" maxWidth="Infinity"/>
+                <Button fx:id="bt_Gestao" onAction="#acessarGestao" text="GESTÃO TG" styleClass="sidebar-button" maxWidth="Infinity" visible="false" managed="false"/>
                 <Region VBox.vgrow="ALWAYS" />
                 <Button fx:id="bt_tela_inicial" onAction="#telaInicial" text="TELA INICIAL" styleClass="sidebar-button-secondary" maxWidth="Infinity"/>
                 <Button fx:id="bt_Sair" onAction="#sair" text="SAIR" styleClass="sidebar-button-secondary" maxWidth="Infinity"/>
@@ -64,6 +65,7 @@
             <children>
                 <HBox spacing="10.0" alignment="BASELINE_LEFT">
                     <children>
+                        <Button fx:id="btVoltar" onAction="#onVoltar" text="Voltar" styleClass="profile-button-secondary"/>
                         <Label text="PERFIL -" styleClass="main-header-label" />
                         <Label fx:id="lblNomeAlunoHeader" text="NOME DO ALUNO" styleClass="main-header-label" />
                     </children>

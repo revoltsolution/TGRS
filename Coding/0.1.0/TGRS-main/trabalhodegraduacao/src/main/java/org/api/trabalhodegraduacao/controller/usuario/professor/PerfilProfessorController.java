@@ -29,6 +29,7 @@ public class PerfilProfessorController {
     @FXML private Button bt_EditarSalvar;
     @FXML private Button bt_TrocarFotoPerfil;
     @FXML private ImageView imgVwFotoPerfil;
+    @FXML private Button bt_Gestao;
 
     @FXML private Label lblNome;
     @FXML private Label lblEmail;
@@ -55,6 +56,7 @@ public class PerfilProfessorController {
             }
         }
         setViewMode(true);
+        verificarPermissaoAdmin();
     }
 
     private void preencherLabelsComDados() {
@@ -151,6 +153,26 @@ public class PerfilProfessorController {
         imageView.setPreserveRatio(true); imageView.setSmooth(true);
         double raio = imageView.getFitWidth() / 2;
         imageView.setClip(new Circle(raio, raio, raio));
+    }
+    private void verificarPermissaoAdmin() {
+        SessaoUsuario sessao = SessaoUsuario.getInstance();
+        if (sessao.isLogado()) {
+            UsuarioDAO dao = new UsuarioDAO();
+            var funcao = dao.buscarFuncaoProfessor(sessao.getEmail());
+
+            if (funcao.gerenciador) {
+                if (bt_Gestao != null) {
+                    bt_Gestao.setVisible(true);
+                    bt_Gestao.setManaged(true);
+                    bt_Gestao.setStyle("-fx-text-fill: #a7d1ed;"); // Opcional: cor de destaque
+                }
+            }
+        }
+    }
+
+    @FXML
+    void acessarGestao(ActionEvent event) {
+        Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/professor/GestaoCursos.fxml", "Gestão Administrativa", event);
     }
 
     @FXML void trocarFoto(ActionEvent event) { System.out.println("Botão Trocar Foto clicado."); }

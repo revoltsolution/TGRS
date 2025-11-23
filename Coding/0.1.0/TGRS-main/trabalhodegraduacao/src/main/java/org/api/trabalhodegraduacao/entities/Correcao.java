@@ -16,6 +16,8 @@ public class Correcao {
 
     private String tituloSecao;
 
+    private Secao dadosVersao;
+
     public Correcao() {
     }
 
@@ -42,4 +44,7 @@ public class Correcao {
 
     public String getTituloSecao() { return tituloSecao; }
     public void setTituloSecao(String tituloSecao) { this.tituloSecao = tituloSecao; }
+
+    public Secao getDadosVersao() { return dadosVersao; }
+    public void setDadosVersao(Secao dadosVersao) { this.dadosVersao = dadosVersao; }
 }

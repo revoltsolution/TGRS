@@ -6,6 +6,7 @@ import javafx.scene.control.*;
 import org.api.trabalhodegraduacao.Application;
 import org.api.trabalhodegraduacao.dao.CorrecaoDAO;
 import org.api.trabalhodegraduacao.dao.SecaoDAO;
+import org.api.trabalhodegraduacao.dao.UsuarioDAO;
 import org.api.trabalhodegraduacao.entities.Correcao;
 import org.api.trabalhodegraduacao.entities.Secao;
 import org.api.trabalhodegraduacao.entities.Usuario;
@@ -33,6 +34,9 @@ public class CorrecaoSecaoController {
     @FXML private TextArea txtDevolutiva;
     @FXML private Button btEnviarCorrecao;
 
+    @FXML private Button bt_Gestao;
+    @FXML private Button btVoltar;
+
     private SecaoDAO secaoDAO;
     private CorrecaoDAO correcaoDAO;
     private Usuario alunoSelecionado;
@@ -57,9 +61,7 @@ public class CorrecaoSecaoController {
 
                 if (this.secaoAtual != null) {
                     preencherCampos();
-
                     verificarModoVisualizacao();
-
                 } else {
                     txtDevolutiva.setText("O aluno ainda não enviou esta seção.");
                     bloquearTudo();
@@ -67,7 +69,13 @@ public class CorrecaoSecaoController {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+        } else {
+            if (lblTituloAluno != null) lblTituloAluno.setText("Nenhuma Seção Selecionada");
+            if (txtDevolutiva != null) txtDevolutiva.setText("Selecione uma seção específica na lista de TGs.");
+            bloquearTudo();
         }
+
+        verificarPermissaoAdmin();
     }
 
     private void verificarModoVisualizacao() throws SQLException {
@@ -75,14 +83,25 @@ public class CorrecaoSecaoController {
         String emailLogado = sessao.getEmail();
         String emailOrientadorReal = alunoSelecionado.getEmailOrientador();
 
-        if (emailOrientadorReal != null && emailOrientadorReal.equalsIgnoreCase(emailLogado)) {
+        boolean modoGerencialAtivo = SessaoTG.getInstance().isModoApenasLeitura();
+
+        if (!modoGerencialAtivo && emailOrientadorReal != null && emailOrientadorReal.equalsIgnoreCase(emailLogado)) {
 
             Correcao ultima = correcaoDAO.buscarCorrecaoMaisRecente(secaoAtual.getData(), alunoSelecionado.getEmailCadastrado(), emailOrientadorReal);
-            if (ultima != null) txtDevolutiva.setText(ultima.getConteudo());
+
+            if (ultima != null) {
+                txtDevolutiva.setText(ultima.getConteudo());
+                bloquearTudo();
+                lblTituloAluno.setText(lblTituloAluno.getText() + " (Aguardando nova versão do Aluno)");
+
+                List<Correcao> historico = correcaoDAO.buscarHistoricoPorSecao(secaoAtual.getData(), alunoSelecionado.getEmailCadastrado());
+                montarTextoHistorico(historico);
+            }
 
         } else {
             bloquearTudo();
-            lblTituloAluno.setText(lblTituloAluno.getText() + " (Somente Leitura)");
+            String motivo = modoGerencialAtivo ? " (Modo Gestor)" : " (Somente Leitura)";
+            lblTituloAluno.setText(lblTituloAluno.getText() + motivo);
 
             List<Correcao> historico = correcaoDAO.buscarHistoricoPorSecao(secaoAtual.getData(), alunoSelecionado.getEmailCadastrado());
             montarTextoHistorico(historico);
@@ -92,35 +111,71 @@ public class CorrecaoSecaoController {
     private void montarTextoHistorico(List<Correcao> historico) {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("=== 📂 ENTREGA DO ALUNO ===\n");
-        sb.append("Data Envio: ").append(secaoAtual.getData().toLocalDate()).append("\n");
-        sb.append("(Conteúdo preenchido nos campos acima)\n");
-        sb.append("--------------------------------------------------\n\n");
-
         if (historico.isEmpty()) {
-            sb.append("⏳ Nenhuma correção realizada pelo orientador ainda.");
+            sb.append("⏳ Nenhuma correção histórica encontrada.");
         } else {
             for (Correcao c : historico) {
-                sb.append("=== 🎓 FEEDBACK DO ORIENTADOR ===\n");
-                sb.append("Data: ").append(c.getDataCorrecoes()).append("\n");
-                sb.append("Status: ").append(c.getStatus()).append("\n");
-                sb.append("Mensagem: ").append(c.getConteudo()).append("\n");
-                sb.append("--------------------------------------------------\n\n");
+                sb.append("==================================================\n");
+                sb.append("📅 CORREÇÃO DE: ").append(c.getDataCorrecoes()).append("\n");
+                sb.append("📝 Status Geral: ").append(c.getStatus()).append("\n");
+                sb.append("💬 Feedback Orientador: \"").append(c.getConteudo()).append("\"\n");
+
+                Secao v = c.getDadosVersao();
+                if (v != null) {
+                    sb.append("\n--- DETALHE DOS CAMPOS (O que o aluno enviou) ---\n");
+
+                    adicionarDetalheCampo(sb, "Identificação", v.getIdentificacaoProjeto(), v.isIdentificacaoOk());
+                    adicionarDetalheCampo(sb, "Empresa", v.getEmpresaParceira(), v.isEmpresaOk());
+                    adicionarDetalheCampo(sb, "Problema", v.getProblema(), v.isProblemaOk());
+                    adicionarDetalheCampo(sb, "Solução", v.getSolucao(), v.isSolucaoOk());
+                    adicionarDetalheCampo(sb, "Link Repo", v.getLinkRepositorio(), v.isLinkOk());
+                    adicionarDetalheCampo(sb, "Tecnologias", v.getTecnologiasUtilizadas(), v.isTecnologiasOk());
+                    adicionarDetalheCampo(sb, "Contribuições", v.getContribuicoesPessoais(), v.isContribuicoesOk());
+                    adicionarDetalheCampo(sb, "Hard Skills", v.getDescricaoHard(), v.isHardskillsOk());
+                    adicionarDetalheCampo(sb, "Soft Skills", v.getDescricaoSoft(), v.isSoftskillsOk());
+                    adicionarDetalheCampo(sb, "Hist. Profissional", v.getHistoricoProfissional(), v.isHistProfOk());
+                    adicionarDetalheCampo(sb, "Hist. Acadêmico", v.getHistoricoAcademico(), v.isHistAcadOk());
+                    adicionarDetalheCampo(sb, "Motivação", v.getMotivacao(), v.isMotivacaoOk());
+                }
+                sb.append("\n");
             }
         }
         txtDevolutiva.setText(sb.toString());
     }
 
-    private void bloquearTudo() {
-        cbIdentificacao.setDisable(true); cbEmpresa.setDisable(true); cbProblema.setDisable(true);
-        cbSolucao.setDisable(true); cbLink.setDisable(true); cbTecnologias.setDisable(true);
-        cbContribuicoes.setDisable(true); cbHardSkills.setDisable(true); cbSoftSkills.setDisable(true);
-        cbHistProf.setDisable(true); cbHistAcad.setDisable(true); cbMotivacao.setDisable(true);
-        cbAno.setDisable(true); cbPeriodo.setDisable(true); cbSemestre.setDisable(true);
+    private void adicionarDetalheCampo(StringBuilder sb, String nomeCampo, String conteudo, boolean aprovado) {
+        String statusIcon = aprovado ? "[OK]" : "[PENDENTE]";
+        String textoResumido = (conteudo != null && !conteudo.trim().isEmpty())
+                ? conteudo.replace("\n", " ").trim()
+                : "(Vazio)";
 
-        btEnviarCorrecao.setDisable(true);
-        btEnviarCorrecao.setVisible(false);
-        txtDevolutiva.setEditable(false);
+        if (textoResumido.length() > 100) textoResumido = textoResumido.substring(0, 100) + "...";
+
+        sb.append(statusIcon).append(" ").append(nomeCampo).append(": ").append(textoResumido).append("\n");
+    }
+
+    private void bloquearTudo() {
+        if(cbIdentificacao != null) cbIdentificacao.setDisable(true);
+        if(cbEmpresa != null) cbEmpresa.setDisable(true);
+        if(cbProblema != null) cbProblema.setDisable(true);
+        if(cbSolucao != null) cbSolucao.setDisable(true);
+        if(cbLink != null) cbLink.setDisable(true);
+        if(cbTecnologias != null) cbTecnologias.setDisable(true);
+        if(cbContribuicoes != null) cbContribuicoes.setDisable(true);
+        if(cbHardSkills != null) cbHardSkills.setDisable(true);
+        if(cbSoftSkills != null) cbSoftSkills.setDisable(true);
+        if(cbHistProf != null) cbHistProf.setDisable(true);
+        if(cbHistAcad != null) cbHistAcad.setDisable(true);
+        if(cbMotivacao != null) cbMotivacao.setDisable(true);
+        if(cbAno != null) cbAno.setDisable(true);
+        if(cbPeriodo != null) cbPeriodo.setDisable(true);
+        if(cbSemestre != null) cbSemestre.setDisable(true);
+
+        if(btEnviarCorrecao != null) {
+            btEnviarCorrecao.setDisable(true);
+            btEnviarCorrecao.setVisible(false);
+        }
+        if(txtDevolutiva != null) txtDevolutiva.setEditable(false);
     }
 
     private void preencherCampos() {
@@ -159,8 +214,28 @@ public class CorrecaoSecaoController {
 
     @FXML
     void onEnviarCorrecao(ActionEvent event) {
+        if (secaoAtual == null) {
+            System.out.println("Erro: Tentativa de enviar correção sem seção carregada.");
+            return;
+        }
+
         try {
             secaoAtual.setIdentificacaoOk(cbIdentificacao.isSelected());
+            secaoAtual.setEmpresaOk(cbEmpresa.isSelected());
+            secaoAtual.setProblemaOk(cbProblema.isSelected());
+            secaoAtual.setSolucaoOk(cbSolucao.isSelected());
+            secaoAtual.setLinkOk(cbLink.isSelected());
+            secaoAtual.setTecnologiasOk(cbTecnologias.isSelected());
+            secaoAtual.setContribuicoesOk(cbContribuicoes.isSelected());
+            secaoAtual.setHardskillsOk(cbHardSkills.isSelected());
+            secaoAtual.setSoftskillsOk(cbSoftSkills.isSelected());
+            secaoAtual.setHistProfOk(cbHistProf.isSelected());
+            secaoAtual.setHistAcadOk(cbHistAcad.isSelected());
+            secaoAtual.setMotivacaoOk(cbMotivacao.isSelected());
+            secaoAtual.setAnoOk(cbAno.isSelected());
+            secaoAtual.setPeriodoOk(cbPeriodo.isSelected());
+            secaoAtual.setSemestreOk(cbSemestre.isSelected());
+
             secaoDAO.atualizarStatusSecao(secaoAtual);
 
             Correcao c = new Correcao();
@@ -176,6 +251,36 @@ public class CorrecaoSecaoController {
             Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/professor/ListaTgsAluno.fxml", "TGs", event);
         } catch (Exception e) { e.printStackTrace(); }
     }
+
+    private void verificarPermissaoAdmin() {
+        SessaoUsuario sessao = SessaoUsuario.getInstance();
+        if (sessao.isLogado()) {
+            UsuarioDAO dao = new UsuarioDAO();
+            var funcao = dao.buscarFuncaoProfessor(sessao.getEmail());
+
+            if (funcao.gerenciador) {
+                if (bt_Gestao != null) {
+                    bt_Gestao.setVisible(true);
+                    bt_Gestao.setManaged(true);
+                    bt_Gestao.setStyle("-fx-text-fill: #a7d1ed;");
+                }
+            }
+        }
+    }
+
+    @FXML
+    void acessarGestao(ActionEvent event) {
+        Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/professor/GestaoCursos.fxml", "Gestão Administrativa", event);
+    }
+    @FXML
+    void onVoltar(ActionEvent event) {
+        Application.carregarNovaCena(
+                "/org/api/trabalhodegraduacao/view/usuario/professor/ListaTgsAluno.fxml",
+                "TGs",
+                event
+        );
+    }
+
     @FXML void sair(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/BemVindo.fxml", "Bem-vindo", event); }
     @FXML void perfilProfessor(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/professor/PerfilProfessor.fxml", "Perfil", event); }
     @FXML void alunos(ActionEvent event) { Application.carregarNovaCena("/org/api/trabalhodegraduacao/view/usuario/professor/Alunos.fxml", "Alunos", event); }

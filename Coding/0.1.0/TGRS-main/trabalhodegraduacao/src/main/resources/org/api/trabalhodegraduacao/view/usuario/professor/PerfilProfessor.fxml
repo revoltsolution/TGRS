@@ -33,6 +33,7 @@
                 </ImageView>
                 <Button fx:id="bt_perfil_geral" maxWidth="Infinity" onAction="#perfilProfessor" styleClass="sidebar-button" text="PERFIL" />
                 <Button fx:id="bt_alunos_geral" maxWidth="Infinity" onAction="#alunos" styleClass="sidebar-button" text="ALUNOS" />
+                <Button fx:id="bt_Gestao" onAction="#acessarGestao" text="GESTÃO TG" styleClass="sidebar-button" maxWidth="Infinity" visible="false" managed="false"/>
                 <Region VBox.vgrow="ALWAYS" />
                 <Button fx:id="bt_tela_inicial" maxWidth="Infinity" onAction="#telaInicial" styleClass="sidebar-button-secondary" text="TELA INICIAL" />
                 <Button fx:id="bt_Sair" maxWidth="Infinity" onAction="#sair" styleClass="sidebar-button-secondary" text="SAIR" />
