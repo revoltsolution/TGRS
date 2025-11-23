@@ -15,7 +15,7 @@ A plataforma centraliza a comunicação e o acompanhamento dos TGs em uma plataf
 
 > Status do Projeto: Concluído  ✅
 >  
-> Manual de Usuário: [Manual TGRS](Documentos/Manual de Usuario.pdf). 📄
+> Manual de Usuário: [Manual TGRS](Documentos/Manual%20de%20Usuário.pdf). 📄
 > 
 > Pasta de Documentação: [Documentos](Documentos). 📚
 
@@ -45,6 +45,54 @@ A plataforma centraliza a comunicação e o acompanhamento dos TGs em uma plataf
 * Manual de Usuário
 * Documentação da API
 * Código completo
+
+##  📸 Demonstração das Funcionalidades
+
+<table align="center">
+  <tr>
+    <td align="center">
+      <strong>Login - Aluno</strong><br>
+      <img src="https://github.com/user-attachments/assets/59da6efd-0fb2-4c97-b232-f2d3082dddb1" width="280">
+    </td>
+    <td align="center">
+      <strong>Editar Perfil - Aluno</strong><br>
+      <img src="https://github.com/user-attachments/assets/65af1130-679a-40c5-9750-64d7bd3d703f" width="280">
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <strong>TG - Aluno</strong><br>
+      <img src="https://github.com/user-attachments/assets/2d787027-d8ab-48b6-9f92-58a783df1e70" width="280">
+    </td>
+    <td align="center">
+      <strong>Devolutivas</strong><br>
+      <img src="https://github.com/user-attachments/assets/c30bf087-1a9a-4c7c-9980-4e140e445ea5" width="280">
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <strong>Login - Professor</strong><br>
+      <img src="https://github.com/user-attachments/assets/badf95d4-1b62-49fe-ae83-9ba0dec6858e" width="280">
+    </td>
+    <td align="center">
+      <strong>Editar Perfil - Professor</strong><br>
+      <img src="https://github.com/user-attachments/assets/99834dd7-4a05-474f-9438-b5085edb0ba7" width="280">
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <strong>Devolutivas - Professor</strong><br>
+      <img src="https://github.com/user-attachments/assets/f5daf818-f668-42e0-a035-63daa3e89181" width="280">
+    </td>
+    <td align="center">
+      <strong>Correção</strong><br>
+      <img src="https://github.com/user-attachments/assets/1980be1b-03c3-4922-b6bc-fd6004238d6f" width="280">
+    </td>
+  </tr>
+</table>
+
+
+
 
 ## 📅 Cronograma
   | Evento | Data |
