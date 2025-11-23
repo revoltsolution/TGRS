@@ -26,7 +26,9 @@ import java.time.LocalDateTime;
 
 public class SecaoAlunoController {
     @FXML private ImageView imgVwFotoPerfil;
-    @FXML private Button bt_Sair, bt_devolutivas_geral, bt_perfil_geral, bt_secao_geral, bt_tela_inicial, bt_tg_geral;
+
+    @FXML private Button bt_Sair, btVoltar;
+    @FXML private Button bt_devolutivas_geral, bt_perfil_geral, bt_secao_geral, bt_tela_inicial, bt_tg_geral;
 
     @FXML private TextField txtIdentificacaoProjeto, txtEmpresaParceira, txtLinkRepositorio, txtAno;
     @FXML private TextArea txtProblema, txtSolucao, txtTecnologiasUtilizadas, txtContribuicoesPessoais, txtDescricaoHard, txtDescricaoSoft, txtHistoricoProfissional, txtHistoricoAcademico, txtMotivacao;
@@ -39,7 +41,6 @@ public class SecaoAlunoController {
     @FXML private TextArea txtFeedbackProfessor;
     @FXML private VBox painelSucesso;
     @FXML private Button btEnviar;
-    @FXML private Button btVoltar;
 
     private SecaoDAO secaoDAO;
     private UsuarioDAO usuarioDAO;
@@ -124,10 +125,17 @@ public class SecaoAlunoController {
                     this.secaoAtual = new Secao();
                     this.secaoAtual.setIdTG(idTgAlvo);
 
+                    this.secaoAtual.setPeriodo(Character.forDigit(idTgAlvo, 10));
+
                     txtFeedbackProfessor.setText("Iniciando TG " + idTgAlvo + ". Preencha e envie.");
+
+                    preencherCampos(this.secaoAtual);
+
                     aplicarStatusDaCorrecao(null);
                     if (btEnviar != null) btEnviar.setVisible(true);
                 }
+
+                configurarBloqueioPeriodos();
 
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -139,19 +147,41 @@ public class SecaoAlunoController {
         }
     }
 
+    private void configurarBloqueioPeriodos() {
+        if (usuarioLogado == null) return;
+
+        RadioButton[] rbs = {rbPeriodo1, rbPeriodo2, rbPeriodo3, rbPeriodo4, rbPeriodo5, rbPeriodo6};
+
+        for (int i = 0; i < 6; i++) {
+            int idTgVerificar = i + 1;
+            try {
+                Secao s = secaoDAO.buscarUltimaVersaoPorIdTg(
+                        usuarioLogado.getEmailCadastrado(),
+                        usuarioLogado.getEmailOrientador(),
+                        idTgVerificar
+                );
+
+                if (s != null) {
+                    boolean isSecaoAtual = (this.secaoAtual != null && this.secaoAtual.getIdTG() == idTgVerificar);
+
+                    if (!isSecaoAtual) {
+                        rbs[i].setDisable(true);
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     private void carregarModoHistorico(SessaoVisualizacao sessaoVis) {
         this.secaoAtual = sessaoVis.getSecaoHistorica();
         this.correcaoAtual = sessaoVis.getCorrecaoHistorica();
-
         preencherCampos(this.secaoAtual);
-
         String relatorio = gerarRelatorioDetalhado(this.correcaoAtual, this.secaoAtual);
         txtFeedbackProfessor.setText(relatorio);
-
         bloquearTodosOsCampos();
-
         if (btEnviar != null) btEnviar.setVisible(false);
-
         sessaoVis.limpar();
     }
 
@@ -182,12 +212,8 @@ public class SecaoAlunoController {
 
     private void adicionarDetalheCampo(StringBuilder sb, String nomeCampo, String conteudo, boolean aprovado) {
         String statusIcon = aprovado ? "[OK]" : "[PENDENTE]";
-        String textoResumido = (conteudo != null && !conteudo.trim().isEmpty())
-                ? conteudo.replace("\n", " ").trim()
-                : "(Vazio)";
-
+        String textoResumido = (conteudo != null && !conteudo.trim().isEmpty()) ? conteudo.replace("\n", " ").trim() : "(Vazio)";
         if (textoResumido.length() > 80) textoResumido = textoResumido.substring(0, 80) + "...";
-
         sb.append(statusIcon).append(" ").append(nomeCampo).append(": ").append(textoResumido).append("\n");
     }
 
@@ -275,10 +301,22 @@ public class SecaoAlunoController {
         try {
             Secao novaSecao = new Secao();
             puxarDadosDosCampos(novaSecao);
+
+            char periodoChar = novaSecao.getPeriodo();
+            if (Character.isDigit(periodoChar) && periodoChar != '0') {
+                int idCalculado = Character.getNumericValue(periodoChar);
+                if (idCalculado >= 1 && idCalculado <= 6) {
+                    novaSecao.setIdTG(idCalculado);
+                } else {
+                    novaSecao.setIdTG(this.secaoAtual != null && this.secaoAtual.getIdTG() != 0 ? this.secaoAtual.getIdTG() : 1);
+                }
+            } else {
+                novaSecao.setIdTG(this.secaoAtual != null && this.secaoAtual.getIdTG() != 0 ? this.secaoAtual.getIdTG() : 1);
+            }
+
             novaSecao.setData(LocalDateTime.now());
             novaSecao.setEmailAluno(usuarioLogado.getEmailCadastrado());
             novaSecao.setEmailOrientador(usuarioLogado.getEmailOrientador());
-            novaSecao.setIdTG(this.secaoAtual != null && this.secaoAtual.getIdTG() != 0 ? this.secaoAtual.getIdTG() : 1);
 
             if (this.secaoAtual != null) {
                 copiarStatus(this.secaoAtual, novaSecao);
@@ -287,7 +325,6 @@ public class SecaoAlunoController {
             this.secaoAtual = novaSecao;
             this.correcaoAtual = null;
             exibirAlerta("Sucesso", "Seção enviada com sucesso!", Alert.AlertType.INFORMATION);
-            initialize();
         } catch (NumberFormatException e) {
             exibirAlerta("Erro de Formato", "O campo 'Ano' deve ser um número válido (ex: 2024).", Alert.AlertType.WARNING);
         } catch (Exception e) {
@@ -401,6 +438,7 @@ public class SecaoAlunoController {
         alert.setContentText(msg);
         alert.showAndWait();
     }
+
     @FXML
     void onVoltar(ActionEvent event) {
         Application.carregarNovaCena(
