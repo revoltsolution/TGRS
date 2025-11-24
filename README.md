@@ -14,7 +14,8 @@ A API tem como objetivo facilitar o processo de confecção, envio e correção 
 A plataforma centraliza a comunicação e o acompanhamento dos TGs em uma plataforma única, garantindo feedback mais ágil, histórico de interações e organização das versões. Além disso, permite que os professores da disciplina acompanhem o progresso dos alunos e os portfólios já finalizados, eliminando a dependência de e-mails, Teams e documentos manuais.
 
 * **Status do Projeto:** Concluído ✅
-* **Burndown Chart:** [Gráfico de Burndown](https://drive.google.com/file/d/1mhR4Y7FNBoOLs2H36dUYPf3w6THQCai_/view) 📈
+* **Burndown #Sprint 2:** [Gráfico de Burndown](https://drive.google.com/file/d/1SLIBBnkqnKxb7g38cWIsXX70q8bMupWr/view) 📈
+* **Burndown #Sprint 3:** [Gráfico de Burndown](https://drive.google.com/file/d/1mhR4Y7FNBoOLs2H36dUYPf3w6THQCai_/view) 📈
 * **Manual de Usuário:** [Manual TGRS](https://drive.google.com/file/d/1PV1q5Q3TxkmRKFxVm_lKJG9dIB6Vxupp/view?usp=sharing) 📄
 * **Manual de Instalação:** [Manual de Instalação](https://drive.google.com/file/d/17HvTXCkpfC1gBphFwu-bElV_n0n7nrgF/view?usp=sharing) 🔧
 * **Vídeo das Funcionalidades:** [Vídeo de Funcionalidades](https://drive.google.com/file/d/1ZeoTEC9qTXQaJO3VXTkzCtOs79o4cWl9/view?usp=sharing) 🎥
