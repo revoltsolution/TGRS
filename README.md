@@ -15,7 +15,7 @@ A plataforma centraliza a comunicação e o acompanhamento dos TGs em uma plataf
 
 > Status do Projeto: Concluído  ✅
 >  
-> Manual de Usuário: [Manual TGRS](Documentos/Manual de Usuario.pdf). 📄
+> Manual de Usuário: [Manual TGRS](Documentos/Manual%20de%20Usuário.pdf). 📄
 > 
 > Pasta de Documentação: [Documentos](Documentos). 📚
 
@@ -24,13 +24,13 @@ A plataforma centraliza a comunicação e o acompanhamento dos TGs em uma plataf
 | US | Prioridade | Função | Story Points | Sprint | Requisito do Cliente | Status |
 | :---: | :--------: | :--------------------------------------------- | :-----------: | :----------: | :----: | :----: | 
 | **US01** | Alta | Como administrador, quero importar um arquivo CSV com as relações entre alunos e professores orientadores para agilizar o cadastro e evitar retrabalho manual. | 34 | 2 | RF01 RF02 RF03 | Concluído |
+| **US02** | Média | Como administrador, quero atualizar automaticamente as relações entre alunos e professores ao importar um novo CSV. | 13 | 3 | RF03 RF06 | Concluído |
 | **US03** | Alta | Como professor-orientador do TG, quero associar um aluno a um professor orientador para formalizar a orientação do portfólio, reduzindo atrasos e evitando gastos extras. | 21 | 2 | RF03 RF06 | Concluído |
 | **US04** | Alta | Como aluno, quero enviar uma seção do meu TG para o orientador para que ele possa revisar e dar feedback, economizando tempo e reduzindo custos com correções. | 34 | 3 | RF04 RF06 | Concluído |
-| **US05** | Alta | Como orientador, quero corrigir e registrar feedback em cada seção enviada pelo aluno para acompanhar sua evolução. | 21 | 3 | RF05 RF06 | Concluído |
-| **US02** | Média | Como administrador, quero atualizar automaticamente as relações entre alunos e professores ao importar um novo CSV, garantindo que o sistema reflita sempre a situação mais recente da turma. | 13 | 3 | RF03 RF06 | Concluído |
-| **US06** | Média | Como professor-orientador, quero visualizar o histórico de revisões de cada seção para acompanhar a evolução do trabalho, evitando desperdício de tempo e garantindo melhor eficácia. | 5 | 3 | RF07 RF08| Concluido |
+| **US05** | Alta | Como orientador, quero corrigir e registrar feedback em cada seção enviada pelo aluno para acompanhar sua evolução. | 21 | 3 | RF05 RF06 | Em andamento |
+| **US06** | Média | Como professor-orientador, quero visualizar o histórico de revisões de cada seção para acompanhar a evolução do trabalho, evitando desperdício de tempo e garantindo melhor eficácia. | 5 | 3 | RF07 RF08| Concluído |
 | **US07** | Baixa | Como professor de disciplina, quero visualizar o status de conclusão dos portfólios para identificar quais alunos já finalizaram todas as seções, reduzindo atrasos que podem gerar custos adicionais. | 13 | 3 | RF09 RF10 | Concluído |
-| **US08** | Baixa | Como aluno, quero gerar automaticamente o TG final em formato Markdown (MD) para entregar de acordo com o padrão exigido pela instituição, economizando tempo e custos com formatação manual. | 21 | 3 | RF11 RF12 | Em andamento |
+| **US08** | Baixa | Como aluno, quero gerar automaticamente o TG final em formato Markdown (MD) para entregar de acordo com o padrão exigido pela instituição, economizando tempo e custos com formatação manual. | 21 | 3 | RF11 RF12 | Concluído |
 
 ## ⚙️ DoR - Definition of Ready <a id="dor"></a>
 
@@ -45,6 +45,54 @@ A plataforma centraliza a comunicação e o acompanhamento dos TGs em uma plataf
 * Manual de Usuário
 * Documentação da API
 * Código completo
+
+##  📸 Demonstração das Funcionalidades
+
+<table align="center">
+  <tr>
+    <td align="center">
+      <strong>Login - Aluno</strong><br>
+      <img src="https://github.com/user-attachments/assets/59da6efd-0fb2-4c97-b232-f2d3082dddb1" width="280">
+    </td>
+    <td align="center">
+      <strong>Editar Perfil - Aluno</strong><br>
+      <img src="https://github.com/user-attachments/assets/65af1130-679a-40c5-9750-64d7bd3d703f" width="280">
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <strong>TG - Aluno</strong><br>
+      <img src="https://github.com/user-attachments/assets/2d787027-d8ab-48b6-9f92-58a783df1e70" width="280">
+    </td>
+    <td align="center">
+      <strong>Devolutivas</strong><br>
+      <img src="https://github.com/user-attachments/assets/c30bf087-1a9a-4c7c-9980-4e140e445ea5" width="280">
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <strong>Login - Professor</strong><br>
+      <img src="https://github.com/user-attachments/assets/badf95d4-1b62-49fe-ae83-9ba0dec6858e" width="280">
+    </td>
+    <td align="center">
+      <strong>Editar Perfil - Professor</strong><br>
+      <img src="https://github.com/user-attachments/assets/99834dd7-4a05-474f-9438-b5085edb0ba7" width="280">
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <strong>Devolutivas - Professor</strong><br>
+      <img src="https://github.com/user-attachments/assets/f5daf818-f668-42e0-a035-63daa3e89181" width="280">
+    </td>
+    <td align="center">
+      <strong>Correção</strong><br>
+      <img src="https://github.com/user-attachments/assets/1980be1b-03c3-4922-b6bc-fd6004238d6f" width="280">
+    </td>
+  </tr>
+</table>
+
+
+
 
 ## 📅 Cronograma
   | Evento | Data |
@@ -89,3 +137,4 @@ A plataforma centraliza a comunicação e o acompanhamento dos TGs em uma plataf
 | <img src="https://media.licdn.com/dms/image/v2/D4D03AQEN2CXwukaNPA/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1710980780227?e=1762992000&v=beta&t=CL10s5sUpzajhyA3ggxAMKKiDLZik-dwigK1Iv3SOW0" width="100" style="border-radius:50%; box-shadow:0 0 5px rgba(0,0,0,0.3);" /> | João Gabriel | Dev Team | [![GitHub](https://img.icons8.com/ios-glyphs/30/ffffff/github.png)](https://github.com/jjoaoGabriel) &nbsp;&nbsp;&nbsp;&nbsp; [![LinkedIn](https://img.icons8.com/ios-filled/30/0077b5/linkedin.png)](https://www.linkedin.com/in/joao-gabriel-fernandes-de-sousa-silva-292b9a2bb/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app) |
 | <img src="https://media.licdn.com/dms/image/v2/D4D03AQENS2KUAdj6yw/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1694364598910?e=1762992000&v=beta&t=MHXmKH_8K8jAi2RXe1lAz-OdVbLcqXlCVFPbCkRF830" width="100" style="border-radius:50%; box-shadow:0 0 5px rgba(0,0,0,0.3);" /> | Luan Santos | Dev Team | [![GitHub](https://img.icons8.com/ios-glyphs/30/ffffff/github.png)](https://github.com/SantoszLuan) &nbsp;&nbsp;&nbsp;&nbsp; [![LinkedIn](https://img.icons8.com/ios-filled/30/0077b5/linkedin.png)](https://www.linkedin.com/in/luansantoosz/) |
 | <img src="https://avatars.githubusercontent.com/u/151970819?v=4" width="100" style="border-radius:50%; box-shadow:0 0 5px rgba(0,0,0,0.3);" /> | Samir Kassen | Dev Team | [![GitHub](https://img.icons8.com/ios-glyphs/30/ffffff/github.png)](https://github.com/Siqsamir) &nbsp;&nbsp;&nbsp;&nbsp; [![LinkedIn](https://img.icons8.com/ios-filled/30/0077b5/linkedin.png)](https://www.linkedin.com/in/samir-siqueira-06012a363/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app) |
+| <img src="https://avatars.githubusercontent.com/u/74624795?v=4" width="100" style="border-radius:50%; box-shadow:0 0 5px rgba(0,0,0,0.3);" /> | João Pedro Menegasso | Dev Team | [![GitHub](https://img.icons8.com/ios-glyphs/30/ffffff/github.png)](https://github.com/menegasso0) &nbsp;&nbsp;&nbsp;&nbsp; [![LinkedIn](https://img.icons8.com/ios-filled/30/0077b5/linkedin.png)](https://www.linkedin.com/in/jo%C3%A3o-pedro-menegasso-97758839a/) |
