@@ -13,11 +13,11 @@
 A API tem como objetivo facilitar o processo de confecção, envio e correção dos Trabalhos de Graduação na modalidade Portfólio. Isso ocorre pelo fato dos alunos enfrentarem dificuldades com atrasos no retorno dos orientadores e com a geração do arquivo final em formato Markdown, enquanto os professores sofrem para organizar históricos de correções e acompanhar versões anteriores das seções.
 A plataforma centraliza a comunicação e o acompanhamento dos TGs em uma plataforma única, garantindo feedback mais ágil, histórico de interações e organização das versões. Além disso, permite que os professores da disciplina acompanhem o progresso dos alunos e os portfólios já finalizados, eliminando a dependência de e-mails, Teams e documentos manuais.
 
-> Status do Projeto: Concluído  ✅
->  
-> Manual de Usuário: [Manual TGRS](Documentos/Manual%20de%20Usuário.pdf). 📄
-> 
-> Pasta de Documentação: [Documentos](Documentos). 📚
+* **Status do Projeto:** Concluído ✅
+* **Manual de Usuário:** [Manual TGRS](https://drive.google.com/file/d/1PV1q5Q3TxkmRKFxVm_lKJG9dIB6Vxupp/view?usp=sharing) 📄
+* **Manual de Instalação:** [Manual de Instalação](https://drive.google.com/file/d/17HvTXCkpfC1gBphFwu-bElV_n0n7nrgF/view?usp=sharing) 🔧
+* **Vídeo das Funcionalidades:** [Vídeo de Funcionalidades](https://drive.google.com/file/d/1ZeoTEC9qTXQaJO3VXTkzCtOs79o4cWl9/view?usp=sharing) 🎥
+* **Pasta de Documentação:** [Documentos](Documentos) 📁�
 
 ## 📋 Backlog do Produto
 
