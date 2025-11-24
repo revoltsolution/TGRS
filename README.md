@@ -27,7 +27,7 @@ A plataforma centraliza a comunicação e o acompanhamento dos TGs em uma plataf
 | **US02** | Média | Como administrador, quero atualizar automaticamente as relações entre alunos e professores ao importar um novo CSV. | 13 | 3 | RF03 RF06 | Concluído |
 | **US03** | Alta | Como professor-orientador do TG, quero associar um aluno a um professor orientador para formalizar a orientação do portfólio, reduzindo atrasos e evitando gastos extras. | 21 | 2 | RF03 RF06 | Concluído |
 | **US04** | Alta | Como aluno, quero enviar uma seção do meu TG para o orientador para que ele possa revisar e dar feedback, economizando tempo e reduzindo custos com correções. | 34 | 3 | RF04 RF06 | Concluído |
-| **US05** | Alta | Como orientador, quero corrigir e registrar feedback em cada seção enviada pelo aluno para acompanhar sua evolução. | 21 | 3 | RF05 RF06 | Em andamento |
+| **US05** | Alta | Como orientador, quero corrigir e registrar feedback em cada seção enviada pelo aluno para acompanhar sua evolução. | 21 | 3 | RF05 RF06 | Concluído |
 | **US06** | Média | Como professor-orientador, quero visualizar o histórico de revisões de cada seção para acompanhar a evolução do trabalho, evitando desperdício de tempo e garantindo melhor eficácia. | 5 | 3 | RF07 RF08| Concluído |
 | **US07** | Baixa | Como professor de disciplina, quero visualizar o status de conclusão dos portfólios para identificar quais alunos já finalizaram todas as seções, reduzindo atrasos que podem gerar custos adicionais. | 13 | 3 | RF09 RF10 | Concluído |
 | **US08** | Baixa | Como aluno, quero gerar automaticamente o TG final em formato Markdown (MD) para entregar de acordo com o padrão exigido pela instituição, economizando tempo e custos com formatação manual. | 21 | 3 | RF11 RF12 | Concluído |
@@ -45,6 +45,7 @@ A plataforma centraliza a comunicação e o acompanhamento dos TGs em uma plataf
 * Manual de Usuário
 * Documentação da API
 * Código completo
+* Vídeo / Gif do Sistema concluído.
 
 ##  📸 Demonstração das Funcionalidades
 
