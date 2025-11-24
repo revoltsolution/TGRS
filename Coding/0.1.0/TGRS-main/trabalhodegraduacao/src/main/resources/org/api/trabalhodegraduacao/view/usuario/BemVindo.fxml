@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane fx:id="rootPane" prefHeight="768.0" prefWidth="1366.0"
+           xmlns="http://javafx.com/javafx/21"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="org.api.trabalhodegraduacao.controller.usuario.BemVindoController"
+           stylesheets="@style.css" styleClass="root-pane">
+    <children>
+        <VBox fx:id="loginCard" alignment="CENTER" spacing="10.0"
+              maxWidth="400.0" maxHeight="-Infinity" styleClass="login-card">
+            <padding>
+                <Insets top="30" right="40" bottom="30" left="40" />
+            </padding>
+
+            <children>
+                <ImageView fitHeight="150.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../../images/FatecLogo.png" />
+                    </image>
+                </ImageView>
+
+                <Label text="Bem-Vindo!" styleClass="header-label" />
+
+                <Label text="Insira seu email:" styleClass="prompt-label" />
+
+                <TextField fx:id="txt_Login" promptText="Para começar, digite o seu e-mail"
+                           maxWidth="300.0" styleClass="text-field" />
+
+                <Button fx:id="bt_Entrar" onAction="#btEntrar" text="Entrar"
+                        styleClass="login-button" defaultButton="true">
+                    <VBox.margin>
+                        <Insets top="10.0" />
+                    </VBox.margin>
+                </Button>
+            </children>
+        </VBox>
+    </children>
+</StackPane>
